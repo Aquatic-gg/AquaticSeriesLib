@@ -1,6 +1,6 @@
 package xyz.larkyy.aquaticskyblock
 
-class TestPlugin: AbstractAquaticSkyblockPlugin() {
+class AquaticSkyblockPlugin: AbstractAquaticSkyblockPlugin() {
 
     override fun onLoad() {
 

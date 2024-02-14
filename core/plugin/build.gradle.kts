@@ -16,6 +16,7 @@ repositories {
 
 dependencies {
     implementation(project(":core:core-api"))
+    implementation(project(":farming:farming-plugin"))
 }
 
 tasks {
@@ -42,5 +43,5 @@ tasks.withType<KotlinCompile> {
 }
 
 application {
-    mainClass.set("TestPluginKt")
+    mainClass.set("AquaticSkyblockKt")
 }
