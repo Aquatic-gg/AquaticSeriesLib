@@ -1,4 +1,4 @@
 name: AquaticSkyblockCore
 version: ${project.version}
 main: xyz.larkyy.aquaticskyblock.AquaticSkyblockPlugin
-api-version: ${project.apiVersion}
+api-version: 1.16

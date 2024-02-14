@@ -6,7 +6,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
-group = "xyz.larkyy.gradletesting"
+group = "xyz.larkyy.aquaticskyblock"
 version = "1.0"
 
 repositories {
@@ -21,10 +21,12 @@ repositories {
     }
     maven("https://oss.sonatype.org/content/repositories/snapshots")
     maven("https://oss.sonatype.org/content/repositories/central")
+    maven("https://repo.bg-software.com/repository/api/")
 }
 
 dependencies {
     api("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
+    api("com.bgsoftware","SuperiorSkyblockAPI","2023.3")
 }
 
 tasks {

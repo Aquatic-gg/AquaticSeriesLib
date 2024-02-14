@@ -10,6 +10,7 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven("https://repo.bg-software.com/repository/api/")
     mavenLocal()
 }
 
@@ -43,7 +44,7 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
-    archiveFileName.set("${project.name}-${project.version}.jar")
+    archiveFileName.set("AquaticSkyblock-${project.version}.jar")
     archiveClassifier.set("plugin")
     dependencies {
         for (it in rootProject.allprojects) {
