@@ -11,6 +11,9 @@
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/api" />
             <option value="$PROJECT_DIR$/core/plugin" />
+            <option value="$PROJECT_DIR$/farming" />
+            <option value="$PROJECT_DIR$/farming/api" />
+            <option value="$PROJECT_DIR$/farming/plugin" />
           </set>
         </option>
       </GradleProjectSettings>
