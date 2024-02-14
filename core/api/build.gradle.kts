@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
 
 plugins {
-    application
     kotlin("jvm") version "1.9.22"
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
@@ -49,8 +48,4 @@ tasks {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "17"
-}
-
-application {
-    mainClass.set("CorePluginKt")
 }
