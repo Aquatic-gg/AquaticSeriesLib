@@ -8,4 +8,8 @@ class AquaticFarmingInject(plugin: JavaPlugin, dataFolder: File) : AbstractAquat
     override fun inject() {
         AquaticFarming(this)
     }
+
+    override fun eject() {
+        AbstractAquaticFarming.instance?.onDisable()
+    }
 }

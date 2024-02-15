@@ -52,5 +52,6 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
             if (parent.name == rootProject.name) continue
             include(project(":${parent.name}:${it.name}"))
         }
+        include(project(":AquaticSeriesLib"))
     }
 }

@@ -1,19 +1,18 @@
 package xyz.larkyy.aquaticfarming
 
+import xyz.larkyy.aquaticfarming.data.AbstractDataHandler
 import xyz.larkyy.aquaticseries.AbstractAquaticModuleInject
 
 abstract class AbstractAquaticFarming(
-    injection: AbstractAquaticModuleInject
+    val injection: AbstractAquaticModuleInject
 ) {
 
+    abstract val cropRegistryManager: AbstractCropRegistryManager
+    abstract val dataHandler: AbstractDataHandler
+
     companion object {
-        private var _instance: AbstractAquaticFarming? = null
         var instance: AbstractAquaticFarming? = null
-            get() {
-                val inst = _instance
-                if (inst == null) throw Exception("Plugin was not initialized!")
-                else return inst
-            }
     }
 
+    abstract fun onDisable()
 }

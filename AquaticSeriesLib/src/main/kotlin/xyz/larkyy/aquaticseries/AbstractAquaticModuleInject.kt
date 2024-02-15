@@ -8,4 +8,6 @@ abstract class AbstractAquaticModuleInject(
 ) {
 
     abstract fun inject()
+
+    abstract fun eject()
 }

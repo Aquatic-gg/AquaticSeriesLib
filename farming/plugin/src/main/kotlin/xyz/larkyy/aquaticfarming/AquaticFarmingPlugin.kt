@@ -1,15 +1,19 @@
 package xyz.larkyy.aquaticfarming
 
-import org.bukkit.plugin.java.JavaPlugin
+import xyz.larkyy.aquaticseries.AbstractAquaticPlugin
 
-class AquaticFarmingPlugin: JavaPlugin() {
+class AquaticFarmingPlugin: AbstractAquaticPlugin() {
 
     override fun onLoad() {
-        AquaticFarmingInject(this,dataFolder).inject()
+        injections.add(AquaticFarmingInject(this,dataFolder))
     }
 
     override fun onEnable() {
+        injectAll()
+    }
 
+    override fun onDisable() {
+        ejectAll()
     }
 
 }
