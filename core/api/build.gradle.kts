@@ -27,6 +27,7 @@ repositories {
 dependencies {
     api("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
     api("com.bgsoftware","SuperiorSkyblockAPI","2023.3")
+    api(project(":AquaticSeriesLib"))
 }
 
 tasks {

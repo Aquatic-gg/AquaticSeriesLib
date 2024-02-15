@@ -7,3 +7,4 @@ include("farming:api")
 findProject(":farming:api")?.name = "farming-api"
 include("farming:plugin")
 findProject(":farming:plugin")?.name = "farming-plugin"
+include("AquaticSeriesLib")
