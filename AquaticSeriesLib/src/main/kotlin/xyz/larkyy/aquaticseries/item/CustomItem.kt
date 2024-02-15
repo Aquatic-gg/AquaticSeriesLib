@@ -1,7 +1,5 @@
 package xyz.larkyy.bestiary.item
 
-import me.evlad.mbitems.api.objects.ItemCompat
-import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.configuration.file.FileConfiguration
@@ -10,6 +8,7 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.EnchantmentStorageMeta
+import xyz.larkyy.aquaticseries.format.color.ColorUtils
 import java.util.*
 
 abstract class CustomItem(
@@ -37,11 +36,11 @@ abstract class CustomItem(
         val im = iS.itemMeta ?: return iS
 
         name?.apply {
-            im.displayName(MiniMessage.miniMessage().deserialize(name))
+            im.setDisplayName(ColorUtils.format(name))
         }
 
         description?.apply {
-            im.lore(description.map { MiniMessage.miniMessage().deserialize(it) })
+            im.lore = ColorUtils.format(description)
         }
 
         if (modelData > 0) {
