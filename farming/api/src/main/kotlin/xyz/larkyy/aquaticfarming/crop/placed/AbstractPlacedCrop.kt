@@ -5,12 +5,16 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import xyz.larkyy.aquaticfarming.AbstractAquaticFarming
 import xyz.larkyy.aquaticfarming.crop.AbstractCrop
+import java.util.UUID
 
 abstract class AbstractPlacedCrop(
-    val location: Location,
+    val locations: List<Location>,
+    val baseLocation: Location,
     val cropId: String,
     val age: Int
 ) {
+
+    val uuid: UUID = UUID.randomUUID()
 
     val crop: AbstractCrop?
         get() {

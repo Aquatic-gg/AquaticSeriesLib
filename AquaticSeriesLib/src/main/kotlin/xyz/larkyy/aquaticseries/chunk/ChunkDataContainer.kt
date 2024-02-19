@@ -6,15 +6,16 @@ class ChunkDataContainer<T: ChunkData>(
     val serializer: ChunkDataSerializer<T>
 ) {
 
-    val data = HashMap<String,T>()
+    val active = HashMap<String,T>()
+    val inactive = HashMap<String,DyingChunkData<T>>()
 
     fun getChunkData(chunk: Chunk): T? {
         val str = "${chunk.world.name};${chunk.x};${chunk.z}"
-        return data[str]
+        return active[str]
     }
 
     fun addChunkData(chunk: Chunk, value: T) {
         val str = "${chunk.world.name};${chunk.x};${chunk.z}"
-        data[str] = value
+        active[str] = value
     }
 }
