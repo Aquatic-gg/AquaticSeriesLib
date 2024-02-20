@@ -1,8 +1,6 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     application
-    kotlin("jvm") version "1.9.22"
+    kotlin("jvm")
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
@@ -11,7 +9,8 @@ version = "1.0"
 
 repositories {
     mavenCentral()
-    mavenLocal()
+    spigotMc()
+    lumine()
 }
 
 dependencies {
@@ -38,7 +37,7 @@ tasks {
     }
 }
 
-tasks.withType<KotlinCompile> {
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "17"
 }
 

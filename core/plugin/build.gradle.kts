@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.9.22"
+    kotlin("jvm")
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
@@ -10,8 +10,9 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-    maven("https://repo.bg-software.com/repository/api/")
-    mavenLocal()
+    spigotMc()
+    bgSoftware()
+    lumine()
 }
 
 dependencies {
