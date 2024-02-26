@@ -1,0 +1,3 @@
+[submodule "buildSrc"]
+	path = buildSrc
+	url = https://gitlab.com/aquaticdevelopment/new-projects-2024-02-13/conventions.git

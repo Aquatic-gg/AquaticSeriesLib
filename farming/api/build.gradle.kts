@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     application
-    kotlin("jvm") version "1.9.22"
+    kotlin("jvm")
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
@@ -12,16 +12,11 @@ version = "1.0"
 
 repositories {
     mavenCentral()
-    maven("https://repo.papermc.io/repository/maven-public/")
-    maven {
-        url = URI("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-        content {
-            includeGroup("org.bukkit")
-            includeGroup("org.spigotmc")
-        }
-    }
+    paperMc()
+    spigotMc()
     maven("https://oss.sonatype.org/content/repositories/snapshots")
     maven("https://oss.sonatype.org/content/repositories/central")
+    lumine()
 }
 
 dependencies {
