@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm")
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("com.github.johnrengelman.shadow")
 }
 
 group = "xyz.larkyy.gradletesting"
@@ -19,6 +19,7 @@ dependencies {
     implementation(project(":core:core-api"))
     implementation(project(":farming:farming-api"))
     implementation(project(":farming:farming-plugin"))
+    implementation("com.jeff-media:custom-block-data:2.2.2")
 }
 
 tasks {
@@ -54,5 +55,6 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
             include(project(":${parent.name}:${it.name}"))
         }
         include(project(":AquaticSeriesLib"))
+        include(dependency("com.jeff-media:custom-block-data"))
     }
 }
