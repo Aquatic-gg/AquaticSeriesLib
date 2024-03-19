@@ -6,11 +6,11 @@ import org.bukkit.util.Consumer
 
 abstract class AbstractInteractable {
 
-    abstract val location: Location
+    abstract val id: String
     abstract val onInteract: Consumer<PlayerInteractEvent>
+    abstract val serializer: AbstractInteractableSerializer<*>
 
-    abstract fun spawn()
-    abstract fun despawn()
+    abstract fun spawn(location: Location): AbstractSpawnedInteractable
 
     open fun onInteract(event: PlayerInteractEvent) {
         onInteract.accept(event)

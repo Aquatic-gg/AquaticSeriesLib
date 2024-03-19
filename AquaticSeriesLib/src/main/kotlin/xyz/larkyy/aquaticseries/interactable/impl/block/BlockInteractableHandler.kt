@@ -1,15 +1,13 @@
 package xyz.larkyy.aquaticseries.interactable.impl.block
 
-import com.jeff_media.customblockdata.CustomBlockData
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEvent
 import xyz.larkyy.aquaticseries.register
-import java.util.UUID
 
 class BlockInteractableHandler private constructor(){
 
-    val placedBlocks = HashMap<UUID,BlockInteractable>()
+    val registry = HashMap<String,BlockInteractable>()
 
     init {
         Listeners().register()

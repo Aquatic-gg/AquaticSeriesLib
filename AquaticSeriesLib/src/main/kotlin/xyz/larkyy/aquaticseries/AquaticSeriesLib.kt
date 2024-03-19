@@ -1,9 +1,11 @@
 package xyz.larkyy.aquaticseries
 
 import org.bukkit.plugin.java.JavaPlugin
+import xyz.larkyy.aquaticseries.interactable.InteractableHandler
 
 class AquaticSeriesLib private constructor(val plugin: JavaPlugin) {
 
+    val interactableHandler = InteractableHandler()
 
     companion object {
 
