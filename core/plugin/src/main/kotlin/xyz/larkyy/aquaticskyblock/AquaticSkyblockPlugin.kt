@@ -2,9 +2,12 @@ package xyz.larkyy.aquaticskyblock
 
 import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.Particle
+import org.bukkit.event.block.Action
 import xyz.larkyy.aquaticfarming.AquaticFarmingInject
 import xyz.larkyy.aquaticseries.AquaticSeriesLib
 import xyz.larkyy.aquaticseries.block.AquaticBlock
+import xyz.larkyy.aquaticseries.block.impl.OraxenBlock
 import xyz.larkyy.aquaticseries.block.impl.VanillaBlock
 import xyz.larkyy.aquaticseries.interactable.impl.block.BlockInteractable
 import xyz.larkyy.aquaticseries.interactable.impl.block.BlockShape
@@ -37,23 +40,42 @@ class AquaticSkyblockPlugin : AbstractAquaticSkyblockPlugin() {
                 1 to "XXX"
             )
         )
-        val blocks: HashMap<Char,AquaticBlock> = hashMapOf(
+        val blocks: HashMap<Char, AquaticBlock> = hashMapOf(
             'X' to VanillaBlock(Material.DIAMOND_BLOCK.createBlockData()),
-            'O' to VanillaBlock(Material.EMERALD_BLOCK.createBlockData())
+            'O' to OraxenBlock("amethyst_ore")
         )
         val shape = BlockShape(
             layers,
             blocks
         )
-        customBlock = BlockInteractable(player.location, {
+        customBlock = BlockInteractable("test", {
             Bukkit.broadcastMessage("You have clicked on custom multi block!")
+            if (it.originalEvent.action != Action.LEFT_CLICK_BLOCK) {
+                it.originalEvent.isCancelled = true
+            }
+        }, {
+            it.originalEvent.player.sendMessage("You have broken the custom block!")
+            it.originalEvent.isCancelled = true
+            val world = it.blockInteractable.location.world!!
+            for (associatedLocation in it.blockInteractable.associatedLocations) {
+                world.spawnParticle(
+                    Particle.BLOCK_CRACK,
+                    associatedLocation,
+                    20,
+                    0.0,
+                    0.0,
+                    0.0,
+                    associatedLocation.block.blockData
+                )
+            }
+            it.blockInteractable.despawn()
         }, shape)
-        customBlock.spawn()
+        customBlock.spawn(player.location)
 
     }
 
     override fun onDisable() {
-        customBlock.despawn()
+
     }
 
     fun initializeExtensions() {

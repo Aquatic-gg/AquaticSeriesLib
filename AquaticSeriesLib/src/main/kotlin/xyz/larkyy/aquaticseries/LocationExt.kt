@@ -4,15 +4,15 @@ import org.bukkit.Bukkit
 import org.bukkit.Location
 
 fun Location.toStringSimple(): String {
-    return "${this.world!!.name}||${this.x}||${this.y}||${this.z}"
+    return "${this.world!!.name};${this.x};${this.y};${this.z}"
 }
 
 fun Location.toStringDetailed(): String {
-    return "${this.world!!.name}||${this.x}||${this.y}||${this.z}||${this.yaw}||${this.pitch}"
+    return "${this.world!!.name};${this.x};${this.y};${this.z};${this.yaw};${this.pitch}"
 }
 
 fun String.toLocation(): Location? {
-    val parts = this.split("||")
+    val parts = this.split(";")
     if (parts.size < 4) return null
     val world = Bukkit.getWorld(parts[0]) ?: return null
     val x = parts[1].toDoubleOrNull() ?: return null

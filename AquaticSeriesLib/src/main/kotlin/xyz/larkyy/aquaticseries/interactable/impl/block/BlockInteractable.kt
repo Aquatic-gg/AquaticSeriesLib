@@ -1,43 +1,42 @@
 package xyz.larkyy.aquaticseries.interactable.impl.block
 
+import com.google.gson.Gson
 import com.jeff_media.customblockdata.CustomBlockData
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.NamespacedKey
 import org.bukkit.block.Block
+import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.persistence.PersistentDataType
 import org.bukkit.util.Consumer
 import org.bukkit.util.Vector
-import xyz.larkyy.aquaticseries.AquaticSeriesLib
-import xyz.larkyy.aquaticseries.Utils
+import xyz.larkyy.aquaticseries.*
 import xyz.larkyy.aquaticseries.interactable.AbstractInteractable
 import xyz.larkyy.aquaticseries.interactable.AbstractInteractableSerializer
-import xyz.larkyy.aquaticseries.toStringDetailed
+import xyz.larkyy.aquaticseries.interactable.InteractableData
+import xyz.larkyy.aquaticseries.interactable.event.BlockInteractableBreakEvent
+import xyz.larkyy.aquaticseries.interactable.event.BlockInteractableInteractEvent
 import kotlin.collections.ArrayList
 import kotlin.math.floor
 
 class BlockInteractable(
     override val id: String,
-    override val onInteract: Consumer<PlayerInteractEvent>,
+    val onInteract: Consumer<BlockInteractableInteractEvent>,
+    val onBreak: Consumer<BlockInteractableBreakEvent>,
     val shape: BlockShape
 ) : AbstractInteractable() {
 
-    companion object {
-        private val INTERACTABLE_BLOCK_KEY =
-            NamespacedKey(AquaticSeriesLib.INSTANCE.plugin, "Interactable_Custom_Block")
-
-        fun get(block: Block): BlockInteractable? {
-            val cbd = CustomBlockData(block, AquaticSeriesLib.INSTANCE.plugin)
-            if (!cbd.has(INTERACTABLE_BLOCK_KEY, PersistentDataType.STRING)) return null
-            val id = cbd.getOrDefault(INTERACTABLE_BLOCK_KEY, PersistentDataType.STRING, "null")
-            if (id == "null") return null
-            return BlockInteractableHandler.INSTANCE.registry[id]
-        }
-    }
-
     init {
         AquaticSeriesLib.INSTANCE.interactableHandler.registry[id] = this
+    }
+
+    fun onBreak(event: BlockInteractableBreakEvent) {
+        onBreak.accept(event)
+    }
+
+    fun onInteract(event: BlockInteractableInteractEvent) {
+        this.onInteract.accept(event)
     }
 
     override val serializer: AbstractInteractableSerializer<SpawnedBlockInteractable>
@@ -48,7 +47,7 @@ class BlockInteractable(
     override fun spawn(location: Location): SpawnedBlockInteractable {
         //despawn()
         val locations = ArrayList<Location>()
-        val spawned = SpawnedBlockInteractable(location, this,locations)
+        val spawned = SpawnedBlockInteractable(location, this, locations)
         Bukkit.broadcastMessage("Spawning")
         val face = Utils.cardinalDirection(location.yaw)
         for (layer in shape.layers) {
@@ -76,8 +75,23 @@ class BlockInteractable(
         }
 
         val cbd = CustomBlockData(location.block, AquaticSeriesLib.INSTANCE.plugin)
-        cbd.set(INTERACTABLE_BLOCK_KEY, PersistentDataType.STRING, serializer.serialize(spawned))
-        AquaticSeriesLib.INSTANCE.interactableHandler.spawnedIntectables[location.toStringDetailed()] = spawned
+        val blockData = InteractableData(id, location.yaw, location.pitch, serializer.serialize(spawned))
+        cbd.set(INTERACTABLE_KEY, PersistentDataType.STRING, AquaticSeriesLib.GSON.toJson(blockData))
+
+        val mainLocStr = location.toStringDetailed()
+
+        AquaticSeriesLib.INSTANCE.interactableHandler.spawnedIntectables[mainLocStr] = spawned
+        for (loc in locations) {
+            AquaticSeriesLib.INSTANCE.interactableHandler.spawnedChildren[loc.toStringSimple()] = mainLocStr
+        }
         return spawned
+    }
+
+    override fun onChunkLoad(data: InteractableData, location: Location) {
+        serializer.deserialize(data.data, location, this)
+    }
+
+    override fun onChunkUnload(data: InteractableData) {
+
     }
 }
