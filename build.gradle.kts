@@ -3,8 +3,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.9.0"
     id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("io.papermc.paperweight.userdev") version "1.5.5"
-    id("xyz.jpenilla.run-paper") version "2.1.0"
 }
 
 group = "com.example"
@@ -12,20 +10,26 @@ version = "1.0"
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://mvn.lumine.io/repository/maven-public/")
+    maven("https://mvn.lumine.io/repository/maven-public/")
+    maven("https://repo.oraxen.com/releases")
+    maven("https://jitpack.io")
 }
 
 dependencies {
-    paperweight.paperDevBundle("1.20.1-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.20.4-R0.1-SNAPSHOT")
+    api("io.lumine:Mythic-Dist:5.3.5")
+    implementation("com.jeff-media:custom-block-data:2.2.2")
+    compileOnly("io.th0rgal:oraxen:1.171.0")
+    compileOnly("com.github.LoneDev6:API-ItemsAdder:3.6.2-beta-r3-b")
+    compileOnly ("com.ticxo.modelengine:ModelEngine:R4.0.4")
 }
 
 tasks {
     build {
         dependsOn(shadowJar)
-    }
-
-    assemble {
-        dependsOn(reobfJar)
     }
 
     compileJava {
@@ -39,10 +43,6 @@ tasks {
 
     processResources {
         filteringCharset = Charsets.UTF_8.name()
-    }
-
-    runServer {
-        minecraftVersion("1.20.1")
     }
 }
 

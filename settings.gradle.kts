@@ -1,3 +1,3 @@
 
-rootProject.name = "PluginTemplate"
+rootProject.name = "AquaticSeriesLib"
 

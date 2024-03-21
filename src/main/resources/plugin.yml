@@ -1,5 +1,0 @@
-name: TestPlugin
-version: 1.0
-main: xyz.larkyy.test.TestPlugin
-api-version: 1.20
-author: Larkyy
