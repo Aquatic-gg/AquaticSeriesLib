@@ -33,7 +33,7 @@ class AquaticSkyblockPlugin : AbstractAquaticSkyblockPlugin() {
     override fun onEnable() {
         initializeExtensions()
 
-        AquaticSeriesLib.init(this)
+        AquaticSeriesLib.init(this,3)
 
         val player = Bukkit.getPlayer("MrLarkyy_")!!
         val layers = hashMapOf(

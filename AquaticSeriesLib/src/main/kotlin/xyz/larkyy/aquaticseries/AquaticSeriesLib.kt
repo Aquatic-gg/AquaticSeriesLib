@@ -9,9 +9,9 @@ import xyz.larkyy.aquaticseries.awaiters.AbstractAwaiter
 import xyz.larkyy.aquaticseries.awaiters.IAAwaiter
 import xyz.larkyy.aquaticseries.awaiters.MEGAwaiter
 
-class AquaticSeriesLib private constructor(val plugin: JavaPlugin) {
+class AquaticSeriesLib private constructor(val plugin: JavaPlugin, workloadDelay: Long) {
 
-    val interactableHandler = InteractableHandler()
+    val interactableHandler = InteractableHandler(workloadDelay)
 
     var enginesLoaded = false
 
@@ -61,10 +61,10 @@ class AquaticSeriesLib private constructor(val plugin: JavaPlugin) {
                 return _INSTANCE!!
             }
 
-        fun init(plugin: JavaPlugin): AquaticSeriesLib {
+        fun init(plugin: JavaPlugin, workloadDelay: Long): AquaticSeriesLib {
             val instance = _INSTANCE
             if (instance != null) return instance
-            _INSTANCE = AquaticSeriesLib(plugin)
+            _INSTANCE = AquaticSeriesLib(plugin, workloadDelay)
             return _INSTANCE!!
         }
     }

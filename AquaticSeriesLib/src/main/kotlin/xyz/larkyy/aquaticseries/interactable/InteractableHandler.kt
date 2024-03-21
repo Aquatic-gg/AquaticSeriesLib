@@ -30,7 +30,9 @@ import xyz.larkyy.aquaticseries.workload.ChunkWorkloadHandler
 import xyz.larkyy.aquaticseries.workload.ContainerWorkload
 import java.util.concurrent.CompletableFuture
 
-class InteractableHandler {
+class InteractableHandler(
+    val workloadDelay: Long
+) {
 
     val registry = HashMap<String, AbstractInteractable>()
 
@@ -106,7 +108,7 @@ class InteractableHandler {
     }
 
     fun addWorkloadJob(chunk: Chunk, runnable: Runnable): CompletableFuture<Void> {
-        val workload = ChunkWorkload(chunk, mutableListOf(runnable), 20)
+        val workload = ChunkWorkload(chunk, mutableListOf(runnable), workloadDelay)
         interactableWorkload.workloads.add(workload)
         if (!interactableWorkload.isRunning && canRun) {
             return interactableWorkload.run()
