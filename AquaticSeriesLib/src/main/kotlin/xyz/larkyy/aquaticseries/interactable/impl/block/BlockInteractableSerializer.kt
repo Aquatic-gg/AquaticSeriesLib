@@ -16,6 +16,7 @@ class BlockInteractableSerializer : AbstractInteractableSerializer<SpawnedBlockI
         interactable: AbstractInteractable
     ): SpawnedBlockInteractable? {
         if (interactable !is BlockInteractable) return null
+        interactable.despawnOldData(value, location)
         return interactable.spawn(location)
     }
 }

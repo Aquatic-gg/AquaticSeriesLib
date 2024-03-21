@@ -5,5 +5,6 @@ data class InteractableData(
     val yaw: Float,
     val pitch: Float,
     val data: String,
-    val previousShape: MutableMap<Int, MutableMap<Int, String>>
+    val previousShape: MutableMap<Int, MutableMap<Int, String>>,
+    val nullChars: MutableList<Char>
 )

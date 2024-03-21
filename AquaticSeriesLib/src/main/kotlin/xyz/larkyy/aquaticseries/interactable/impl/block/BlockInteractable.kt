@@ -1,22 +1,13 @@
 package xyz.larkyy.aquaticseries.interactable.impl.block
 
-import com.jeff_media.customblockdata.CustomBlockData
-import io.th0rgal.oraxen.recipes.builders.ShapedBuilder
-import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
-import org.bukkit.block.Structure
-import org.bukkit.persistence.PersistentDataType
 import org.bukkit.util.Consumer
-import org.bukkit.util.Vector
 import xyz.larkyy.aquaticseries.*
 import xyz.larkyy.aquaticseries.interactable.AbstractInteractable
-import xyz.larkyy.aquaticseries.interactable.AbstractInteractableSerializer
 import xyz.larkyy.aquaticseries.interactable.InteractableData
 import xyz.larkyy.aquaticseries.interactable.event.BlockInteractableBreakEvent
 import xyz.larkyy.aquaticseries.interactable.event.BlockInteractableInteractEvent
-import kotlin.collections.ArrayList
-import kotlin.math.floor
 
 class BlockInteractable(
     override val id: String,
@@ -44,12 +35,18 @@ class BlockInteractable(
         }
 
     fun despawnOldData(data: InteractableData, location: Location) {
-        processLayerCells(data.previousShape ?: return, location) { _, newLoc ->
-            newLoc.block.type = Material.AIR
+        processLayerCells(data.previousShape ?: return, location) { char, newLoc ->
+            if (data.nullChars == null) {
+                newLoc.block.type = Material.AIR
+            }
+            else if (!data.nullChars.contains(char)) {
+                newLoc.block.type = Material.AIR
+            }
         }
     }
 
     override fun spawn(location: Location): SpawnedBlockInteractable {
+        /*
         //despawn()
         val locations = ArrayList<Location>()
         val spawned = SpawnedBlockInteractable(location, this, locations)
@@ -78,11 +75,20 @@ class BlockInteractable(
             AquaticSeriesLib.INSTANCE.interactableHandler.spawnedChildren[loc.toStringSimple()] = mainLocStr
         }
         return spawned
+         */
+        val spawned = SpawnedBlockInteractable(location,this)
+        spawned.spawn(null,false)
+        return spawned
     }
 
     override fun onChunkLoad(data: InteractableData, location: Location) {
-        despawnOldData(data, location)
-        serializer.deserialize(data, location, this)
+        //serializer.deserialize(data, location, this)
+        val spawned = SpawnedBlockInteractable(location,this)
+        spawned.spawn(data,false)
+        spawned.loaded = false
+        AquaticSeriesLib.INSTANCE.interactableHandler.addWorkloadJob(location.chunk) {
+            spawned.spawn(data,true)
+        }
     }
 
     override fun onChunkUnload(data: InteractableData) {

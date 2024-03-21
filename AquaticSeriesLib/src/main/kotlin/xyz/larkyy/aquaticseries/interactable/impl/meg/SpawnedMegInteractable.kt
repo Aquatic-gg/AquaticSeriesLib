@@ -11,6 +11,7 @@ import xyz.larkyy.aquaticseries.interactable.AbstractInteractable
 import xyz.larkyy.aquaticseries.interactable.AbstractSpawnedInteractable
 import xyz.larkyy.aquaticseries.toStringDetailed
 import xyz.larkyy.aquaticseries.toStringSimple
+import kotlin.jvm.optionals.getOrNull
 
 class SpawnedMegInteractable(
     override val location: Location,
@@ -19,40 +20,48 @@ class SpawnedMegInteractable(
 ) : AbstractSpawnedInteractable() {
 
     val dummy = MegInteractableDummy(this)
+    override var loaded = false
 
     init {
-        dummy.location = this.location
-        dummy.bodyRotationController.yBodyRot = location.yaw
-        dummy.bodyRotationController.xHeadRot = location.pitch
-        dummy.bodyRotationController.yHeadRot = location.yaw
-        dummy.yHeadRot = location.yaw
-        dummy.yBodyRot = location.yaw
-        val me = ModelEngineAPI.createModeledEntity(dummy)
-        val am = ModelEngineAPI.createActiveModel(interactable.modelId)
-        me.addModel(am,true)
+        AquaticSeriesLib.INSTANCE.interactableHandler.addWorkloadJob(location.chunk) {
+            dummy.location = this.location
+            dummy.bodyRotationController.yBodyRot = location.yaw
+            dummy.bodyRotationController.xHeadRot = location.pitch
+            dummy.bodyRotationController.yHeadRot = location.yaw
+            dummy.yHeadRot = location.yaw
+            dummy.yBodyRot = location.yaw
+            val me = ModelEngineAPI.createModeledEntity(dummy)
+            val am = ModelEngineAPI.createActiveModel(interactable.modelId)
+            me.addModel(am,true)
+            this.loaded = true
+        }
     }
 
-    val modeledEntity: ModeledEntity
+    val modeledEntity: ModeledEntity?
         get() {
+            if (!loaded) return null
             return ModelEngineAPI.getModeledEntity(dummy.entityId)
         }
 
-    val activeModel: ActiveModel
+    val activeModel: ActiveModel?
         get() {
-            return modeledEntity.getModel(interactable.modelId).get()
+            if (!loaded) return null
+            return modeledEntity?.getModel(interactable.modelId)?.getOrNull()
         }
 
     override fun despawn() {
         destroyEntity()
         for (associatedLocation in associatedLocations) {
-            AquaticSeriesLib.INSTANCE.interactableHandler.spawnedChildren.remove(associatedLocation.toStringSimple())
+            AquaticSeriesLib.INSTANCE.interactableHandler.removeChildren(associatedLocation)
         }
         val cbd = CustomBlockData(location.block, AquaticSeriesLib.INSTANCE.plugin)
         cbd.remove(AbstractInteractable.INTERACTABLE_KEY)
-        AquaticSeriesLib.INSTANCE.interactableHandler.spawnedIntectables.remove(location.toStringDetailed())
+        AquaticSeriesLib.INSTANCE.interactableHandler.removeParent(location)
+        cbd.clear()
     }
 
     fun destroyEntity() {
-        modeledEntity.destroy()
+        if (!loaded) return
+        modeledEntity?.destroy()
     }
 }

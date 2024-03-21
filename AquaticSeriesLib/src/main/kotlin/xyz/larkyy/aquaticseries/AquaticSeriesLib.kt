@@ -1,13 +1,19 @@
 package xyz.larkyy.aquaticseries
 
 import com.google.gson.Gson
+import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitRunnable
 import xyz.larkyy.aquaticseries.interactable.InteractableHandler
+import xyz.larkyy.aquaticseries.awaiters.AbstractAwaiter
+import xyz.larkyy.aquaticseries.awaiters.IAAwaiter
+import xyz.larkyy.aquaticseries.awaiters.MEGAwaiter
 
 class AquaticSeriesLib private constructor(val plugin: JavaPlugin) {
 
     val interactableHandler = InteractableHandler()
+
+    var enginesLoaded = false
 
     init {
         object : BukkitRunnable() {
@@ -15,6 +21,32 @@ class AquaticSeriesLib private constructor(val plugin: JavaPlugin) {
                 interactableHandler.registerListeners(plugin)
             }
         }.runTaskLater(plugin,1)
+
+        val loaders = ArrayList<AbstractAwaiter>()
+        if (Bukkit.getPluginManager().getPlugin("ModelEngine") != null) {
+            val awaiter = MEGAwaiter(this)
+            loaders += awaiter
+            awaiter.future.thenRun {
+                if (loaders.all { it.loaded }) {
+                    onEnginesInit()
+                }
+            }
+        }
+        if (Bukkit.getPluginManager().getPlugin("ItemsAdder") != null) {
+            val awaiter = IAAwaiter(this)
+            loaders += awaiter
+            awaiter.future.thenRun {
+                if (loaders.all { it.loaded }) {
+                    onEnginesInit()
+                }
+            }
+        }
+    }
+
+    private fun onEnginesInit() {
+        enginesLoaded = true
+        interactableHandler.canRun = true
+        interactableHandler.interactableWorkload.run()
     }
 
     companion object {

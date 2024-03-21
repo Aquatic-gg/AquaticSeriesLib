@@ -36,12 +36,12 @@ class MEGInteractable(
         val spawned = SpawnedMegInteractable(location, this, locations)
 
         Bukkit.broadcastMessage("Spawning MEG")
-        //val nullChars = ArrayList<Char>()
+        val nullChars = ArrayList<Char>()
 
         processLayerCells(shape.layers, location) { char, newLoc ->
             val block = shape.blocks[char]
             if (block == null) {
-                //nullChars += char
+                nullChars += char
             } else {
                 block.place(newLoc)
                 locations += newLoc
@@ -49,14 +49,11 @@ class MEGInteractable(
         }
         val cbd = CustomBlockData(location.block, AquaticSeriesLib.INSTANCE.plugin)
         val blockData =
-            InteractableData(id, location.yaw, location.pitch, serializer.serialize(spawned), shape.layers)
+            InteractableData(id, location.yaw, location.pitch, serializer.serialize(spawned), shape.layers, nullChars)
         cbd.set(INTERACTABLE_KEY, PersistentDataType.STRING, AquaticSeriesLib.GSON.toJson(blockData))
-
-        val mainLocStr = location.toStringDetailed()
-
-        AquaticSeriesLib.INSTANCE.interactableHandler.spawnedIntectables[mainLocStr] = spawned
+        AquaticSeriesLib.INSTANCE.interactableHandler.addParent(location, spawned)
         for (loc in locations) {
-            AquaticSeriesLib.INSTANCE.interactableHandler.spawnedChildren[loc.toStringSimple()] = mainLocStr
+            AquaticSeriesLib.INSTANCE.interactableHandler.addChildren(loc, location)
         }
         return spawned
     }

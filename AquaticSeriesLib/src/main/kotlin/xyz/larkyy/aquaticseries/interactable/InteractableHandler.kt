@@ -4,6 +4,7 @@ import com.jeff_media.customblockdata.CustomBlockData
 import com.ticxo.modelengine.api.events.BaseEntityInteractEvent
 import org.bukkit.Bukkit
 import org.bukkit.Chunk
+import org.bukkit.Location
 import org.bukkit.block.Block
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -24,17 +25,93 @@ import xyz.larkyy.aquaticseries.interactable.impl.meg.MegInteractableDummy
 import xyz.larkyy.aquaticseries.interactable.impl.meg.MegInteractableSerializer
 import xyz.larkyy.aquaticseries.interactable.impl.meg.SpawnedMegInteractable
 import xyz.larkyy.aquaticseries.toStringSimple
+import xyz.larkyy.aquaticseries.workload.ChunkWorkload
+import xyz.larkyy.aquaticseries.workload.ChunkWorkloadHandler
+import xyz.larkyy.aquaticseries.workload.ContainerWorkload
+import java.util.concurrent.CompletableFuture
 
 class InteractableHandler {
 
     val registry = HashMap<String, AbstractInteractable>()
-    val spawnedIntectables = HashMap<String, AbstractSpawnedInteractable>()
 
-    // Children Location to Parent Location
-    val spawnedChildren = HashMap<String, String>()
+    // World Name, Chunk
+    val spawnedRegistries = HashMap<String, MutableMap<String, SpawnedRegistry>>()
+
     val serializers = HashMap<Class<out AbstractInteractable>, AbstractInteractableSerializer<*>>().apply {
         this[BlockInteractable::class.java] = BlockInteractableSerializer()
         this[MEGInteractable::class.java] = MegInteractableSerializer()
+    }
+
+    var canRun = false
+    val interactableWorkload = ContainerWorkload(ArrayList(), 0)
+
+    fun getRegistry(chunk: Chunk): SpawnedRegistry? {
+        val world = spawnedRegistries[chunk.world.name] ?: return null
+        val registry = world["${chunk.x};${chunk.z}"]
+        return registry
+    }
+
+    fun getOrCreateRegistry(chunk: Chunk): SpawnedRegistry {
+        val world = spawnedRegistries.getOrPut(chunk.world.name) { HashMap() }
+        val registry = world.getOrPut("${chunk.x};${chunk.z}") { SpawnedRegistry() }
+        return registry
+    }
+
+    fun removeRegistry(chunk: Chunk) {
+        val world = spawnedRegistries[chunk.world.name] ?: return
+        world.remove("${chunk.x};${chunk.z}")
+    }
+
+    fun addChildren(childrenLoc: Location, parentLocation: Location) {
+        val registry = getOrCreateRegistry(childrenLoc.chunk)
+        registry.children += "${childrenLoc.x};${childrenLoc.y};${childrenLoc.z}" to
+                "${parentLocation.world!!.name};${parentLocation.chunk.x};${parentLocation.chunk.z};${parentLocation.x};${parentLocation.y};${parentLocation.z};${parentLocation.yaw};${parentLocation.pitch}"
+    }
+
+    fun removeChildren(childrenLoc: Location) {
+        val registry = getRegistry(childrenLoc.chunk) ?: return
+        registry.children -= "${childrenLoc.x};${childrenLoc.y};${childrenLoc.z}"
+    }
+
+    fun getChildren(childrenLoc: Location): String? {
+        val registry = getRegistry(childrenLoc.chunk) ?: return null
+        val children = registry.children["${childrenLoc.x};${childrenLoc.y};${childrenLoc.z}"]
+        return children
+    }
+
+    fun addParent(location: Location, interactable: AbstractSpawnedInteractable) {
+        val registry = getOrCreateRegistry(location.chunk)
+        registry.parents += "${location.x};${location.y};${location.z};${location.yaw};${location.pitch}" to interactable
+    }
+
+    fun getParent(location: Location): AbstractSpawnedInteractable? {
+        val registry = getRegistry(location.chunk) ?: return null
+        return registry.parents["${location.x};${location.y};${location.z};${location.yaw};${location.pitch}"]
+    }
+
+    fun getParentByChildren(childrenLoc: Location): AbstractSpawnedInteractable? {
+        val children = getChildren(childrenLoc) ?: return null
+        val args = children.split(";")
+        val world = args[0]
+        val chunkMap = spawnedRegistries[world] ?: return null
+        val chunk = "${args[1]};${args[2]}"
+        val registry = chunkMap[chunk] ?: return null
+        val loc = "${args[3]};${args[4]};${args[5]};${args[6]};${args[7]}"
+        return registry.parents[loc]
+    }
+
+    fun removeParent(location: Location) {
+        val registry = getRegistry(location.chunk) ?: return
+        registry.parents -= "${location.x};${location.y};${location.z};${location.yaw};${location.pitch}"
+    }
+
+    fun addWorkloadJob(chunk: Chunk, runnable: Runnable): CompletableFuture<Void> {
+        val workload = ChunkWorkload(chunk, mutableListOf(runnable), 20)
+        interactableWorkload.workloads.add(workload)
+        if (!interactableWorkload.isRunning && canRun) {
+            return interactableWorkload.run()
+        }
+        return interactableWorkload.future
     }
 
     fun registerListeners(plugin: JavaPlugin) {
@@ -55,17 +132,23 @@ class InteractableHandler {
         val blocks = CustomBlockData.getBlocksWithCustomData(AquaticSeriesLib.INSTANCE.plugin, chunk)
         for (block in blocks) {
             val data = AbstractSpawnedInteractable.get(block) ?: continue
-            val interactable = registry[data.id]
-            if (interactable == null) {
-                Bukkit.broadcastMessage("Could not find interactable in the registry")
-                continue
-            }
+            val interactable = registry[data.id] ?: continue
             val location = block.location.clone()
             location.yaw = data.yaw
             location.pitch = location.pitch
-
-            interactable.onChunkLoad(data,location)
+            interactable.onChunkLoad(data, location)
         }
+    }
+
+    fun getSpawned(chunk: Chunk): ArrayList<AbstractSpawnedInteractable> {
+        val spawned = ArrayList<AbstractSpawnedInteractable>()
+        val blocks = CustomBlockData.getBlocksWithCustomData(AquaticSeriesLib.INSTANCE.plugin, chunk)
+        for (block in blocks) {
+            val loc = block.location
+            val spawnedInteractable = getParentByChildren(loc) ?: continue
+            spawned += spawnedInteractable
+        }
+        return spawned
     }
 
     fun unloadChunk(chunk: Chunk) {
@@ -74,8 +157,8 @@ class InteractableHandler {
 
     fun getInteractable(block: Block): AbstractSpawnedInteractable? {
         val location = block.location
-        val children = spawnedChildren[location.toStringSimple()] ?: return null
-        return spawnedIntectables[children]
+        Bukkit.broadcastMessage("Trying to get Interactable")
+        return getParentByChildren(location)
     }
 
     fun getBlockInteractable(block: Block): SpawnedBlockInteractable? {
@@ -89,23 +172,22 @@ class InteractableHandler {
         fun onChunkLoad(event: ChunkLoadEvent) {
             loadChunk(event.chunk)
         }
-        
+
         @EventHandler
         fun onChunkUnload(event: ChunkUnloadEvent) {
+            getRegistry(event.chunk) ?: return
             val blocks = CustomBlockData.getBlocksWithCustomData(AquaticSeriesLib.INSTANCE.plugin, event.chunk)
             for (block in blocks) {
-                val loc = block.location.toStringSimple()
-                val parentLoc = spawnedChildren[loc] ?: return
-                val spawnedInteractable = spawnedIntectables[parentLoc] ?: return
-                //if (spawnedInteractable !is SpawnedBlockInteractable) return
+                val loc = block.location
+                val spawnedInteractable = getParentByChildren(loc) ?: continue
                 for (associatedLocation in spawnedInteractable.associatedLocations) {
-                    spawnedChildren.remove(associatedLocation.toStringSimple())
+                    removeChildren(associatedLocation)
                 }
-                spawnedIntectables.remove(parentLoc)
                 if (spawnedInteractable is SpawnedMegInteractable) {
                     spawnedInteractable.destroyEntity()
                 }
             }
+            removeRegistry(event.chunk)
         }
 
         @EventHandler
@@ -119,15 +201,14 @@ class InteractableHandler {
         fun onInteract(event: PlayerInteractEvent) {
             val block = event.clickedBlock ?: return
             val blockInteractable = getBlockInteractable(block) ?: return
-            blockInteractable.interactable.onInteract(BlockInteractableInteractEvent(event,blockInteractable))
+            blockInteractable.interactable.onInteract(BlockInteractableInteractEvent(event, blockInteractable))
         }
 
         @EventHandler
         fun onBlockBreak(event: BlockBreakEvent) {
             val block = event.block
             val blockInteractable = getBlockInteractable(block) ?: return
-            blockInteractable.interactable.onBreak(BlockInteractableBreakEvent(event,blockInteractable))
+            blockInteractable.interactable.onBreak(BlockInteractableBreakEvent(event, blockInteractable))
         }
     }
-
 }

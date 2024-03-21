@@ -64,8 +64,12 @@ class AquaticSkyblockPlugin : AbstractAquaticSkyblockPlugin() {
                 it.originalEvent.isCancelled = true
             }
         }, {
-            it.originalEvent.player.sendMessage("You have broken the custom block!")
             it.originalEvent.isCancelled = true
+            if (!it.blockInteractable.loaded) {
+                it.originalEvent.player.sendMessage("The interactable is not loaded yet! You cannot break it")
+                return@BlockInteractable
+            }
+            it.originalEvent.player.sendMessage("You have broken the custom block!")
             val world = it.blockInteractable.location.world!!
             for (associatedLocation in it.blockInteractable.associatedLocations) {
                 world.spawnParticle(
@@ -105,6 +109,12 @@ class AquaticSkyblockPlugin : AbstractAquaticSkyblockPlugin() {
             if (it.originalEvent.slot == EquipmentSlot.OFF_HAND) return@MEGInteractable
             it.originalEvent.player.sendMessage("You have interacted test2 (${it.originalEvent.action})")
             if (it.originalEvent.action == BaseEntityInteractEvent.Action.ATTACK) {
+
+                if (!it.interactable.loaded) {
+                    it.originalEvent.player.sendMessage("The interactable is not loaded yet! You cannot break it")
+                    return@MEGInteractable
+                }
+
                 it.interactable.despawn()
             }
         }
@@ -116,9 +126,13 @@ class AquaticSkyblockPlugin : AbstractAquaticSkyblockPlugin() {
     }
 
     override fun onDisable() {
-        for (value in AquaticSeriesLib.INSTANCE.interactableHandler.spawnedIntectables.values) {
-            if (value is SpawnedMegInteractable) {
-                value.destroyEntity()
+        for (spawnedRegistry in AquaticSeriesLib.INSTANCE.interactableHandler.spawnedRegistries) {
+            for (mutableEntry in spawnedRegistry.value) {
+                for (value in mutableEntry.value.parents.values) {
+                    if (value is SpawnedMegInteractable) {
+                        value.destroyEntity()
+                    }
+                }
             }
         }
     }
