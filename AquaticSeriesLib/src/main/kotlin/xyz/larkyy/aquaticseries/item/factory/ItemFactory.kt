@@ -1,8 +1,8 @@
-package xyz.larkyy.bestiary.item.factory
+package xyz.larkyy.aquaticseries.item.factory
 
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
-import xyz.larkyy.bestiary.item.CustomItem
+import xyz.larkyy.aquaticseries.item.CustomItem
 
 interface ItemFactory {
 

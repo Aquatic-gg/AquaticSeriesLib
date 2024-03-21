@@ -1,17 +1,28 @@
-package xyz.larkyy.bestiary.item
+package xyz.larkyy.aquaticseries.item
 
 import org.bukkit.Material
+import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
-import xyz.larkyy.bestiary.item.factory.ItemFactory
-import xyz.larkyy.bestiary.item.factory.impl.MMFactory
-import xyz.larkyy.bestiary.item.impl.VanillaItem
+import xyz.larkyy.aquaticseries.AquaticSeriesLib
+import xyz.larkyy.aquaticseries.item.factory.ItemFactory
+import xyz.larkyy.aquaticseries.item.factory.impl.MMFactory
+import xyz.larkyy.aquaticseries.item.factory.impl.OraxenFactory
+import xyz.larkyy.aquaticseries.item.impl.VanillaItem
 import java.util.*
+import kotlin.collections.HashMap
 
 class CustomItemHandler {
 
-    private val itemRegistries = HashMap<String,ItemFactory>().apply {
-        put("mythicitem",MMFactory())
+    private val itemRegistries = HashMap<String, ItemFactory>().apply {
+        put("mythicitem", MMFactory())
+        put("oraxen", OraxenFactory())
+    }
+
+    val itemRegistry = HashMap<String,CustomItem>()
+
+    companion object {
+        val NAMESPACE_KEY = NamespacedKey(AquaticSeriesLib.INSTANCE.plugin,"Custom_Item_Registry")
     }
 
     fun getCustomItem(

@@ -3,7 +3,7 @@ package xyz.larkyy.aquaticfarming.crop.loot
 import org.bukkit.inventory.ItemStack
 import xyz.larkyy.aquaticseries.RangeAmount
 import xyz.larkyy.aquaticseries.chance.IChance
-import xyz.larkyy.bestiary.item.CustomItem
+import xyz.larkyy.aquaticseries.item.CustomItem
 
 class CropLootItem(
     val item: CustomItem,

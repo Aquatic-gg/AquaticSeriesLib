@@ -1,6 +1,7 @@
 package xyz.larkyy.aquaticseries.interactable
 
 import com.jeff_media.customblockdata.CustomBlockData
+import com.ticxo.modelengine.api.events.BaseEntityInteractEvent
 import org.bukkit.Bukkit
 import org.bukkit.Chunk
 import org.bukkit.block.Block
@@ -14,11 +15,15 @@ import org.bukkit.plugin.java.JavaPlugin
 import xyz.larkyy.aquaticseries.AquaticSeriesLib
 import xyz.larkyy.aquaticseries.interactable.event.BlockInteractableBreakEvent
 import xyz.larkyy.aquaticseries.interactable.event.BlockInteractableInteractEvent
+import xyz.larkyy.aquaticseries.interactable.event.MegInteractableInteractEvent
 import xyz.larkyy.aquaticseries.interactable.impl.block.BlockInteractable
 import xyz.larkyy.aquaticseries.interactable.impl.block.BlockInteractableSerializer
 import xyz.larkyy.aquaticseries.interactable.impl.block.SpawnedBlockInteractable
+import xyz.larkyy.aquaticseries.interactable.impl.meg.MEGInteractable
+import xyz.larkyy.aquaticseries.interactable.impl.meg.MegInteractableDummy
+import xyz.larkyy.aquaticseries.interactable.impl.meg.MegInteractableSerializer
+import xyz.larkyy.aquaticseries.interactable.impl.meg.SpawnedMegInteractable
 import xyz.larkyy.aquaticseries.toStringSimple
-import kotlin.coroutines.coroutineContext
 
 class InteractableHandler {
 
@@ -29,6 +34,7 @@ class InteractableHandler {
     val spawnedChildren = HashMap<String, String>()
     val serializers = HashMap<Class<out AbstractInteractable>, AbstractInteractableSerializer<*>>().apply {
         this[BlockInteractable::class.java] = BlockInteractableSerializer()
+        this[MEGInteractable::class.java] = MegInteractableSerializer()
     }
 
     fun registerListeners(plugin: JavaPlugin) {
@@ -66,10 +72,14 @@ class InteractableHandler {
 
     }
 
-    fun getBlockInteractable(block: Block): SpawnedBlockInteractable? {
+    fun getInteractable(block: Block): AbstractSpawnedInteractable? {
         val location = block.location
         val children = spawnedChildren[location.toStringSimple()] ?: return null
-        val spawnedInteractable = spawnedIntectables[children] ?: return null
+        return spawnedIntectables[children]
+    }
+
+    fun getBlockInteractable(block: Block): SpawnedBlockInteractable? {
+        val spawnedInteractable = getInteractable(block) ?: return null
         if (spawnedInteractable !is SpawnedBlockInteractable) return null
         return spawnedInteractable
     }
@@ -87,12 +97,22 @@ class InteractableHandler {
                 val loc = block.location.toStringSimple()
                 val parentLoc = spawnedChildren[loc] ?: return
                 val spawnedInteractable = spawnedIntectables[parentLoc] ?: return
-                if (spawnedInteractable !is SpawnedBlockInteractable) return
+                //if (spawnedInteractable !is SpawnedBlockInteractable) return
                 for (associatedLocation in spawnedInteractable.associatedLocations) {
                     spawnedChildren.remove(associatedLocation.toStringSimple())
                 }
                 spawnedIntectables.remove(parentLoc)
+                if (spawnedInteractable is SpawnedMegInteractable) {
+                    spawnedInteractable.destroyEntity()
+                }
             }
+        }
+
+        @EventHandler
+        fun onMegInteract(event: BaseEntityInteractEvent) {
+            val dummy = event.baseEntity as? MegInteractableDummy ?: return
+            val interactable = dummy.spawnedInteractable
+            interactable.interactable.onInteract(MegInteractableInteractEvent(event, interactable))
         }
 
         @EventHandler

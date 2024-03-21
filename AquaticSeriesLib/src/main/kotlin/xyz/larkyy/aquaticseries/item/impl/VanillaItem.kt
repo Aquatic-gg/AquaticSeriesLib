@@ -1,10 +1,10 @@
-package xyz.larkyy.bestiary.item.impl
+package xyz.larkyy.aquaticseries.item.impl
 
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
-import xyz.larkyy.bestiary.item.CustomItem
+import xyz.larkyy.aquaticseries.item.CustomItem
 
 class VanillaItem(
     val material: Material,

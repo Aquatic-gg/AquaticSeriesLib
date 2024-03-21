@@ -1,4 +1,4 @@
-package xyz.larkyy.bestiary.item
+package xyz.larkyy.aquaticseries.item
 
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
@@ -8,6 +8,7 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.EnchantmentStorageMeta
+import org.bukkit.persistence.PersistentDataType
 import xyz.larkyy.aquaticseries.format.color.ColorUtils
 import java.util.*
 
@@ -19,6 +20,8 @@ abstract class CustomItem(
     val enchantments: MutableMap<Enchantment,Int>?,
     val flags: MutableList<ItemFlag>?
 ) {
+
+    var registryId: String? = null
 
     fun giveItem(player: Player) {
         giveItem(player,amount)
@@ -51,6 +54,12 @@ abstract class CustomItem(
             im.addItemFlags(*this.toTypedArray())
         }
 
+        registryId?.let {
+            im.persistentDataContainer.set(CustomItemHandler.NAMESPACE_KEY, PersistentDataType.STRING,it)
+        }
+
+        iS.itemMeta = im
+
         enchantments?.apply {
             if (iS.type == Material.ENCHANTED_BOOK) {
                 val esm = im as EnchantmentStorageMeta
@@ -68,6 +77,12 @@ abstract class CustomItem(
         return iS
     }
 
+    fun register(id: String) {
+        if (this.registryId != null) return
+        this.registryId = id
+        customItemHandler.itemRegistry[id] = this
+    }
+
     abstract fun getUnmodifiedItem(): ItemStack
 
     companion object {
@@ -76,6 +91,16 @@ abstract class CustomItem(
 
         private fun getEnchantmentByString(ench: String): Enchantment? {
             return Enchantment.getByKey(NamespacedKey.minecraft(ench.lowercase(Locale.getDefault())))
+        }
+
+        fun get(id: String): CustomItem? {
+            return customItemHandler.itemRegistry[id]
+        }
+        fun get(itemStack: ItemStack): CustomItem? {
+            val pdc = itemStack.itemMeta?.persistentDataContainer ?: return null
+            if (!pdc.has(CustomItemHandler.NAMESPACE_KEY, PersistentDataType.STRING)) return null
+            val id = pdc.get(CustomItemHandler.NAMESPACE_KEY, PersistentDataType.STRING)
+            return customItemHandler.itemRegistry[id]
         }
 
         fun create(

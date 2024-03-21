@@ -20,6 +20,7 @@ dependencies {
     implementation(project(":farming:farming-api"))
     implementation(project(":farming:farming-plugin"))
     implementation("com.jeff-media:custom-block-data:2.2.2")
+    compileOnly ("com.ticxo.modelengine:ModelEngine:R4.0.4")
 }
 
 tasks {

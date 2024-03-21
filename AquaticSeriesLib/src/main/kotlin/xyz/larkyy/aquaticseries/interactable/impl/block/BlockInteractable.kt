@@ -1,13 +1,11 @@
 package xyz.larkyy.aquaticseries.interactable.impl.block
 
-import com.google.gson.Gson
 import com.jeff_media.customblockdata.CustomBlockData
+import io.th0rgal.oraxen.recipes.builders.ShapedBuilder
 import org.bukkit.Bukkit
 import org.bukkit.Location
-import org.bukkit.NamespacedKey
-import org.bukkit.block.Block
-import org.bukkit.event.block.BlockBreakEvent
-import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.Material
+import org.bukkit.block.Structure
 import org.bukkit.persistence.PersistentDataType
 import org.bukkit.util.Consumer
 import org.bukkit.util.Vector
@@ -24,8 +22,9 @@ class BlockInteractable(
     override val id: String,
     val onInteract: Consumer<BlockInteractableInteractEvent>,
     val onBreak: Consumer<BlockInteractableBreakEvent>,
-    val shape: BlockShape
+    override val shape: BlockShape
 ) : AbstractInteractable() {
+
 
     init {
         AquaticSeriesLib.INSTANCE.interactableHandler.registry[id] = this
@@ -39,43 +38,37 @@ class BlockInteractable(
         this.onInteract.accept(event)
     }
 
-    override val serializer: AbstractInteractableSerializer<SpawnedBlockInteractable>
+    override val serializer: BlockInteractableSerializer
         get() {
-            return (AquaticSeriesLib.INSTANCE.interactableHandler.serializers[BlockInteractable::class.java] as AbstractInteractableSerializer<SpawnedBlockInteractable>?)!!
+            return (AquaticSeriesLib.INSTANCE.interactableHandler.serializers[BlockInteractable::class.java] as BlockInteractableSerializer)
         }
+
+    fun despawnOldData(data: InteractableData, location: Location) {
+        processLayerCells(data.previousShape ?: return, location) { _, newLoc ->
+            newLoc.block.type = Material.AIR
+        }
+    }
 
     override fun spawn(location: Location): SpawnedBlockInteractable {
         //despawn()
         val locations = ArrayList<Location>()
         val spawned = SpawnedBlockInteractable(location, this, locations)
         Bukkit.broadcastMessage("Spawning")
-        val face = Utils.cardinalDirection(location.yaw)
-        for (layer in shape.layers) {
-            val y = layer.key
-            val l = layer.value
+        //val nullChars = ArrayList<Char>()
 
-            for (s in l) {
-                val z = s.key
-                val chars = s.value.toCharArray()
-                if (chars.size % 2 == 0) continue
-                var x = -floor(chars.size / 2.0).toInt()
-                for (char in chars) {
-                    val block = shape.blocks[char] ?: continue
-                    val vector = Vector(x, y, z)
-
-                    vector.rotateAroundY(-Math.toRadians(face.ordinal * 90.0))
-
-                    val newLoc = location.clone().add(vector)
-                    block.place(newLoc)
-                    locations += newLoc
-
-                    x++
-                }
+        processLayerCells(shape.layers, location) {char, newLoc ->
+            val block = shape.blocks[char]
+            if (block == null) {
+                //nullChars += char
+            } else {
+                block.place(newLoc)
+                locations += newLoc
             }
         }
 
         val cbd = CustomBlockData(location.block, AquaticSeriesLib.INSTANCE.plugin)
-        val blockData = InteractableData(id, location.yaw, location.pitch, serializer.serialize(spawned))
+        val blockData =
+            InteractableData(id, location.yaw, location.pitch, serializer.serialize(spawned), shape.layers)
         cbd.set(INTERACTABLE_KEY, PersistentDataType.STRING, AquaticSeriesLib.GSON.toJson(blockData))
 
         val mainLocStr = location.toStringDetailed()
@@ -88,7 +81,8 @@ class BlockInteractable(
     }
 
     override fun onChunkLoad(data: InteractableData, location: Location) {
-        serializer.deserialize(data.data, location, this)
+        despawnOldData(data, location)
+        serializer.deserialize(data, location, this)
     }
 
     override fun onChunkUnload(data: InteractableData) {

@@ -1,9 +1,14 @@
 package xyz.larkyy.aquaticskyblock
 
+import com.ticxo.modelengine.api.events.BaseEntityInteractEvent
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.Particle
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
+import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.inventory.EquipmentSlot
 import xyz.larkyy.aquaticfarming.AquaticFarmingInject
 import xyz.larkyy.aquaticseries.AquaticSeriesLib
 import xyz.larkyy.aquaticseries.block.AquaticBlock
@@ -11,6 +16,10 @@ import xyz.larkyy.aquaticseries.block.impl.OraxenBlock
 import xyz.larkyy.aquaticseries.block.impl.VanillaBlock
 import xyz.larkyy.aquaticseries.interactable.impl.block.BlockInteractable
 import xyz.larkyy.aquaticseries.interactable.impl.block.BlockShape
+import xyz.larkyy.aquaticseries.interactable.impl.meg.MEGInteractable
+import xyz.larkyy.aquaticseries.interactable.impl.meg.SpawnedMegInteractable
+import xyz.larkyy.aquaticseries.item.CustomItem
+import xyz.larkyy.aquaticseries.item.CustomItemHandler
 import java.io.File
 
 class AquaticSkyblockPlugin : AbstractAquaticSkyblockPlugin() {
@@ -19,6 +28,7 @@ class AquaticSkyblockPlugin : AbstractAquaticSkyblockPlugin() {
     }
 
     lateinit var customBlock: BlockInteractable
+    lateinit var customEntity: MEGInteractable
 
     override fun onEnable() {
         initializeExtensions()
@@ -29,15 +39,15 @@ class AquaticSkyblockPlugin : AbstractAquaticSkyblockPlugin() {
         val layers = hashMapOf(
             -1 to mutableMapOf(
                 -3 to "OOO",
-                -1 to "X  ",
-                0 to "X  ",
+                -1 to "  X",
+                0 to "X X",
                 1 to "XXX"
             ),
             3 to mutableMapOf(
                 -3 to "OOO",
-                -1 to "X  ",
-                0 to "X  ",
-                1 to "XXX"
+                -1 to "  X",
+                0 to "  X",
+                1 to "OOO"
             )
         )
         val blocks: HashMap<Char, AquaticBlock> = hashMapOf(
@@ -70,12 +80,47 @@ class AquaticSkyblockPlugin : AbstractAquaticSkyblockPlugin() {
             }
             it.blockInteractable.despawn()
         }, shape)
-        customBlock.spawn(player.location)
 
+        val item = CustomItem.create("ORAXEN:amethyst_ore", "Test Block", ArrayList(), 1, -1, HashMap(), ArrayList())
+        item.register("test")
+        val item2 = CustomItem.create("ORAXEN:amethyst_ore", "Test Entity", ArrayList(), 1, -1, HashMap(), ArrayList())
+        item2.register("test2")
+
+        customEntity = MEGInteractable(
+            "test2",
+            BlockShape(
+                mutableMapOf(
+                    0 to mutableMapOf(
+                        1 to "AAA",
+                        0 to "AAA",
+                        -1 to "AAA"
+                    )
+                ),
+                mutableMapOf(
+                    'A' to VanillaBlock(Material.AIR.createBlockData())
+                )
+            ),
+            "crate6"
+        ) {
+            if (it.originalEvent.slot == EquipmentSlot.OFF_HAND) return@MEGInteractable
+            it.originalEvent.player.sendMessage("You have interacted test2 (${it.originalEvent.action})")
+            if (it.originalEvent.action == BaseEntityInteractEvent.Action.ATTACK) {
+                it.interactable.despawn()
+            }
+        }
+
+        item.giveItem(player)
+        item2.giveItem(player)
+
+        server.pluginManager.registerEvents(Listeners(), this)
     }
 
     override fun onDisable() {
-
+        for (value in AquaticSeriesLib.INSTANCE.interactableHandler.spawnedIntectables.values) {
+            if (value is SpawnedMegInteractable) {
+                value.destroyEntity()
+            }
+        }
     }
 
     fun initializeExtensions() {
@@ -98,4 +143,34 @@ class AquaticSkyblockPlugin : AbstractAquaticSkyblockPlugin() {
         FARMING("farming")
     }
 
+    inner class Listeners : Listener {
+        @EventHandler
+        fun onInteract(event: PlayerInteractEvent) {
+            if (event.action != Action.RIGHT_CLICK_BLOCK) return
+            if (event.hand == EquipmentSlot.OFF_HAND) return
+            val item = event.item ?: return
+            val customItem = CustomItem.get(item) ?: return
+            val location = event.clickedBlock?.location?.clone() ?: return
+            location.add(event.blockFace.direction)
+            location.yaw = event.player.location.yaw
+            location.pitch = event.player.location.pitch
+            if (customItem.registryId == "test") {
+                event.isCancelled = true
+                if (!customBlock.canBePlaced(location)) {
+                    event.player.sendMessage("You cannot place the block here!")
+                    return
+                }
+                customBlock.spawn(location)
+            }
+            else if (customItem.registryId == "test2") {
+                event.isCancelled = true
+                if (!customEntity.canBePlaced(location)) {
+                    event.player.sendMessage("You cannot place the block here!")
+                    return
+                }
+                customEntity.spawn(location.add(0.5,0.0,0.5))
+            }
+
+        }
+    }
 }
