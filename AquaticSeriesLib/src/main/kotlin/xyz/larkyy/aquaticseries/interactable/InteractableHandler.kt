@@ -159,7 +159,6 @@ class InteractableHandler(
 
     fun getInteractable(block: Block): AbstractSpawnedInteractable? {
         val location = block.location
-        Bukkit.broadcastMessage("Trying to get Interactable")
         return getParentByChildren(location)
     }
 
