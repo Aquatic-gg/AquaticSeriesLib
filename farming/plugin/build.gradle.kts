@@ -1,5 +1,4 @@
 plugins {
-    application
     kotlin("jvm")
     id("com.github.johnrengelman.shadow")
 }
@@ -39,8 +38,4 @@ tasks {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "17"
-}
-
-application {
-    mainClass.set("TestPluginKt")
 }

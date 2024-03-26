@@ -14,6 +14,7 @@ import org.bukkit.event.world.ChunkLoadEvent
 import org.bukkit.event.world.ChunkUnloadEvent
 import org.bukkit.plugin.java.JavaPlugin
 import xyz.larkyy.aquaticseries.AquaticSeriesLib
+import xyz.larkyy.aquaticseries.call
 import xyz.larkyy.aquaticseries.interactable.event.BlockInteractableBreakEvent
 import xyz.larkyy.aquaticseries.interactable.event.BlockInteractableInteractEvent
 import xyz.larkyy.aquaticseries.interactable.event.InteractablesChunkLoadEvent
@@ -82,7 +83,8 @@ class InteractableHandler(
 
     fun addParent(location: Location, interactable: AbstractSpawnedInteractable) {
         val registry = getOrCreateRegistry(location.chunk)
-        registry.parents += "${location.x};${location.y};${location.z};${location.yaw};${location.pitch}" to interactable
+        val id = "${location.x};${location.y};${location.z};${location.yaw};${location.pitch}"
+        registry.parents += id to interactable
     }
 
     fun getParent(location: Location): AbstractSpawnedInteractable? {
@@ -103,7 +105,8 @@ class InteractableHandler(
 
     fun removeParent(location: Location) {
         val registry = getRegistry(location.chunk) ?: return
-        registry.parents -= "${location.x};${location.y};${location.z};${location.yaw};${location.pitch}"
+        val id = "${location.x};${location.y};${location.z};${location.yaw};${location.pitch}"
+        registry.parents -= id
     }
 
     fun addWorkloadJob(chunk: Chunk, runnable: Runnable): CompletableFuture<Void> {
@@ -132,7 +135,7 @@ class InteractableHandler(
             spawned.add(it)
         }
         if (spawned.isNotEmpty()) {
-            Bukkit.getPluginManager().callEvent(InteractablesChunkLoadEvent(chunk,spawned))
+            InteractablesChunkLoadEvent(chunk,spawned).call()
         }
     }
 
