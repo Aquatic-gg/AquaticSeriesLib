@@ -16,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import xyz.larkyy.aquaticseries.AquaticSeriesLib
 import xyz.larkyy.aquaticseries.interactable.event.BlockInteractableBreakEvent
 import xyz.larkyy.aquaticseries.interactable.event.BlockInteractableInteractEvent
+import xyz.larkyy.aquaticseries.interactable.event.InteractablesChunkLoadEvent
 import xyz.larkyy.aquaticseries.interactable.event.MegInteractableInteractEvent
 import xyz.larkyy.aquaticseries.interactable.impl.block.BlockInteractable
 import xyz.larkyy.aquaticseries.interactable.impl.block.BlockInteractableSerializer
@@ -128,6 +129,13 @@ class InteractableHandler(
 
     fun loadChunk(chunk: Chunk) {
         loadBlocks(chunk)
+        val spawned = ArrayList<AbstractSpawnedInteractable>()
+        getRegistry(chunk)?.parents?.values?.forEach {
+            spawned.add(it)
+        }
+        if (spawned.isNotEmpty()) {
+            Bukkit.getPluginManager().callEvent(InteractablesChunkLoadEvent(chunk,spawned))
+        }
     }
 
     fun loadBlocks(chunk: Chunk) {
