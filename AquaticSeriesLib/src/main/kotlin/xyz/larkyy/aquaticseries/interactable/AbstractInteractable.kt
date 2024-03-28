@@ -62,7 +62,13 @@ abstract class AbstractInteractable {
     fun canBePlaced(location: Location): Boolean {
         var canPlace = true
         processLayerCells(shape.layers, location) { char, newLoc ->
-            if (newLoc.block.type != Material.AIR || AquaticSeriesLib.INSTANCE.interactableHandler.getInteractable(newLoc.block) != null) {
+            val interactable = AquaticSeriesLib.INSTANCE.interactableHandler.getInteractable(newLoc.block)
+            if (newLoc.block.type != Material.AIR) {
+                if (shape.blocks[char] != null) {
+                    canPlace = false
+                }
+            } else if (interactable != null) {
+                if (!interactable.placeCheckEnabled) return@processLayerCells
                 if (shape.blocks[char] != null) {
                     canPlace = false
                 }

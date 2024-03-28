@@ -49,18 +49,7 @@ class SpawnedMegInteractable(
             return modeledEntity?.getModel(interactable.modelId)?.getOrNull()
         }
 
-    override fun despawn() {
-        destroyEntity()
-        for (associatedLocation in associatedLocations) {
-            AquaticSeriesLib.INSTANCE.interactableHandler.removeChildren(associatedLocation)
-        }
-        val cbd = CustomBlockData(location.block, AquaticSeriesLib.INSTANCE.plugin)
-        cbd.remove(AbstractInteractable.INTERACTABLE_KEY)
-        AquaticSeriesLib.INSTANCE.interactableHandler.removeParent(location)
-        cbd.clear()
-    }
-
-    fun destroyEntity() {
+    override fun unload() {
         if (!loaded) return
         modeledEntity?.destroy()
     }

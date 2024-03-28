@@ -4,11 +4,17 @@ import com.ticxo.modelengine.api.events.BaseEntityInteractEvent
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.Particle
+import org.bukkit.entity.ArmorStand
+import org.bukkit.entity.Entity
+import org.bukkit.entity.EntityType
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
+import org.bukkit.inventory.ItemStack
+import org.bukkit.util.Consumer
+import org.bukkit.util.Vector
 import xyz.larkyy.aquaticfarming.AquaticFarmingInject
 import xyz.larkyy.aquaticseries.AquaticSeriesLib
 import xyz.larkyy.aquaticseries.block.AquaticBlock
@@ -16,6 +22,10 @@ import xyz.larkyy.aquaticseries.block.impl.OraxenBlock
 import xyz.larkyy.aquaticseries.block.impl.VanillaBlock
 import xyz.larkyy.aquaticseries.interactable.impl.block.BlockInteractable
 import xyz.larkyy.aquaticseries.interactable.impl.block.BlockShape
+import xyz.larkyy.aquaticseries.interactable.impl.entity.EntityData
+import xyz.larkyy.aquaticseries.interactable.impl.entity.EntityInfo
+import xyz.larkyy.aquaticseries.interactable.impl.entity.EntityInteractable
+import xyz.larkyy.aquaticseries.interactable.impl.entity.SpawnedEntityInteractable
 import xyz.larkyy.aquaticseries.interactable.impl.meg.MEGInteractable
 import xyz.larkyy.aquaticseries.interactable.impl.meg.SpawnedMegInteractable
 import xyz.larkyy.aquaticseries.item.CustomItem
@@ -29,11 +39,11 @@ class AquaticSkyblockPlugin : AbstractAquaticSkyblockPlugin() {
 
     lateinit var customBlock: BlockInteractable
     lateinit var customEntity: MEGInteractable
+    lateinit var customRealEntity: EntityInteractable
 
     override fun onEnable() {
-        initializeExtensions()
-
         AquaticSeriesLib.init(this,3)
+        initializeExtensions()
 
         val player = Bukkit.getPlayer("MrLarkyy_")!!
         val layers = hashMapOf(
@@ -44,10 +54,10 @@ class AquaticSkyblockPlugin : AbstractAquaticSkyblockPlugin() {
                 1 to "XXX"
             ),
             3 to mutableMapOf(
-                -3 to "OOO",
-                -1 to "  X",
-                0 to "  X",
-                1 to "OOO"
+                -3 to "OOO X",
+                -1 to "  X X",
+                0 to "  X X",
+                1 to "OOO X"
             )
         )
         val blocks: HashMap<Char, AquaticBlock> = hashMapOf(
@@ -89,6 +99,52 @@ class AquaticSkyblockPlugin : AbstractAquaticSkyblockPlugin() {
         item.register("test")
         val item2 = CustomItem.create("ORAXEN:amethyst_ore", "Test Entity", ArrayList(), 1, -1, HashMap(), ArrayList())
         item2.register("test2")
+        val item3 = CustomItem.create("ORAXEN:amethyst_ore", "Test Real Entity", ArrayList(), 1, -1, HashMap(), ArrayList())
+        item3.register("test3")
+
+        customRealEntity = EntityInteractable(
+            "test3",
+            BlockShape(
+                mutableMapOf(
+                    0 to mutableMapOf(
+                        1 to "AAA",
+                        0 to "AAA",
+                        -1 to "AAA"
+                    )
+                ),
+                mutableMapOf(
+                    'A' to VanillaBlock(Material.AIR.createBlockData())
+                )
+            ),
+            EntityInfo(
+                EntityType.ARMOR_STAND,
+                object : EntityData {
+                    override fun apply(entity: Entity) {
+
+                    }
+                }
+            ),
+            mutableMapOf(
+                EntityInfo(
+                    EntityType.ARMOR_STAND,
+                    object : EntityData {
+                        override fun apply(entity: Entity) {
+                            val aS = entity as ArmorStand
+                            aS.isSmall = true
+                            aS.equipment!!.helmet = ItemStack(Material.DIAMOND_BLOCK)
+                        }
+                    }
+                ) to Vector(1.0,0.0,0.0)
+            ),
+            {
+                it.event.player.sendMessage("Interacted!")
+                it.event.isCancelled = true
+            },
+            {
+                it.originalEvent.damager.sendMessage("Interacted!")
+                it.originalEvent.isCancelled = true
+            }
+        )
 
         customEntity = MEGInteractable(
             "test2",
@@ -121,28 +177,23 @@ class AquaticSkyblockPlugin : AbstractAquaticSkyblockPlugin() {
 
         item.giveItem(player)
         item2.giveItem(player)
+        item3.giveItem(player)
 
         server.pluginManager.registerEvents(Listeners(), this)
     }
 
     override fun onDisable() {
-        for (spawnedRegistry in AquaticSeriesLib.INSTANCE.interactableHandler.spawnedRegistries) {
-            for (mutableEntry in spawnedRegistry.value) {
-                for (value in mutableEntry.value.parents.values) {
-                    if (value is SpawnedMegInteractable) {
-                        value.destroyEntity()
-                    }
-                }
-            }
-        }
+        AquaticSeriesLib.INSTANCE.interactableHandler.despawnEntities()
     }
 
     fun initializeExtensions() {
+        Bukkit.broadcastMessage("initializing extensions")
         dataFolder.mkdirs()
         val extensions = mutableListOf(Extensions.FARMING)
         val folders = HashMap<Extensions, File>()
 
         extensions.forEach {
+            Bukkit.broadcastMessage("creating folders")
             val dataFolder = File(dataFolder, it.id)
             dataFolder.mkdirs()
             folders[it] = dataFolder
@@ -150,7 +201,9 @@ class AquaticSkyblockPlugin : AbstractAquaticSkyblockPlugin() {
 
         // FARMING
         val folder = folders[Extensions.FARMING]!!
-        AquaticFarmingInject(this, folder)
+        Bukkit.broadcastMessage("initializing farming")
+        AquaticFarmingInject(this, folder).inject()
+
     }
 
     enum class Extensions(val id: String) {
@@ -183,6 +236,14 @@ class AquaticSkyblockPlugin : AbstractAquaticSkyblockPlugin() {
                     return
                 }
                 customEntity.spawn(location.add(0.5,0.0,0.5))
+            }
+            else if (customItem.registryId == "test3") {
+                event.isCancelled = true
+                if (!customRealEntity.canBePlaced(location)) {
+                    event.player.sendMessage("You cannot place the block here!")
+                    return
+                }
+                customRealEntity.spawn(location.add(0.5,0.0,0.5))
             }
 
         }

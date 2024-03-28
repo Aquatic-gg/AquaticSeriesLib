@@ -1,6 +1,6 @@
 package xyz.larkyy.aquaticfarming
 
-import xyz.larkyy.aquaticfarming.data.AbstractDataHandler
+import xyz.larkyy.aquaticfarming.harvestable.HarvestableManager
 import xyz.larkyy.aquaticseries.AbstractAquaticModuleInject
 
 abstract class AbstractAquaticFarming(
@@ -8,7 +8,7 @@ abstract class AbstractAquaticFarming(
 ) {
 
     abstract val cropRegistryManager: AbstractCropRegistryManager
-    abstract val dataHandler: AbstractDataHandler
+    abstract val harvestableManager: HarvestableManager
 
     companion object {
         var instance: AbstractAquaticFarming? = null

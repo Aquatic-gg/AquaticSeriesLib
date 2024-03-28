@@ -8,8 +8,9 @@ import xyz.larkyy.aquaticfarming.crop.placed.AbstractPlacedCrop
 class CropReader: AbstractCropReader() {
 
     override fun getCrop(location: Location): AbstractPlacedCrop? {
-        val dataHandler = AbstractAquaticFarming.instance?.dataHandler ?: return null
-        return dataHandler.getPlacedCrop(location)
+        //val dataHandler = AbstractAquaticFarming.instance?.dataHandler ?:
+        return null
+        //return dataHandler.getPlacedCrop(location)
     }
 
 }

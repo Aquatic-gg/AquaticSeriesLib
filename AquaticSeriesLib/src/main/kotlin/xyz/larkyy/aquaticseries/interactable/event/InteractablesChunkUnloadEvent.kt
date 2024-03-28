@@ -5,7 +5,7 @@ import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 import xyz.larkyy.aquaticseries.interactable.AbstractSpawnedInteractable
 
-class InteractablesChunkLoadEvent(
+class InteractablesChunkUnloadEvent(
     val chunk: Chunk,
     val interactables: List<AbstractSpawnedInteractable>
 ): Event() {
@@ -21,4 +21,5 @@ class InteractablesChunkLoadEvent(
     override fun getHandlers(): HandlerList {
         return HANDLERS
     }
+
 }

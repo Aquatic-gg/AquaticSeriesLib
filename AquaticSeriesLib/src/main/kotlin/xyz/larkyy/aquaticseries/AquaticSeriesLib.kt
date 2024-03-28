@@ -8,11 +8,12 @@ import xyz.larkyy.aquaticseries.interactable.InteractableHandler
 import xyz.larkyy.aquaticseries.awaiters.AbstractAwaiter
 import xyz.larkyy.aquaticseries.awaiters.IAAwaiter
 import xyz.larkyy.aquaticseries.awaiters.MEGAwaiter
+import xyz.larkyy.aquaticseries.chunk.ChunkDataManager
 
 class AquaticSeriesLib private constructor(val plugin: JavaPlugin, workloadDelay: Long) {
 
     val interactableHandler = InteractableHandler(workloadDelay)
-
+    val chunkDataManager = ChunkDataManager()
     var enginesLoaded = false
 
     init {

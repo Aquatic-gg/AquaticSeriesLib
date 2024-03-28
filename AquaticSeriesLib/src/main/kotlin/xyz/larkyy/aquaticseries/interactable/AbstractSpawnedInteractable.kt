@@ -13,6 +13,7 @@ abstract class AbstractSpawnedInteractable {
     abstract val interactable: AbstractInteractable
     abstract val associatedLocations: List<Location>
     abstract var loaded: Boolean
+    var placeCheckEnabled: Boolean = true
 
     companion object {
         fun get(block: Block): InteractableData? {
@@ -30,6 +31,16 @@ abstract class AbstractSpawnedInteractable {
             return CustomBlockData(location.block,AquaticSeriesLib.INSTANCE.plugin)
         }
 
-    abstract fun despawn()
+    open fun despawn() {
+        unload()
+        for (associatedLocation in associatedLocations) {
+            AquaticSeriesLib.INSTANCE.interactableHandler.removeChildren(associatedLocation)
+        }
+        val cbd = CustomBlockData(location.block, AquaticSeriesLib.INSTANCE.plugin)
+        cbd.remove(INTERACTABLE_KEY)
+        AquaticSeriesLib.INSTANCE.interactableHandler.removeParent(location)
+        cbd.clear()
+    }
+    abstract fun unload()
 
 }

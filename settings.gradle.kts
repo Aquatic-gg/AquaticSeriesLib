@@ -1,3 +1,6 @@
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
+}
 rootProject.name = "AquaticSkyblock"
 include("core:api")
 findProject(":core:api")?.name = "core-api"

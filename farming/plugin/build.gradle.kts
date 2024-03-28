@@ -14,6 +14,7 @@ repositories {
 
 dependencies {
     implementation(project(":farming:farming-api"))
+    api("com.jeff-media:custom-block-data:2.2.2")
 }
 
 

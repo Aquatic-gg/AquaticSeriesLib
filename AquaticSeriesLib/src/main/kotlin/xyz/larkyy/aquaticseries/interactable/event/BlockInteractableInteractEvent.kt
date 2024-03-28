@@ -7,7 +7,4 @@ class BlockInteractableInteractEvent(
     val originalEvent: PlayerInteractEvent,
     val blockInteractable: SpawnedBlockInteractable
 ) {
-
-
-
 }

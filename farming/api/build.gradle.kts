@@ -20,6 +20,7 @@ repositories {
 
 dependencies {
     api("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
+    api("com.jeff-media:custom-block-data:2.2.2")
     api(project(":AquaticSeriesLib"))
 }
 
