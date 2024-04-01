@@ -103,6 +103,17 @@ class SpawnedBlockInteractable(
         cbd.clear()
     }
 
+    fun despawnWithoutBlocks() {
+        unload()
+        for (associatedLocation in associatedLocations) {
+            AquaticSeriesLib.INSTANCE.interactableHandler.removeChildren(associatedLocation)
+        }
+        val cbd = CustomBlockData(location.block, AquaticSeriesLib.INSTANCE.plugin)
+        cbd.remove(AbstractInteractable.INTERACTABLE_KEY)
+        AquaticSeriesLib.INSTANCE.interactableHandler.removeParent(location)
+        cbd.clear()
+    }
+
     override fun unload() {
 
     }

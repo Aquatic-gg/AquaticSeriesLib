@@ -10,12 +10,14 @@ import xyz.larkyy.aquaticfarming.harvestable.HarvestableSeed
 import xyz.larkyy.aquaticfarming.harvestable.Harvestable
 import xyz.larkyy.aquaticfarming.harvestable.condition.growth.ConfiguredGrowthCondition
 import xyz.larkyy.aquaticfarming.harvestable.condition.place.ConfiguredPlaceCondition
+import xyz.larkyy.aquaticfarming.harvestable.loottable.LootTable
 import xyz.larkyy.aquaticfarming.harvestable.stage.TreeStage
 import xyz.larkyy.aquaticseries.interactable.AbstractSpawnedInteractable
 import xyz.larkyy.aquaticseries.interactable.impl.block.SpawnedBlockInteractable
 import xyz.larkyy.aquaticseries.item.CustomItem
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class TreeHarvestable(
     override val id: String,
@@ -25,6 +27,7 @@ class TreeHarvestable(
     override val placeConditions: MutableList<ConfiguredPlaceCondition>,
     override val growthConditions: MutableList<ConfiguredGrowthCondition>,
     val stages: ArrayList<TreeStage>,
+    val loottables: HashMap<Char,MutableList<LootTable>>
 ) : Harvestable() {
 
     override val seed: HarvestableSeed = HarvestableSeed(seedItem,this)
