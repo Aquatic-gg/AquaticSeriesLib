@@ -230,20 +230,22 @@ class AquaticFarming(injection: AbstractAquaticModuleInject) : AbstractAquaticFa
             ArrayList(),
             ArrayList(),
             arrayListOf(
-                TreeStage(
-                    0,
-                    stage1,
-                    3
-                ),
-                TreeStage(
-                    1,
-                    stage2,
-                    3
-                ),
-                TreeStage(
-                    2,
-                    stage3,
-                    3
+                arrayListOf(
+                    TreeStage(
+                        0,
+                        stage1,
+                        3
+                    ),
+                    TreeStage(
+                        1,
+                        stage2,
+                        3
+                    ),
+                    TreeStage(
+                        2,
+                        stage3,
+                        3
+                    )
                 )
             ),
             hashMapOf(

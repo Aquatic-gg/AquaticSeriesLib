@@ -14,7 +14,8 @@ import java.util.UUID
 class SpawnedTree(
     override val uuid: UUID,
     val tree: TreeHarvestable,
-    var interactable: SpawnedBlockInteractable
+    var interactable: SpawnedBlockInteractable,
+    val stagesIndex: Int
 ) : SpawnedHarvestable() {
 
     var stage: Int = 0
@@ -70,7 +71,7 @@ class SpawnedTree(
 
     fun nextStage(): TreeStage? {
         if (stage+1 >= tree.stages.size) return null
-        return tree.stages[stage + 1]
+        return tree.stages[stagesIndex][stage + 1]
     }
 
     fun updateData() {
@@ -80,6 +81,7 @@ class SpawnedTree(
         obj.addProperty("uuid", uuid.toString())
         obj.addProperty("stage", stage)
         obj.addProperty("growth-tick", growthTick)
+        obj.addProperty("stages-index", stagesIndex)
 
         pdc.set(tree.cropNamespace, PersistentDataType.STRING, obj.toString())
     }
