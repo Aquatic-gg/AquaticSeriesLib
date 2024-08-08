@@ -1,13 +1,12 @@
 package gg.aquatic.aquaticseries.lib.item.factory.impl
 
+import gg.aquatic.aquaticseries.lib.item.CustomItem
+import gg.aquatic.aquaticseries.lib.item.factory.ItemFactory
+import gg.aquatic.aquaticseries.lib.item.impl.MMItem
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
-import aquaticseries.item.impl.OraxenItem
-import gg.aquatic.aquaticseries.item.CustomItem
-import gg.aquatic.aquaticseries.item.factory.ItemFactory
 
-object OraxenFactory: ItemFactory {
-
+object MMFactory: ItemFactory {
     override fun create(
         id: String,
         name: String?,
@@ -17,7 +16,6 @@ object OraxenFactory: ItemFactory {
         enchantments: MutableMap<Enchantment, Int>?,
         flags: MutableList<ItemFlag>?
     ): CustomItem {
-        return aquaticseries.item.impl.OraxenItem(id, name, description, amount, modelData, enchantments, flags)
+        return MMItem(id, name, description, amount, modelData, enchantments, flags)
     }
-
 }

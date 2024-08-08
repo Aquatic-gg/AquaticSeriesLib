@@ -1,10 +1,10 @@
 package gg.aquatic.aquaticseries.lib.item.impl
 
+import gg.aquatic.aquaticseries.lib.item.CustomItem
 import io.th0rgal.oraxen.api.OraxenItems
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
-import gg.aquatic.aquaticseries.item.CustomItem
 
 class OraxenItem(
     val id: String,

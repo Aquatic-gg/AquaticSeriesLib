@@ -1,5 +1,9 @@
 package gg.aquatic.aquaticseries.lib.item
 
+import gg.aquatic.aquaticseries.lib.displayName
+import gg.aquatic.aquaticseries.lib.format.color.ColorUtils
+import gg.aquatic.aquaticseries.lib.lore
+import gg.aquatic.aquaticseries.lib.toAquatic
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.configuration.file.FileConfiguration
@@ -9,7 +13,6 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.EnchantmentStorageMeta
 import org.bukkit.persistence.PersistentDataType
-import gg.aquatic.aquaticseries.format.color.ColorUtils
 import java.util.*
 
 abstract class CustomItem(
@@ -40,11 +43,11 @@ abstract class CustomItem(
         val im = iS.itemMeta ?: return iS
 
         name?.apply {
-            im.setDisplayName(ColorUtils.format(this))
+            im.displayName(this.toAquatic())
         }
 
         description?.apply {
-            im.lore = ColorUtils.format(this)
+            im.lore(this.toAquatic())
         }
 
         if (modelData > 0) {
@@ -81,7 +84,7 @@ abstract class CustomItem(
     fun register(id: String) {
         if (this.registryId != null) return
         this.registryId = id
-        customItemHandler.itemRegistry[id] = this
+        CustomItemHandler.itemRegistry[id] = this
     }
 
     abstract fun getUnmodifiedItem(): ItemStack
@@ -95,13 +98,13 @@ abstract class CustomItem(
         }
 
         fun get(id: String): CustomItem? {
-            return customItemHandler.itemRegistry[id]
+            return CustomItemHandler.itemRegistry[id]
         }
         fun get(itemStack: ItemStack): CustomItem? {
             val pdc = itemStack.itemMeta?.persistentDataContainer ?: return null
             if (!pdc.has(CustomItemHandler.NAMESPACE_KEY, PersistentDataType.STRING)) return null
             val id = pdc.get(CustomItemHandler.NAMESPACE_KEY, PersistentDataType.STRING)
-            return customItemHandler.itemRegistry[id]
+            return CustomItemHandler.itemRegistry[id]
         }
 
         fun create(
@@ -113,7 +116,7 @@ abstract class CustomItem(
             enchantments: MutableMap<Enchantment, Int>?,
             flags: MutableList<ItemFlag>?
         ): CustomItem {
-            return customItemHandler.getCustomItem(namespace, name, description, amount, modeldata, enchantments, flags)
+            return CustomItemHandler.getCustomItem(namespace, name, description, amount, modeldata, enchantments, flags)
         }
 
         fun loadFromYaml(cfg: FileConfiguration, path: String): CustomItem? {

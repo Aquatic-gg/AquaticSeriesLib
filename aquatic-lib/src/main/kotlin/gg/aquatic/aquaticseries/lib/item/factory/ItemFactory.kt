@@ -1,8 +1,8 @@
 package gg.aquatic.aquaticseries.lib.item.factory
 
+import gg.aquatic.aquaticseries.lib.item.CustomItem
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
-import gg.aquatic.aquaticseries.item.CustomItem
 
 interface ItemFactory {
 

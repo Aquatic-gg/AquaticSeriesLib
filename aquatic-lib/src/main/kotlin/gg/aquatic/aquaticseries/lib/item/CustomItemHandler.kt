@@ -1,14 +1,14 @@
 package gg.aquatic.aquaticseries.lib.item
 
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.item.factory.ItemFactory
+import gg.aquatic.aquaticseries.lib.item.factory.impl.MMFactory
+import gg.aquatic.aquaticseries.lib.item.factory.impl.OraxenFactory
+import gg.aquatic.aquaticseries.lib.item.impl.VanillaItem
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
-import gg.aquatic.aquaticseries.AquaticSeriesLib
-import gg.aquatic.aquaticseries.item.factory.ItemFactory
-import gg.aquatic.aquaticseries.item.factory.impl.MMFactory
-import gg.aquatic.aquaticseries.item.factory.impl.OraxenFactory
-import gg.aquatic.aquaticseries.item.impl.VanillaItem
 import java.util.*
 import kotlin.collections.HashMap
 

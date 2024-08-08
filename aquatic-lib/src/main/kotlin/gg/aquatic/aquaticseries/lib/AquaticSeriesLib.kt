@@ -1,20 +1,22 @@
 package gg.aquatic.aquaticseries.lib
 
 import com.google.gson.Gson
+import gg.aquatic.aquaticseries.lib.awaiters.AbstractAwaiter
+import gg.aquatic.aquaticseries.lib.awaiters.IAAwaiter
+import gg.aquatic.aquaticseries.lib.awaiters.MEGAwaiter
+import gg.aquatic.aquaticseries.lib.interactable.InteractableHandler
+import gg.aquatic.aquaticseries.paper.PaperAdapter
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitRunnable
-import gg.aquatic.aquaticseries.interactable.InteractableHandler
-import gg.aquatic.aquaticseries.awaiters.AbstractAwaiter
-import gg.aquatic.aquaticseries.awaiters.IAAwaiter
-import gg.aquatic.aquaticseries.awaiters.MEGAwaiter
 
 class AquaticSeriesLib private constructor(val plugin: JavaPlugin, workloadDelay: Long) {
 
     val interactableHandler = InteractableHandler(workloadDelay)
 
-
     var enginesLoaded = false
+
+    val adapter: AquaticLibAdapter = PaperAdapter(plugin)
 
     init {
         object : BukkitRunnable() {
