@@ -19,6 +19,12 @@ class PaperString(
         Bukkit.broadcast(component)
     }
 
+    override fun sendActionBar(vararg player: Player) {
+        player.forEach {
+            it.sendActionBar(miniMessage.deserialize(string))
+        }
+    }
+
     override fun send(vararg players: Player) {
         val component = miniMessage.deserialize(string)
         players.forEach { player -> player.sendMessage(component) }

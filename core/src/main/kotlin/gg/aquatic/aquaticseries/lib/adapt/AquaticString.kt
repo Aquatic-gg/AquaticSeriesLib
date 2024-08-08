@@ -15,4 +15,5 @@ abstract class AquaticString {
     abstract fun broadcast()
     abstract fun send(vararg players: Player)
 
+    abstract fun sendActionBar(vararg player: Player)
 }
