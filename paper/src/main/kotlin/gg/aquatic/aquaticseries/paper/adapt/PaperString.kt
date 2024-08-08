@@ -4,12 +4,13 @@ import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.paper.PaperAdapter
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 class PaperString(
     override val string: String
 ): AquaticString() {
-    override fun send(player: Player) {
+    override fun send(player: CommandSender) {
         val component = miniMessage.deserialize(string)
         player.sendMessage(component)
     }
@@ -25,7 +26,7 @@ class PaperString(
         }
     }
 
-    override fun send(vararg players: Player) {
+    override fun send(vararg players: CommandSender) {
         val component = miniMessage.deserialize(string)
         players.forEach { player -> player.sendMessage(component) }
     }

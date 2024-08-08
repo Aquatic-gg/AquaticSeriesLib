@@ -4,12 +4,13 @@ import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.format.color.ColorUtils
 import net.md_5.bungee.api.ChatMessageType
 import org.bukkit.Bukkit
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 class SpigotString(
     override val string: String
 ): AquaticString() {
-    override fun send(player: Player) {
+    override fun send(player: CommandSender) {
         player.sendMessage(formatted)
     }
 
@@ -23,7 +24,7 @@ class SpigotString(
         }
     }
 
-    override fun send(vararg players: Player) {
+    override fun send(vararg players: CommandSender) {
         players.forEach { player -> send(player) }
     }
 

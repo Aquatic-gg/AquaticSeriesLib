@@ -1,5 +1,6 @@
 package gg.aquatic.aquaticseries.lib.adapt
 
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 abstract class AquaticString {
@@ -11,9 +12,9 @@ abstract class AquaticString {
         return this
     }
 
-    abstract fun send(player: Player)
+    abstract fun send(player: CommandSender)
     abstract fun broadcast()
-    abstract fun send(vararg players: Player)
+    abstract fun send(vararg players: CommandSender)
 
     abstract fun sendActionBar(vararg player: Player)
 }
