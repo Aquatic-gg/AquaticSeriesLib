@@ -6,6 +6,7 @@ import gg.aquatic.aquaticseries.lib.awaiters.IAAwaiter
 import gg.aquatic.aquaticseries.lib.awaiters.MEGAwaiter
 import gg.aquatic.aquaticseries.lib.interactable.InteractableHandler
 import gg.aquatic.aquaticseries.paper.PaperAdapter
+import gg.aquatic.aquaticseries.spigot.SpigotAdapter
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitRunnable
@@ -16,9 +17,24 @@ class AquaticSeriesLib private constructor(val plugin: JavaPlugin, workloadDelay
 
     var enginesLoaded = false
 
-    val adapter: AquaticLibAdapter = PaperAdapter(plugin)
+    val adapter: AquaticLibAdapter
 
     init {
+
+        var isPaper = false
+        try {
+            // Any other works, just the shortest I could find.
+            Class.forName("com.destroystokyo.paper.ParticleBuilder")
+            isPaper = true
+        } catch (ignored: ClassNotFoundException) {
+        }
+
+        adapter = if (isPaper) {
+            PaperAdapter(plugin)
+        } else {
+            SpigotAdapter(plugin)
+        }
+
         object : BukkitRunnable() {
             override fun run() {
                 interactableHandler.registerListeners(plugin)
