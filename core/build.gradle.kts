@@ -1,21 +1,7 @@
-plugins {
-    kotlin("jvm")
-}
-
 group = "gg.aquatic.aquaticseries.core"
 version = "1.0"
 
-repositories {
-    mavenCentral()
-}
 
 dependencies {
-    testImplementation(kotlin("test"))
-}
-
-tasks.test {
-    useJUnitPlatform()
-}
-kotlin {
-    jvmToolchain(16)
+    compileOnly("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
 }
