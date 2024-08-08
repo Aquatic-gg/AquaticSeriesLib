@@ -38,6 +38,7 @@ class AquaticSeriesLib private constructor(val plugin: JavaPlugin, workloadDelay
             messageFormat = Format.LEGACY
             SpigotAdapter(plugin)
         }
+        println("[AquaticSeriesLib] Currently using $messageFormat message formatting!")
 
         object : BukkitRunnable() {
             override fun run() {
@@ -81,6 +82,7 @@ class AquaticSeriesLib private constructor(val plugin: JavaPlugin, workloadDelay
         } else {
             PaperAdapter(plugin)
         }
+        println("[AquaticSeriesLib] Currently using $messageFormat message formatting!")
     }
 
     private fun onEnginesInit() {
