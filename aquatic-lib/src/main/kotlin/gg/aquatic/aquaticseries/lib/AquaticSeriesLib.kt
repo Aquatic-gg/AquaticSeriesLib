@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import gg.aquatic.aquaticseries.lib.awaiters.AbstractAwaiter
 import gg.aquatic.aquaticseries.lib.awaiters.IAAwaiter
 import gg.aquatic.aquaticseries.lib.awaiters.MEGAwaiter
+import gg.aquatic.aquaticseries.lib.format.Format
 import gg.aquatic.aquaticseries.lib.interactable.InteractableHandler
 import gg.aquatic.aquaticseries.paper.PaperAdapter
 import gg.aquatic.aquaticseries.spigot.SpigotAdapter
@@ -17,11 +18,12 @@ class AquaticSeriesLib private constructor(val plugin: JavaPlugin, workloadDelay
 
     var enginesLoaded = false
 
-    val adapter: AquaticLibAdapter
+    var adapter: AquaticLibAdapter
+    var isPaper = false
+    private var messageFormat: Format
 
     init {
 
-        var isPaper = false
         try {
             // Any other works, just the shortest I could find.
             Class.forName("com.destroystokyo.paper.ParticleBuilder")
@@ -30,8 +32,10 @@ class AquaticSeriesLib private constructor(val plugin: JavaPlugin, workloadDelay
         }
 
         adapter = if (isPaper) {
+            messageFormat = Format.MINIMESSAGE
             PaperAdapter(plugin)
         } else {
+            messageFormat = Format.LEGACY
             SpigotAdapter(plugin)
         }
 
@@ -59,6 +63,23 @@ class AquaticSeriesLib private constructor(val plugin: JavaPlugin, workloadDelay
                     onEnginesInit()
                 }
             }
+        }
+    }
+
+    fun getMessageFormatting(): Format {
+        return messageFormat
+    }
+
+    fun setMessageFormatting(format: Format) {
+        if (!isPaper && format == Format.MINIMESSAGE) {
+            return
+        }
+        messageFormat = format
+
+        adapter = if (format == Format.MINIMESSAGE) {
+            SpigotAdapter(plugin)
+        } else {
+            PaperAdapter(plugin)
         }
     }
 

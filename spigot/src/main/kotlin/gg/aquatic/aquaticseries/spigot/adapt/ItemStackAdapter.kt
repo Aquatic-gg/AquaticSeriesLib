@@ -8,32 +8,32 @@ import org.bukkit.inventory.meta.ItemMeta
 object ItemStackAdapter: IItemStackAdapter {
     override fun displayName(string: AquaticString, itemStack: ItemStack) {
         val im = itemStack.itemMeta
-        im?.setDisplayName(string.string)
+        im?.setDisplayName(if (string is SpigotString) string.formatted else string.string)
         itemStack.itemMeta = im
     }
 
     override fun displayName(string: AquaticString, itemMeta: ItemMeta) {
-        itemMeta.setDisplayName(string.string)
+        itemMeta.setDisplayName(if (string is SpigotString) string.formatted else string.string)
     }
 
     override fun lore(vararg strings: AquaticString, itemStack: ItemStack) {
         val im = itemStack.itemMeta
-        im?.lore = strings.map { string -> string.string }
+        im?.lore = strings.map { string -> if (string is SpigotString) string.formatted else string.string }
         itemStack.itemMeta = im
     }
 
     override fun lore(strings: Collection<AquaticString>, itemStack: ItemStack) {
         val im = itemStack.itemMeta
-        im?.lore = strings.map { string -> string.string }
+        im?.lore = strings.map { string -> if (string is SpigotString) string.formatted else string.string }
         itemStack.itemMeta = im
     }
 
     override fun lore(vararg strings: AquaticString, itemMeta: ItemMeta) {
-        itemMeta.lore = strings.map { string -> string.string }
+        itemMeta.lore = strings.map { string -> if (string is SpigotString) string.formatted else string.string }
     }
 
     override fun lore(strings: Collection<AquaticString>, itemMeta: ItemMeta) {
-        itemMeta.lore = strings.map { string -> string.string }
+        itemMeta.lore = strings.map { string -> if (string is SpigotString) string.formatted else string.string }
     }
 
 }

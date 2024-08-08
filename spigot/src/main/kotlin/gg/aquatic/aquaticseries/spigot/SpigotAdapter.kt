@@ -6,6 +6,7 @@ import gg.aquatic.aquaticseries.lib.adapt.IInventoryAdapter
 import gg.aquatic.aquaticseries.lib.adapt.IItemStackAdapter
 import gg.aquatic.aquaticseries.spigot.adapt.InventoryAdapter
 import gg.aquatic.aquaticseries.spigot.adapt.ItemStackAdapter
+import gg.aquatic.aquaticseries.spigot.adapt.SpigotString
 import org.bukkit.plugin.java.JavaPlugin
 
 class SpigotAdapter(override val plugin: JavaPlugin) : AquaticLibAdapter() {
@@ -13,6 +14,6 @@ class SpigotAdapter(override val plugin: JavaPlugin) : AquaticLibAdapter() {
     override val inventoryAdapter: IInventoryAdapter = InventoryAdapter
 
     override fun adaptString(string: String): AquaticString {
-        TODO("Not yet implemented")
+        return SpigotString(string)
     }
 }
