@@ -5,6 +5,7 @@ import gg.aquatic.aquaticseries.paper.PaperAdapter
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
+import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 
 class PaperString(
@@ -24,6 +25,11 @@ class PaperString(
         player.forEach {
             it.sendActionBar(miniMessage.deserialize(string))
         }
+    }
+
+    override fun setEntityName(entity: Entity) {
+        entity.customName(
+            miniMessage.deserialize(string))
     }
 
     override fun send(vararg players: CommandSender) {
