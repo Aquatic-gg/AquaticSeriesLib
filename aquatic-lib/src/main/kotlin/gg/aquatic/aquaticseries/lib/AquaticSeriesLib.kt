@@ -78,9 +78,9 @@ class AquaticSeriesLib private constructor(val plugin: JavaPlugin, workloadDelay
         messageFormat = format
 
         adapter = if (format == Format.MINIMESSAGE) {
-            SpigotAdapter(plugin)
-        } else {
             PaperAdapter(plugin)
+        } else {
+            SpigotAdapter(plugin)
         }
         println("[AquaticSeriesLib] Currently using $messageFormat message formatting!")
     }
