@@ -4,7 +4,7 @@ import org.bukkit.ChatColor
 import java.awt.Color
 import java.util.regex.Pattern
 
-class GradientPattern: aquaticseries.format.color.IPattern {
+class GradientPattern: IPattern {
 
     private val pattern = Pattern.compile("(\\{|<|\\[)#([0-9A-Fa-f]{6})(}|>|\\})")
     override fun process(string: String): String {
@@ -17,7 +17,7 @@ class GradientPattern: aquaticseries.format.color.IPattern {
             val lastColor = ChatColor.getLastColors(content)
             str = str.replace(
                 matcher.group(),
-                aquaticseries.format.color.ColorUtils.Companion.color(
+                ColorUtils.color(
                     ChatColor.stripColor(content)!!,
                     Color(start.toInt(16)),
                     Color(end.toInt(16)),

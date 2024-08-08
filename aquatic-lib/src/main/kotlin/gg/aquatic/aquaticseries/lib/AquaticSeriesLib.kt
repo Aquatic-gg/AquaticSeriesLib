@@ -14,7 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable
 
 class AquaticSeriesLib private constructor(val plugin: JavaPlugin, workloadDelay: Long) {
 
-    val interactableHandler = InteractableHandler(workloadDelay)
+    val interactableHandler = gg.aquatic.aquaticseries.lib.interactable.InteractableHandler(workloadDelay)
 
     var enginesLoaded = false
 
