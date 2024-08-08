@@ -5,7 +5,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
-group = "xyz.larkyy.aquaticseries"
+group = "gg.aquatic.aquaticseries"
 version = "1.0"
 
 repositories {
