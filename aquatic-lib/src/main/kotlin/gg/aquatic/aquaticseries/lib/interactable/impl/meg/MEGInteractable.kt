@@ -19,12 +19,12 @@ class MEGInteractable(
 ) : AbstractInteractable() {
     override val serializer: MegInteractableSerializer
         get() {
-            return AquaticSeriesLib.INSTANCE.interactableHandler.serializers[MEGInteractable::class.java] as gg.aquatic.aquaticseries.lib.interactable.impl.meg.MegInteractableSerializer
+            return AquaticSeriesLib.INSTANCE.interactableHandler!!.serializers[MEGInteractable::class.java] as gg.aquatic.aquaticseries.lib.interactable.impl.meg.MegInteractableSerializer
         }
 
 
     init {
-        AquaticSeriesLib.INSTANCE.interactableHandler.registry[id] = this
+        AquaticSeriesLib.INSTANCE.interactableHandler!!.registry[id] = this
     }
 
     override fun spawn(location: Location): SpawnedMegInteractable {
@@ -48,9 +48,9 @@ class MEGInteractable(
         val blockData =
             InteractableData(id, location.yaw, location.pitch, serializer.serialize(spawned), shape.layers, nullChars)
         cbd.set(INTERACTABLE_KEY, PersistentDataType.STRING, AquaticSeriesLib.GSON.toJson(blockData))
-        AquaticSeriesLib.INSTANCE.interactableHandler.addParent(location, spawned)
+        AquaticSeriesLib.INSTANCE.interactableHandler!!.addParent(location, spawned)
         for (loc in locations) {
-            AquaticSeriesLib.INSTANCE.interactableHandler.addChildren(loc, location)
+            AquaticSeriesLib.INSTANCE.interactableHandler!!.addChildren(loc, location)
         }
         return spawned
     }

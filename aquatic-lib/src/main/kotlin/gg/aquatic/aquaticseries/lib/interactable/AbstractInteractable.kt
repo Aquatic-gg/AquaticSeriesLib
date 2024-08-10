@@ -22,7 +22,7 @@ abstract class AbstractInteractable {
 
         fun get(block: Block): AbstractInteractable? {
             val data = AbstractSpawnedInteractable.get(block) ?: return null
-            return AquaticSeriesLib.INSTANCE.interactableHandler.registry[data.id]
+            return AquaticSeriesLib.INSTANCE.interactableHandler!!.registry[data.id]
         }
     }
 
@@ -60,7 +60,7 @@ abstract class AbstractInteractable {
     fun canBePlaced(location: Location): Boolean {
         var canPlace = true
         processLayerCells(shape.layers, location) { char, newLoc ->
-            if (newLoc.block.type != Material.AIR || AquaticSeriesLib.INSTANCE.interactableHandler.getInteractable(newLoc.block) != null) {
+            if (newLoc.block.type != Material.AIR || AquaticSeriesLib.INSTANCE.interactableHandler!!.getInteractable(newLoc.block) != null) {
                 if (shape.blocks[char] != null) {
                     canPlace = false
                 }

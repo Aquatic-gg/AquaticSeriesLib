@@ -20,7 +20,7 @@ class SpawnedMegInteractable(
     override var loaded = false
 
     init {
-        AquaticSeriesLib.INSTANCE.interactableHandler.addWorkloadJob(location.chunk) {
+        AquaticSeriesLib.INSTANCE.interactableHandler!!.addWorkloadJob(location.chunk) {
             dummy.location = this.location
             dummy.bodyRotationController.yBodyRot = location.yaw
             dummy.bodyRotationController.xHeadRot = location.pitch
@@ -49,11 +49,11 @@ class SpawnedMegInteractable(
     override fun despawn() {
         destroyEntity()
         for (associatedLocation in associatedLocations) {
-            AquaticSeriesLib.INSTANCE.interactableHandler.removeChildren(associatedLocation)
+            AquaticSeriesLib.INSTANCE.interactableHandler!!.removeChildren(associatedLocation)
         }
         val cbd = CustomBlockData(location.block, AquaticSeriesLib.INSTANCE.plugin)
         cbd.remove(AbstractInteractable.INTERACTABLE_KEY)
-        AquaticSeriesLib.INSTANCE.interactableHandler.removeParent(location)
+        AquaticSeriesLib.INSTANCE.interactableHandler!!.removeParent(location)
         cbd.clear()
     }
 

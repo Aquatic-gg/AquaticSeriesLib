@@ -22,7 +22,7 @@ class SpawnedBlockInteractable(
         if (removed) return
         if (data != null && !reset) {
             for (associatedLocation in associatedLocations) {
-                AquaticSeriesLib.INSTANCE.interactableHandler.removeChildren(associatedLocation)
+                AquaticSeriesLib.INSTANCE.interactableHandler!!.removeChildren(associatedLocation)
             }
             associatedLocations.clear()
             interactable.processLayerCells(data.previousShape, location) { char, newLoc ->
@@ -34,7 +34,7 @@ class SpawnedBlockInteractable(
             }
 
             for (associatedLocation in associatedLocations) {
-                AquaticSeriesLib.INSTANCE.interactableHandler.removeChildren(associatedLocation)
+                AquaticSeriesLib.INSTANCE.interactableHandler!!.removeChildren(associatedLocation)
             }
             val nullChars = ArrayList<Char>()
             associatedLocations.clear()
@@ -64,9 +64,9 @@ class SpawnedBlockInteractable(
                 AquaticSeriesLib.GSON.toJson(blockData)
             )
         }
-        AquaticSeriesLib.INSTANCE.interactableHandler.addParent(location,this)
+        AquaticSeriesLib.INSTANCE.interactableHandler!!.addParent(location,this)
         for (loc in associatedLocations) {
-            AquaticSeriesLib.INSTANCE.interactableHandler.addChildren(loc,location)
+            AquaticSeriesLib.INSTANCE.interactableHandler!!.addChildren(loc,location)
         }
         loaded = true
     }
@@ -75,11 +75,11 @@ class SpawnedBlockInteractable(
         removed = true
         for (associatedLocation in associatedLocations) {
             associatedLocation.block.type = Material.AIR
-            AquaticSeriesLib.INSTANCE.interactableHandler.removeChildren(associatedLocation)
+            AquaticSeriesLib.INSTANCE.interactableHandler!!.removeChildren(associatedLocation)
         }
         val cbd = CustomBlockData(location.block, AquaticSeriesLib.INSTANCE.plugin)
         cbd.remove(AbstractInteractable.INTERACTABLE_KEY)
         cbd.clear()
-        AquaticSeriesLib.INSTANCE.interactableHandler.removeParent(location)
+        AquaticSeriesLib.INSTANCE.interactableHandler!!.removeParent(location)
     }
 }

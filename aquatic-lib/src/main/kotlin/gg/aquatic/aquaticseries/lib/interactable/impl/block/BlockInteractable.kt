@@ -17,7 +17,7 @@ class BlockInteractable(
 
 
     init {
-        AquaticSeriesLib.INSTANCE.interactableHandler.registry[id] = this
+        AquaticSeriesLib.INSTANCE.interactableHandler!!.registry[id] = this
     }
 
     fun onBreak(event: BlockInteractableBreakEvent) {
@@ -30,7 +30,7 @@ class BlockInteractable(
 
     override val serializer: BlockInteractableSerializer
         get() {
-            return (AquaticSeriesLib.INSTANCE.interactableHandler.serializers[BlockInteractable::class.java] as BlockInteractableSerializer)
+            return (AquaticSeriesLib.INSTANCE.interactableHandler!!.serializers[BlockInteractable::class.java] as BlockInteractableSerializer)
         }
 
     fun despawnOldData(data: InteractableData, location: Location) {
@@ -85,7 +85,7 @@ class BlockInteractable(
         val spawned = SpawnedBlockInteractable(location, this)
         spawned.spawn(data,false)
         spawned.loaded = false
-        AquaticSeriesLib.INSTANCE.interactableHandler.addWorkloadJob(location.chunk) {
+        AquaticSeriesLib.INSTANCE.interactableHandler!!.addWorkloadJob(location.chunk) {
             spawned.spawn(data,true)
         }
     }

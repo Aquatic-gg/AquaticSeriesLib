@@ -3,6 +3,9 @@ package gg.aquatic.aquaticseries.lib.interactable
 import com.jeff_media.customblockdata.CustomBlockData
 import com.ticxo.modelengine.api.events.BaseEntityInteractEvent
 import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.awaiters.AbstractAwaiter
+import gg.aquatic.aquaticseries.lib.awaiters.IAAwaiter
+import gg.aquatic.aquaticseries.lib.awaiters.MEGAwaiter
 import gg.aquatic.aquaticseries.lib.feature.Features
 import gg.aquatic.aquaticseries.lib.feature.IFeature
 import gg.aquatic.aquaticseries.lib.interactable.event.BlockInteractableBreakEvent
@@ -27,6 +30,7 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.world.ChunkLoadEvent
 import org.bukkit.event.world.ChunkUnloadEvent
 import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.scheduler.BukkitRunnable
 import java.util.concurrent.CompletableFuture
 
 class InteractableHandler(
@@ -34,6 +38,41 @@ class InteractableHandler(
 ): IFeature {
 
     override val type: Features = Features.INTERACTABLES
+    var enginesLoaded = false
+
+    override fun initialize(lib: AquaticSeriesLib) {
+        object : BukkitRunnable() {
+            override fun run() {
+                registerListeners(lib.plugin)
+            }
+        }.runTaskLater(lib.plugin,1)
+
+        val loaders = ArrayList<AbstractAwaiter>()
+        if (Bukkit.getPluginManager().getPlugin("ModelEngine") != null) {
+            val awaiter = MEGAwaiter(lib)
+            loaders += awaiter
+            awaiter.future.thenRun {
+                if (loaders.all { it.loaded }) {
+                    onEnginesInit()
+                }
+            }
+        }
+        if (Bukkit.getPluginManager().getPlugin("ItemsAdder") != null) {
+            val awaiter = IAAwaiter(lib)
+            loaders += awaiter
+            awaiter.future.thenRun {
+                if (loaders.all { it.loaded }) {
+                    onEnginesInit()
+                }
+            }
+        }
+    }
+
+    private fun onEnginesInit() {
+        enginesLoaded = true
+        canRun = true
+        interactableWorkload.run()
+    }
 
     val registry = HashMap<String, AbstractInteractable>()
 
