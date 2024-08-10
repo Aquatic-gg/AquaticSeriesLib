@@ -14,7 +14,7 @@ import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitRunnable
 
-class AquaticSeriesLib private constructor(val plugin: JavaPlugin, workloadDelay: Long, val features: HashMap<Features,IFeature>) {
+class AquaticSeriesLib private constructor(val plugin: JavaPlugin, val features: HashMap<Features,IFeature>) {
 
 
 
@@ -112,10 +112,10 @@ class AquaticSeriesLib private constructor(val plugin: JavaPlugin, workloadDelay
                 return _INSTANCE!!
             }
 
-        fun init(plugin: JavaPlugin, workloadDelay: Long, features: Collection<IFeature>): AquaticSeriesLib {
+        fun init(plugin: JavaPlugin, features: Collection<IFeature>): AquaticSeriesLib {
             val instance = _INSTANCE
             if (instance != null) return instance
-            _INSTANCE = AquaticSeriesLib(plugin, workloadDelay, HashMap(features.associateBy { it.type }))
+            _INSTANCE = AquaticSeriesLib(plugin, HashMap(features.associateBy { it.type }))
             return _INSTANCE!!
         }
     }
