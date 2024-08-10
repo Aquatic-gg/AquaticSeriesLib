@@ -3,8 +3,8 @@ package gg.aquatic.aquaticseries.lib.interactable.impl.meg
 import gg.aquatic.aquaticseries.lib.interactable.AbstractInteractable
 import gg.aquatic.aquaticseries.lib.interactable.AbstractInteractableSerializer
 import gg.aquatic.aquaticseries.lib.interactable.InteractableData
-import gg.aquatic.aquaticseries.lib.toLocation
-import gg.aquatic.aquaticseries.lib.toStringDetailed
+import gg.aquatic.aquaticseries.lib.util.toLocation
+import gg.aquatic.aquaticseries.lib.util.toStringDetailed
 import org.bukkit.Location
 
 class MegInteractableSerializer: AbstractInteractableSerializer<SpawnedMegInteractable>() {

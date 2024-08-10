@@ -1,7 +1,7 @@
 package gg.aquatic.aquaticseries.lib.interactable
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
-import gg.aquatic.aquaticseries.lib.Utils
+import gg.aquatic.aquaticseries.lib.util.Utils
 import gg.aquatic.aquaticseries.lib.interactable.impl.block.BlockShape
 import org.bukkit.Location
 import org.bukkit.Material

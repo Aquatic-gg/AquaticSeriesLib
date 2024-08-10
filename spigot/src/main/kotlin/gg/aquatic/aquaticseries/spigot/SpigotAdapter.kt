@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.spigot
 
-import gg.aquatic.aquaticseries.lib.AquaticLibAdapter
+import gg.aquatic.aquaticseries.lib.adapt.AquaticLibAdapter
 import gg.aquatic.aquaticseries.lib.adapt.*
 import gg.aquatic.aquaticseries.spigot.adapt.*
 import org.bukkit.plugin.java.JavaPlugin

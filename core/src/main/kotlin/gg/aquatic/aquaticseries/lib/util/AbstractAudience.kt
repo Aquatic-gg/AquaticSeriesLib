@@ -1,4 +1,4 @@
-package gg.aquatic.aquaticseries.lib
+package gg.aquatic.aquaticseries.lib.util
 
 import com.ticxo.modelengine.api.entity.Dummy
 import org.bukkit.Bukkit

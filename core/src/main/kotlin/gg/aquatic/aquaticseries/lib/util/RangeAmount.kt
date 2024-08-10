@@ -1,4 +1,4 @@
-package gg.aquatic.aquaticseries.lib
+package gg.aquatic.aquaticseries.lib.util
 
 import kotlin.random.Random
 

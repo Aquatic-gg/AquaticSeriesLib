@@ -1,6 +1,7 @@
 package gg.aquatic.aquaticseries.lib
 
 import com.google.gson.Gson
+import gg.aquatic.aquaticseries.lib.adapt.AquaticLibAdapter
 import gg.aquatic.aquaticseries.lib.feature.Features
 import gg.aquatic.aquaticseries.lib.feature.IFeature
 import gg.aquatic.aquaticseries.lib.format.Format

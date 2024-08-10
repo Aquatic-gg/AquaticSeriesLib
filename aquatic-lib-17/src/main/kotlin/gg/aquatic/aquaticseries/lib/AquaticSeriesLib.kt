@@ -7,7 +7,6 @@ import org.bukkit.plugin.java.JavaPlugin
 class AquaticSeriesLib private constructor(plugin: JavaPlugin, features: HashMap<Features,IFeature>): AbstractAquaticSeriesLib(plugin, features) {
 
     companion object {
-
         private var _INSTANCE: AquaticSeriesLib? = null
         val INSTANCE: AquaticSeriesLib
             get() {

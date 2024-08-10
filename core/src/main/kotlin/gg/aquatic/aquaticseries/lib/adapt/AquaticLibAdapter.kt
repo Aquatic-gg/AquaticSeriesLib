@@ -1,6 +1,5 @@
-package gg.aquatic.aquaticseries.lib
+package gg.aquatic.aquaticseries.lib.adapt
 
-import gg.aquatic.aquaticseries.lib.adapt.*
 import org.bukkit.plugin.java.JavaPlugin
 
 abstract class AquaticLibAdapter {
