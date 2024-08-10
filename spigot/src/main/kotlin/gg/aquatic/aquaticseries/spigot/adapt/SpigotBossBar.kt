@@ -16,6 +16,7 @@ class SpigotBossBar(
 
     val bossBar = Bukkit.createBossBar((text as? SpigotString)?.formatted ?: text.string, BarColor.valueOf(color.name.uppercase()), BarStyle.valueOf(style.name.uppercase())).apply {
         this.progress = _progress
+        this.isVisible = true
     }
 
     override var text: AquaticString
