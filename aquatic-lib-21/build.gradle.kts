@@ -56,8 +56,8 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
 publishing {
     repositories {
         maven {
-            name = "myDomainRepository"
-            url = uri("https://repo.my-domain.com/releases")
+            name = "aquaticRepository"
+            url = uri("https://repo.nekroplex.com/releases")
             credentials(PasswordCredentials::class)
             authentication {
                 create<BasicAuthentication>("basic")
@@ -66,8 +66,8 @@ publishing {
     }
     publications {
         create<MavenPublication>("maven") {
-            groupId = "com.example"
-            artifactId = "library"
+            groupId = "gg.aquatic.aquaticseries"
+            artifactId = "aquaticlib"
             version = "1.0.0"
             from(components["java"])
         }
