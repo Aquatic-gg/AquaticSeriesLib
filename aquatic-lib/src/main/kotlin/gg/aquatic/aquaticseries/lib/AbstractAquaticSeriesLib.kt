@@ -12,6 +12,10 @@ import org.bukkit.plugin.java.JavaPlugin
 
 abstract class AbstractAquaticSeriesLib(val plugin: JavaPlugin, val features: HashMap<Features,IFeature>) {
 
+    init {
+        _INSTANCE = this
+    }
+
     val interactableHandler: InteractableHandler?
         get() {
             return features[Features.INTERACTABLES] as? InteractableHandler?

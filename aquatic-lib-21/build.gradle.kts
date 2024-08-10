@@ -1,9 +1,15 @@
+plugins {
+    `maven-publish`
+}
+
 group = "gg.aquatic.aquaticseries"
 version = "1.0"
 
 repositories {
     mavenCentral()
 }
+
+
 
 dependencies {
     implementation(project(":aquatic-lib"))
@@ -16,6 +22,7 @@ kotlin {
 }
 
 tasks {
+
     build {
         dependsOn(shadowJar)
     }
@@ -43,5 +50,26 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
         include(project(":core"))
         include(project(":aquatic-lib"))
         include(dependency("com.jeff-media:custom-block-data:2.2.2"))
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "myDomainRepository"
+            url = uri("https://repo.my-domain.com/releases")
+            credentials(PasswordCredentials::class)
+            authentication {
+                create<BasicAuthentication>("basic")
+            }
+        }
+    }
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "com.example"
+            artifactId = "library"
+            version = "1.0.0"
+            from(components["java"])
+        }
     }
 }
