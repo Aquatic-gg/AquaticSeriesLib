@@ -12,10 +12,6 @@ import org.bukkit.plugin.java.JavaPlugin
 
 abstract class AbstractAquaticSeriesLib(val plugin: JavaPlugin, val features: HashMap<Features,IFeature>) {
 
-    init {
-        _INSTANCE = this
-    }
-
     val interactableHandler: InteractableHandler?
         get() {
             return features[Features.INTERACTABLES] as? InteractableHandler?
@@ -26,7 +22,7 @@ abstract class AbstractAquaticSeriesLib(val plugin: JavaPlugin, val features: Ha
     private var messageFormat: Format
 
     init {
-
+        _INSTANCE = this
         try {
             // Any other works, just the shortest I could find.
             Class.forName("com.destroystokyo.paper.ParticleBuilder")
