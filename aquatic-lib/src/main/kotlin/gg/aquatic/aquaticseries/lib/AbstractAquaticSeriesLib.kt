@@ -9,7 +9,7 @@ import gg.aquatic.aquaticseries.paper.PaperAdapter
 import gg.aquatic.aquaticseries.spigot.SpigotAdapter
 import org.bukkit.plugin.java.JavaPlugin
 
-abstract class AbstractAquaticSeriesLib constructor(val plugin: JavaPlugin, val features: HashMap<Features,IFeature>) {
+abstract class AbstractAquaticSeriesLib(val plugin: JavaPlugin, val features: HashMap<Features,IFeature>) {
 
     val interactableHandler: InteractableHandler?
         get() {
