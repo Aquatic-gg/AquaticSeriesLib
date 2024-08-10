@@ -3,6 +3,8 @@ package gg.aquatic.aquaticseries.lib.interactable
 import com.jeff_media.customblockdata.CustomBlockData
 import com.ticxo.modelengine.api.events.BaseEntityInteractEvent
 import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.feature.Features
+import gg.aquatic.aquaticseries.lib.feature.IFeature
 import gg.aquatic.aquaticseries.lib.interactable.event.BlockInteractableBreakEvent
 import gg.aquatic.aquaticseries.lib.interactable.event.MegInteractableInteractEvent
 import gg.aquatic.aquaticseries.lib.interactable.impl.block.BlockInteractable
@@ -29,7 +31,9 @@ import java.util.concurrent.CompletableFuture
 
 class InteractableHandler(
     val workloadDelay: Long
-) {
+): IFeature {
+
+    override val type: Features = Features.INTERACTABLES
 
     val registry = HashMap<String, AbstractInteractable>()
 
