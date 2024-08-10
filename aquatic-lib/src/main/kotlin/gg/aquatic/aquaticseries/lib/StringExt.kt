@@ -4,7 +4,7 @@ import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import org.bukkit.entity.Player
 
 fun String.toAquatic(): AquaticString {
-    return AquaticSeriesLib.INSTANCE.adapter.adaptString(this)
+    return AbstractAquaticSeriesLib.INSTANCE.adapter.adaptString(this)
 }
 
 fun Collection<String>.toAquatic(): List<AquaticString> {
@@ -19,7 +19,7 @@ fun AquaticString.sendTitle(
     stay: Int,
     fadeOut: Int
 ) {
-    AquaticSeriesLib.INSTANCE.adapter.titleAdapter.send(
+    AbstractAquaticSeriesLib.INSTANCE.adapter.titleAdapter.send(
         player = player,
         title = title,
         subtitle = subtitle,

@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.workload
 
-import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import org.bukkit.Bukkit
 import java.util.concurrent.CompletableFuture
 
@@ -23,7 +23,7 @@ class ContainerWorkload(
         val job = workloads.removeAt(0)
         job.run().thenRun {
             Bukkit.getScheduler().runTaskLater(
-                AquaticSeriesLib.INSTANCE.plugin,
+                AbstractAquaticSeriesLib.INSTANCE.plugin,
                 Runnable {
                     runNext()
                 },

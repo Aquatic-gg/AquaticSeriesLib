@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.interactable
 
-import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.Utils
 import gg.aquatic.aquaticseries.lib.interactable.impl.block.BlockShape
 import org.bukkit.Location
@@ -18,11 +18,11 @@ abstract class AbstractInteractable {
 
     companion object {
         val INTERACTABLE_KEY =
-            NamespacedKey(AquaticSeriesLib.INSTANCE.plugin, "Custom_Interactable")
+            NamespacedKey(AbstractAquaticSeriesLib.INSTANCE.plugin, "Custom_Interactable")
 
         fun get(block: Block): AbstractInteractable? {
             val data = AbstractSpawnedInteractable.get(block) ?: return null
-            return AquaticSeriesLib.INSTANCE.interactableHandler!!.registry[data.id]
+            return AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.registry[data.id]
         }
     }
 
@@ -60,7 +60,7 @@ abstract class AbstractInteractable {
     fun canBePlaced(location: Location): Boolean {
         var canPlace = true
         processLayerCells(shape.layers, location) { char, newLoc ->
-            if (newLoc.block.type != Material.AIR || AquaticSeriesLib.INSTANCE.interactableHandler!!.getInteractable(newLoc.block) != null) {
+            if (newLoc.block.type != Material.AIR || AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.getInteractable(newLoc.block) != null) {
                 if (shape.blocks[char] != null) {
                     canPlace = false
                 }

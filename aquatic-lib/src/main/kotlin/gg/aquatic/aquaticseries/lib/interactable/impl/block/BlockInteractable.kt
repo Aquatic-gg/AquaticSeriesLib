@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.interactable.impl.block
 
-import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.interactable.AbstractInteractable
 import gg.aquatic.aquaticseries.lib.interactable.InteractableData
 import gg.aquatic.aquaticseries.lib.interactable.event.BlockInteractableBreakEvent
@@ -17,7 +17,7 @@ class BlockInteractable(
 
 
     init {
-        AquaticSeriesLib.INSTANCE.interactableHandler!!.registry[id] = this
+        AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.registry[id] = this
     }
 
     fun onBreak(event: BlockInteractableBreakEvent) {
@@ -30,7 +30,7 @@ class BlockInteractable(
 
     override val serializer: BlockInteractableSerializer
         get() {
-            return (AquaticSeriesLib.INSTANCE.interactableHandler!!.serializers[BlockInteractable::class.java] as BlockInteractableSerializer)
+            return (AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.serializers[BlockInteractable::class.java] as BlockInteractableSerializer)
         }
 
     fun despawnOldData(data: InteractableData, location: Location) {
@@ -85,7 +85,7 @@ class BlockInteractable(
         val spawned = SpawnedBlockInteractable(location, this)
         spawned.spawn(data,false)
         spawned.loaded = false
-        AquaticSeriesLib.INSTANCE.interactableHandler!!.addWorkloadJob(location.chunk) {
+        AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.addWorkloadJob(location.chunk) {
             spawned.spawn(data,true)
         }
     }

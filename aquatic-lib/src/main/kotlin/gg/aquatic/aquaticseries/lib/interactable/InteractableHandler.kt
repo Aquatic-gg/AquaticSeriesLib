@@ -2,7 +2,7 @@ package gg.aquatic.aquaticseries.lib.interactable
 
 import com.jeff_media.customblockdata.CustomBlockData
 import com.ticxo.modelengine.api.events.BaseEntityInteractEvent
-import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.awaiters.AbstractAwaiter
 import gg.aquatic.aquaticseries.lib.awaiters.IAAwaiter
 import gg.aquatic.aquaticseries.lib.awaiters.MEGAwaiter
@@ -40,7 +40,7 @@ class InteractableHandler(
     override val type: Features = Features.INTERACTABLES
     var enginesLoaded = false
 
-    override fun initialize(lib: AquaticSeriesLib) {
+    override fun initialize(lib: AbstractAquaticSeriesLib) {
         object : BukkitRunnable() {
             override fun run() {
                 registerListeners(lib.plugin)
@@ -171,7 +171,7 @@ class InteractableHandler(
     }
 
     fun loadBlocks(chunk: Chunk) {
-        val blocks = CustomBlockData.getBlocksWithCustomData(AquaticSeriesLib.INSTANCE.plugin, chunk)
+        val blocks = CustomBlockData.getBlocksWithCustomData(AbstractAquaticSeriesLib.INSTANCE.plugin, chunk)
         for (block in blocks) {
             val data = AbstractSpawnedInteractable.Companion.get(block) ?: continue
             val interactable = registry[data.id] ?: continue
@@ -184,7 +184,7 @@ class InteractableHandler(
 
     fun getSpawned(chunk: Chunk): ArrayList<AbstractSpawnedInteractable> {
         val spawned = ArrayList<AbstractSpawnedInteractable>()
-        val blocks = CustomBlockData.getBlocksWithCustomData(AquaticSeriesLib.INSTANCE.plugin, chunk)
+        val blocks = CustomBlockData.getBlocksWithCustomData(AbstractAquaticSeriesLib.INSTANCE.plugin, chunk)
         for (block in blocks) {
             val loc = block.location
             val spawnedInteractable = getParentByChildren(loc) ?: continue
@@ -217,7 +217,7 @@ class InteractableHandler(
         @EventHandler
         fun onChunkUnload(event: ChunkUnloadEvent) {
             getRegistry(event.chunk) ?: return
-            val blocks = CustomBlockData.getBlocksWithCustomData(AquaticSeriesLib.INSTANCE.plugin, event.chunk)
+            val blocks = CustomBlockData.getBlocksWithCustomData(AbstractAquaticSeriesLib.INSTANCE.plugin, event.chunk)
             for (block in blocks) {
                 val loc = block.location
                 val spawnedInteractable = getParentByChildren(loc) ?: continue

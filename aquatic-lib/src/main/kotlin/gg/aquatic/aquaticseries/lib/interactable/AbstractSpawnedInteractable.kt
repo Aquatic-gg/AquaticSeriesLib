@@ -1,7 +1,7 @@
 package gg.aquatic.aquaticseries.lib.interactable
 
 import com.jeff_media.customblockdata.CustomBlockData
-import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.interactable.AbstractInteractable.Companion.INTERACTABLE_KEY
 import org.bukkit.Location
 import org.bukkit.block.Block
@@ -16,18 +16,18 @@ abstract class AbstractSpawnedInteractable {
 
     companion object {
         fun get(block: Block): InteractableData? {
-            val cbd = CustomBlockData(block, AquaticSeriesLib.INSTANCE.plugin)
+            val cbd = CustomBlockData(block, AbstractAquaticSeriesLib.INSTANCE.plugin)
             if (!cbd.has(INTERACTABLE_KEY, PersistentDataType.STRING)) return null
             val id = cbd.getOrDefault(INTERACTABLE_KEY, PersistentDataType.STRING, "null")
             if (id == "null") return null
-            val data = AquaticSeriesLib.GSON.fromJson(id, InteractableData::class.java)
+            val data = AbstractAquaticSeriesLib.GSON.fromJson(id, InteractableData::class.java)
             return data
         }
     }
 
     val data: CustomBlockData
         get() {
-            return CustomBlockData(location.block, AquaticSeriesLib.INSTANCE.plugin)
+            return CustomBlockData(location.block, AbstractAquaticSeriesLib.INSTANCE.plugin)
         }
 
     abstract fun despawn()

@@ -5,10 +5,10 @@ import com.ticxo.modelengine.api.events.ModelRegistrationEvent
 import com.ticxo.modelengine.api.generator.ModelGenerator
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import java.util.concurrent.CompletableFuture
 
-class MEGAwaiter(val lib: AquaticSeriesLib): AbstractAwaiter() {
+class MEGAwaiter(val lib: AbstractAquaticSeriesLib): AbstractAwaiter() {
     override val future: CompletableFuture<Void> = CompletableFuture()
 
     init {

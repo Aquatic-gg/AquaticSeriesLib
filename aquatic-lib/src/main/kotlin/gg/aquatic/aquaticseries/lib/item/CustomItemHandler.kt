@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.item
 
-import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.item.factory.ItemFactory
 import gg.aquatic.aquaticseries.lib.item.factory.impl.MMFactory
 import gg.aquatic.aquaticseries.lib.item.factory.impl.OraxenFactory
@@ -21,7 +21,7 @@ object CustomItemHandler {
 
     val itemRegistry = HashMap<String, CustomItem>()
 
-    val NAMESPACE_KEY = NamespacedKey(AquaticSeriesLib.INSTANCE.plugin,"Custom_Item_Registry")
+    val NAMESPACE_KEY = NamespacedKey(AbstractAquaticSeriesLib.INSTANCE.plugin,"Custom_Item_Registry")
 
     fun getCustomItem(
         namespace: String,

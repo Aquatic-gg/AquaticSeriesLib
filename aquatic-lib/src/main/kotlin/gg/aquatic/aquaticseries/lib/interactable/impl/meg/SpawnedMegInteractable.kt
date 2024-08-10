@@ -4,7 +4,7 @@ import com.jeff_media.customblockdata.CustomBlockData
 import com.ticxo.modelengine.api.ModelEngineAPI
 import com.ticxo.modelengine.api.model.ActiveModel
 import com.ticxo.modelengine.api.model.ModeledEntity
-import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.interactable.AbstractInteractable
 import gg.aquatic.aquaticseries.lib.interactable.AbstractSpawnedInteractable
 import org.bukkit.Location
@@ -20,7 +20,7 @@ class SpawnedMegInteractable(
     override var loaded = false
 
     init {
-        AquaticSeriesLib.INSTANCE.interactableHandler!!.addWorkloadJob(location.chunk) {
+        AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.addWorkloadJob(location.chunk) {
             dummy.location = this.location
             dummy.bodyRotationController.yBodyRot = location.yaw
             dummy.bodyRotationController.xHeadRot = location.pitch
@@ -49,11 +49,11 @@ class SpawnedMegInteractable(
     override fun despawn() {
         destroyEntity()
         for (associatedLocation in associatedLocations) {
-            AquaticSeriesLib.INSTANCE.interactableHandler!!.removeChildren(associatedLocation)
+            AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.removeChildren(associatedLocation)
         }
-        val cbd = CustomBlockData(location.block, AquaticSeriesLib.INSTANCE.plugin)
+        val cbd = CustomBlockData(location.block, AbstractAquaticSeriesLib.INSTANCE.plugin)
         cbd.remove(AbstractInteractable.INTERACTABLE_KEY)
-        AquaticSeriesLib.INSTANCE.interactableHandler!!.removeParent(location)
+        AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.removeParent(location)
         cbd.clear()
     }
 

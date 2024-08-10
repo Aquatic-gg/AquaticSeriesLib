@@ -1,7 +1,7 @@
 package gg.aquatic.aquaticseries.lib.interactable.impl.block
 
 import com.jeff_media.customblockdata.CustomBlockData
-import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.interactable.AbstractInteractable
 import gg.aquatic.aquaticseries.lib.interactable.AbstractSpawnedInteractable
 import gg.aquatic.aquaticseries.lib.interactable.InteractableData
@@ -22,7 +22,7 @@ class SpawnedBlockInteractable(
         if (removed) return
         if (data != null && !reset) {
             for (associatedLocation in associatedLocations) {
-                AquaticSeriesLib.INSTANCE.interactableHandler!!.removeChildren(associatedLocation)
+                AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.removeChildren(associatedLocation)
             }
             associatedLocations.clear()
             interactable.processLayerCells(data.previousShape, location) { char, newLoc ->
@@ -34,7 +34,7 @@ class SpawnedBlockInteractable(
             }
 
             for (associatedLocation in associatedLocations) {
-                AquaticSeriesLib.INSTANCE.interactableHandler!!.removeChildren(associatedLocation)
+                AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.removeChildren(associatedLocation)
             }
             val nullChars = ArrayList<Char>()
             associatedLocations.clear()
@@ -48,7 +48,7 @@ class SpawnedBlockInteractable(
                 }
             }
 
-            val cbd = CustomBlockData(location.block, AquaticSeriesLib.INSTANCE.plugin)
+            val cbd = CustomBlockData(location.block, AbstractAquaticSeriesLib.INSTANCE.plugin)
             val blockData =
                 InteractableData(
                     interactable.id,
@@ -61,12 +61,12 @@ class SpawnedBlockInteractable(
             cbd.set(
                 AbstractInteractable.INTERACTABLE_KEY,
                 PersistentDataType1.STRING,
-                AquaticSeriesLib.GSON.toJson(blockData)
+                AbstractAquaticSeriesLib.GSON.toJson(blockData)
             )
         }
-        AquaticSeriesLib.INSTANCE.interactableHandler!!.addParent(location,this)
+        AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.addParent(location,this)
         for (loc in associatedLocations) {
-            AquaticSeriesLib.INSTANCE.interactableHandler!!.addChildren(loc,location)
+            AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.addChildren(loc,location)
         }
         loaded = true
     }
@@ -75,11 +75,11 @@ class SpawnedBlockInteractable(
         removed = true
         for (associatedLocation in associatedLocations) {
             associatedLocation.block.type = Material.AIR
-            AquaticSeriesLib.INSTANCE.interactableHandler!!.removeChildren(associatedLocation)
+            AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.removeChildren(associatedLocation)
         }
-        val cbd = CustomBlockData(location.block, AquaticSeriesLib.INSTANCE.plugin)
+        val cbd = CustomBlockData(location.block, AbstractAquaticSeriesLib.INSTANCE.plugin)
         cbd.remove(AbstractInteractable.INTERACTABLE_KEY)
         cbd.clear()
-        AquaticSeriesLib.INSTANCE.interactableHandler!!.removeParent(location)
+        AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.removeParent(location)
     }
 }

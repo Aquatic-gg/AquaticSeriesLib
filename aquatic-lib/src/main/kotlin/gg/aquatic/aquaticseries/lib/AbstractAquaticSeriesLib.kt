@@ -9,7 +9,7 @@ import gg.aquatic.aquaticseries.paper.PaperAdapter
 import gg.aquatic.aquaticseries.spigot.SpigotAdapter
 import org.bukkit.plugin.java.JavaPlugin
 
-class AquaticSeriesLib private constructor(val plugin: JavaPlugin, val features: HashMap<Features,IFeature>) {
+abstract class AbstractAquaticSeriesLib constructor(val plugin: JavaPlugin, val features: HashMap<Features,IFeature>) {
 
     val interactableHandler: InteractableHandler?
         get() {
@@ -58,23 +58,16 @@ class AquaticSeriesLib private constructor(val plugin: JavaPlugin, val features:
     }
 
     companion object {
-
         val GSON = Gson()
-        private var _INSTANCE: AquaticSeriesLib? = null
-        val INSTANCE: AquaticSeriesLib
+
+        private var _INSTANCE: AbstractAquaticSeriesLib? = null
+        val INSTANCE: AbstractAquaticSeriesLib
             get() {
                 if (_INSTANCE == null) {
                     throw Exception("Library was not initialized! Use the init() method first!")
                 }
                 return _INSTANCE!!
             }
-
-        fun init(plugin: JavaPlugin, features: Collection<IFeature>): AquaticSeriesLib {
-            val instance = _INSTANCE
-            if (instance != null) return instance
-            _INSTANCE = AquaticSeriesLib(plugin, HashMap(features.associateBy { it.type }))
-            return _INSTANCE!!
-        }
     }
 
 }

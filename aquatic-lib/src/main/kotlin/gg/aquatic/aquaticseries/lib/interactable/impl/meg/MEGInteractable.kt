@@ -1,7 +1,7 @@
 package gg.aquatic.aquaticseries.lib.interactable.impl.meg
 
 import com.jeff_media.customblockdata.CustomBlockData
-import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.interactable.AbstractInteractable
 import gg.aquatic.aquaticseries.lib.interactable.InteractableData
 import gg.aquatic.aquaticseries.lib.interactable.event.MegInteractableInteractEvent
@@ -19,12 +19,12 @@ class MEGInteractable(
 ) : AbstractInteractable() {
     override val serializer: MegInteractableSerializer
         get() {
-            return AquaticSeriesLib.INSTANCE.interactableHandler!!.serializers[MEGInteractable::class.java] as gg.aquatic.aquaticseries.lib.interactable.impl.meg.MegInteractableSerializer
+            return AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.serializers[MEGInteractable::class.java] as gg.aquatic.aquaticseries.lib.interactable.impl.meg.MegInteractableSerializer
         }
 
 
     init {
-        AquaticSeriesLib.INSTANCE.interactableHandler!!.registry[id] = this
+        AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.registry[id] = this
     }
 
     override fun spawn(location: Location): SpawnedMegInteractable {
@@ -44,13 +44,13 @@ class MEGInteractable(
                 locations += newLoc
             }
         }
-        val cbd = CustomBlockData(location.block, AquaticSeriesLib.INSTANCE.plugin)
+        val cbd = CustomBlockData(location.block, AbstractAquaticSeriesLib.INSTANCE.plugin)
         val blockData =
             InteractableData(id, location.yaw, location.pitch, serializer.serialize(spawned), shape.layers, nullChars)
-        cbd.set(INTERACTABLE_KEY, PersistentDataType.STRING, AquaticSeriesLib.GSON.toJson(blockData))
-        AquaticSeriesLib.INSTANCE.interactableHandler!!.addParent(location, spawned)
+        cbd.set(INTERACTABLE_KEY, PersistentDataType.STRING, AbstractAquaticSeriesLib.GSON.toJson(blockData))
+        AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.addParent(location, spawned)
         for (loc in locations) {
-            AquaticSeriesLib.INSTANCE.interactableHandler!!.addChildren(loc, location)
+            AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.addChildren(loc, location)
         }
         return spawned
     }
