@@ -41,7 +41,7 @@ tasks {
 
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
     archiveFileName.set("AquaticLib-${project.version}.jar")
-    archiveClassifier.set("plugin")
+    archiveClassifier.set("all")
     dependencies {
         include(project(":spigot"))
         include(project(":paper"))
