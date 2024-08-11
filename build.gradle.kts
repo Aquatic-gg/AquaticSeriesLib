@@ -52,6 +52,9 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "17"
 }
 
+extra["maven_username"] = env.fetch("MAVEN_USERNAME")
+extra["maven_password"] = env.fetch("MAVEN_PASSWORD")
+
 subprojects {
     apply(plugin = "kotlin")
     apply(plugin = "com.github.johnrengelman.shadow")

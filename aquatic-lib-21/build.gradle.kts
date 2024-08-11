@@ -2,13 +2,15 @@ plugins {
     `maven-publish`
 }
 
+val maven_username: String by rootProject.extra
+val maven_password: String by rootProject.extra
+
 group = "gg.aquatic.aquaticseries"
 version = "1.0"
 
 repositories {
     mavenCentral()
 }
-
 
 
 dependencies {
@@ -58,7 +60,10 @@ publishing {
         maven {
             name = "aquaticRepository"
             url = uri("https://repo.nekroplex.com/releases")
-            credentials(PasswordCredentials::class)
+            credentials {
+                username = maven_username
+                password = maven_password
+            }
             authentication {
                 create<BasicAuthentication>("basic")
             }
@@ -67,7 +72,7 @@ publishing {
     publications {
         create<MavenPublication>("maven") {
             groupId = "gg.aquatic.aquaticseries"
-            artifactId = "aquaticlib"
+            artifactId = "aquaticlib-21"
             version = "1.0.0"
             from(components["java"])
         }
