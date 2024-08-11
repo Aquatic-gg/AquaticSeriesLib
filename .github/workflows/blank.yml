@@ -13,10 +13,12 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Publish with Gradle
-        run: ./gradlew build publish
+        run: ./gradlew build publish -PaquaticRepositoryUsername=${{ secrets.MAVEN_NAME }} -PaquaticRepositoryPassword=${{ secrets.MAVEN_SECRET }}
         env:
           MAVEN_NAME: ${{ secrets.MAVEN_NAME }} # token name
           MAVEN_SECRET: ${{ secrets.MAVEN_SECRET }} # token secret (password)
+          aquaticRepositoryUsername: ${{ secrets.MAVEN_NAME }}
+          aquaticRepositoryPassword: ${{ secrets.MAVEN_SECRET }}
       - uses: s4u/maven-settings-action@v2.6.0
         with:
           servers: |
@@ -24,4 +26,6 @@ jobs:
               "id": "https://repo.nekroplex.com/",
               "username": "${{ secrets.MAVEN_NAME }}",
               "password": "${{ secrets.MAVEN_SECRET }}"
+              "aquaticRepositoryUsername=${{ secrets.MAVEN_NAME }}"
+              "aquaticRepositoryPassword=${{ secrets.MAVEN_SECRET }}"
             }]
