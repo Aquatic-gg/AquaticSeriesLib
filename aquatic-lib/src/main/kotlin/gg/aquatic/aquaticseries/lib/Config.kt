@@ -31,6 +31,8 @@ class Config {
                 }
             }
         }
+
+
         config = YamlConfiguration.loadConfiguration(file)
     }
 
