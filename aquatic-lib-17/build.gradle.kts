@@ -1,3 +1,10 @@
+plugins {
+    `maven-publish`
+}
+
+val maven_username: String by rootProject.extra
+val maven_password: String by rootProject.extra
+
 group = "gg.aquatic.aquaticseries"
 version = "1.0"
 
@@ -43,5 +50,29 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
         include(project(":core"))
         include(project(":aquatic-lib"))
         include(dependency("com.jeff-media:custom-block-data:2.2.2"))
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "aquaticRepository"
+            url = uri("https://repo.nekroplex.com/releases")
+            credentials {
+                username = maven_username
+                password = maven_password
+            }
+            authentication {
+                create<BasicAuthentication>("basic")
+            }
+        }
+    }
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "gg.aquatic.aquaticseries"
+            artifactId = "aquaticlib-17"
+            version = "1.0.0"
+            from(components["java"])
+        }
     }
 }
