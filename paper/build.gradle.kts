@@ -1,5 +1,4 @@
 group = "gg.aquatic.aquaticseries.paper"
-version = "1.0"
 
 repositories {
 }

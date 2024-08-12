@@ -6,8 +6,10 @@ plugins {
     id("co.uzzu.dotenv.gradle") version "2.0.0"
 }
 
+val projectVersion = "1.0.1"
+
 group = "gg.aquatic.aquaticseries"
-version = "1.0"
+version = projectVersion
 
 repositories {
     mavenCentral()
@@ -58,6 +60,8 @@ extra["maven_password"] = env.fetch("MAVEN_PASSWORD")
 subprojects {
     apply(plugin = "kotlin")
     apply(plugin = "com.github.johnrengelman.shadow")
+
+    version = projectVersion
 
     repositories {
         mavenCentral()

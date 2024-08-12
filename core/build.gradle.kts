@@ -1,5 +1,4 @@
 group = "gg.aquatic.aquaticseries.core"
-version = "1.0"
 
 
 dependencies {

@@ -6,7 +6,6 @@ val maven_username: String by rootProject.extra
 val maven_password: String by rootProject.extra
 
 group = "gg.aquatic.aquaticseries"
-version = "1.0"
 
 repositories {
     mavenCentral()
@@ -73,7 +72,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "gg.aquatic.aquaticseries"
             artifactId = "aquaticlib-21"
-            version = "1.0.0"
+            version = "${project.version}"
             from(components["java"])
         }
     }
