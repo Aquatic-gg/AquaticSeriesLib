@@ -7,7 +7,7 @@ import gg.aquatic.aquaticseries.lib.requirement.RequirementArgument
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 
 class CommandAction: AbstractAction() {
-    override fun run(player: Player, args: Map<String, Any>, placeholders: Placeholders) {
+    override fun run(player: Player, args: Map<String, Any?>, placeholders: Placeholders) {
         Bukkit.dispatchCommand(
             Bukkit.getConsoleSender(),
             placeholders.replace(args["command"]!!.toString())

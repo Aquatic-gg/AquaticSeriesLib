@@ -5,7 +5,7 @@ import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 
 class ConfiguredAction(
     val action: AbstractAction,
-    val arguments: Map<String, Any>,
+    val arguments: Map<String, Any?>,
 ) {
 
     fun run(player: Player, placeholders: Placeholders) {

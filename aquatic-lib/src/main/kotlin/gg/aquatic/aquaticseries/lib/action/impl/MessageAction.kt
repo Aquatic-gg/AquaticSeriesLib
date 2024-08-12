@@ -6,14 +6,21 @@ import gg.aquatic.aquaticseries.lib.requirement.RequirementArgument
 import gg.aquatic.aquaticseries.lib.toAquatic
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 
-class MessageAction: AbstractAction() {
+class MessageAction : AbstractAction() {
 
-    override fun run(player: Player, args: Map<String, Any>, placeholders: Placeholders) {
-        placeholders.replace(args["message"]!!.toString()).toAquatic().send(player)
+    override fun run(player: Player, args: Map<String, Any?>, placeholders: Placeholders) {
+        val messages = if (args["message"] != null) listOf(args["message"] as String) else args["messages"] as ArrayList<String>
+
+        for (message in messages) {
+            placeholders.replace(message).toAquatic().send(player)
+        }
     }
 
     override fun arguments(): List<RequirementArgument> {
-        return listOf(RequirementArgument("message", "", true))
+        return listOf(
+            RequirementArgument("message", "", false),
+            RequirementArgument("messages", ArrayList<String>(), false)
+        )
     }
 
 
