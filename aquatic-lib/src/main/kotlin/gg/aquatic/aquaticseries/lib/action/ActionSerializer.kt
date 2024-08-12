@@ -19,7 +19,7 @@ object ActionSerializer {
         return sections.mapNotNull { fromSection(it) }
     }
 
-    private fun loadRequirementArguments(
+    fun loadRequirementArguments(
         section: ConfigurationSection,
         arguments: List<RequirementArgument>
     ): Map<String, Any?> {
