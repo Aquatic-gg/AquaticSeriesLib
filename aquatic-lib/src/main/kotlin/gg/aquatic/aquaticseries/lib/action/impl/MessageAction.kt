@@ -9,7 +9,7 @@ import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 class MessageAction : AbstractAction() {
 
     override fun run(player: Player, args: Map<String, Any?>, placeholders: Placeholders) {
-        val messages = if (args["message"] != null) listOf(args["message"] as String) else args["messages"] as ArrayList<String>
+        val messages = if (args["message"] != null) listOf(args["message"] as String) else args["messages"] as List<String>
 
         for (message in messages) {
             placeholders.replace(message).toAquatic().send(player)
