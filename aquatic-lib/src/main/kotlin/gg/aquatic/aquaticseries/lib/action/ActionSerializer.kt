@@ -27,7 +27,7 @@ object ActionSerializer {
 
         for (arg in arguments) {
             if (section.contains(arg.id)) {
-                args[arg.id] = section.get(arg.id)
+                args[arg.id] = if (arg.defaultValue is List<*>) section.getList(arg.id) else section.get(arg.id)
                 continue
             } else if (arg.required) {
                 Bukkit.getConsoleSender()
