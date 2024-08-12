@@ -1,12 +1,11 @@
 package gg.aquatic.aquaticseries.lib.item
 
 import gg.aquatic.aquaticseries.lib.displayName
-import gg.aquatic.aquaticseries.lib.format.color.ColorUtils
 import gg.aquatic.aquaticseries.lib.lore
 import gg.aquatic.aquaticseries.lib.toAquatic
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
-import org.bukkit.configuration.file.FileConfiguration
+import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
@@ -119,17 +118,15 @@ abstract class CustomItem(
             return CustomItemHandler.getCustomItem(namespace, name, description, amount, modeldata, enchantments, flags)
         }
 
-        fun loadFromYaml(cfg: FileConfiguration, path: String): CustomItem? {
-            if (!cfg.contains(path)) {
-                return null
-            }
+        fun loadFromYaml(section: ConfigurationSection?): CustomItem? {
+            section ?: return null
             var lore: MutableList<String>? = null
-            if (cfg.contains("$path.lore")) {
-                lore = cfg.getStringList("$path.lore")
+            if (section.contains("lore")) {
+                lore = section.getStringList("lore")
             }
             val enchantments: MutableMap<Enchantment, Int> = HashMap()
-            if (cfg.contains("$path.enchants")) {
-                for (str in cfg.getStringList("$path.enchants")) {
+            if (section.contains("enchants")) {
+                for (str in section.getStringList("enchants")) {
                     val strs = str.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                     if (strs.size < 2) {
                         continue
@@ -140,18 +137,18 @@ abstract class CustomItem(
                 }
             }
             val flags: MutableList<ItemFlag> = ArrayList()
-            if (cfg.contains("$path.flags")) {
-                for (flag in cfg.getStringList("$path.flags")) {
+            if (section.contains("flags")) {
+                for (flag in section.getStringList("flags")) {
                     val itemFlag = ItemFlag.valueOf(flag.uppercase(Locale.getDefault()))
                     flags.add(itemFlag)
                 }
             }
             return create(
-                cfg.getString("$path.material", "STONE")!!,
-                cfg.getString("$path.display-name"),
+                section.getString("material", "STONE")!!,
+                section.getString("display-name"),
                 lore,
-                cfg.getInt("$path.amount", 1),
-                cfg.getInt("$path.model-data"),
+                section.getInt("amount", 1),
+                section.getInt("model-data"),
                 enchantments,
                 flags
             )
