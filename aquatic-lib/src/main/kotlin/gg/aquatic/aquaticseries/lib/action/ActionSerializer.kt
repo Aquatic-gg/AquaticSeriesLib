@@ -8,8 +8,12 @@ import org.bukkit.configuration.ConfigurationSection
 object ActionSerializer {
 
     fun fromSection(section: ConfigurationSection): ConfiguredAction? {
-        val type = section.getString("type","null") ?: return null
-        val action = ActionTypes.actions[type] ?: return null
+        val type = section.getString("type") ?: return null
+        val action = ActionTypes.actions[type]
+        if (action == null) {
+            println("[AquaticSeriesLib] Action type $type does not exist!")
+            return null
+        }
         val arguments = action.arguments()
         val args = loadRequirementArguments(section, arguments)
         return ConfiguredAction(action,args)
