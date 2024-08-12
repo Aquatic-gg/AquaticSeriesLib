@@ -18,7 +18,7 @@ interface NMSAdapter {
     fun updateEntityVelocity(id: Int, velocity: Vector, audience: AbstractAudience)
     fun teleportEntity(id: Int, location: Location, audience: AbstractAudience)
     fun moveEntity(id: Int, location: Location, audience: AbstractAudience)
-    fun setSpectatorTarget(id: Int, target: Int, audience: AbstractAudience)
+    fun setSpectatorTarget(id: Int, audience: AbstractAudience)
     fun setGamemode(gamemode: GameMode, player: Player)
     fun setPlayerInfoGamemode(gamemode: GameMode, player: Player)
     fun setContainerItem(player: Player, itemStack: ItemStack, slot: Int)
