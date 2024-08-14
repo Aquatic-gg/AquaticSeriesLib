@@ -27,6 +27,10 @@ class InventoryListeners : Listener {
             val e = CustomInventoryClickEvent(holder, event)
             e.call()
             holder.onClick(e)
+
+            if (event.isCancelled && event.rawSlot >= holder.inventory.size) {
+                holder.componentHandler.redrawComponent(event.rawSlot)
+            }
         }
     }
 
