@@ -3,6 +3,7 @@ package gg.aquatic.aquaticseries.paper.adapt
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.paper.PaperAdapter
 import net.kyori.adventure.text.minimessage.MiniMessage
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Entity
@@ -35,6 +36,10 @@ class PaperString(
     override fun send(vararg players: CommandSender) {
         val component = miniMessage.deserialize(string)
         players.forEach { player -> player.sendMessage(component) }
+    }
+
+    fun toJson(): String {
+        return GsonComponentSerializer.gson().serialize(miniMessage.deserialize(string))
     }
 
     private val miniMessage: MiniMessage
