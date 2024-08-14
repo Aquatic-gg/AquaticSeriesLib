@@ -11,12 +11,15 @@ import java.util.function.Consumer
 class RedisHandler(
     val networkPacketListener: NetworkPacketListener,
     val settings: RedisNetworkSettings, override val serverName: String
-): NetworkAdapter {
+): NetworkAdapter() {
 
-    val requests = HashMap<NetworkRequest, CompletableFuture<NetworkResponse>>()
     private lateinit var jedisPool: JedisPool
 
-    fun setup(): CompletableFuture<Void> {
+    init {
+        setup()
+    }
+
+    private fun setup(): CompletableFuture<Void> {
         val future = CompletableFuture<Void>()
         jedisPool = JedisPool(
             JedisPoolConfig(),
@@ -74,6 +77,10 @@ class RedisHandler(
         requests[NetworkRequest(packet)] = future
 
         return future
+    }
+
+    override fun connectedServer(): List<String> {
+        return listOf()
     }
 
 }

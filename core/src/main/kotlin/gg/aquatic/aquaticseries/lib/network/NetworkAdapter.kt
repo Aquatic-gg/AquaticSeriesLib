@@ -2,9 +2,12 @@ package gg.aquatic.aquaticseries.lib.network
 
 import java.util.concurrent.CompletableFuture
 
-interface NetworkAdapter {
+abstract class NetworkAdapter {
 
-    val serverName: String
-    fun send(packet: NetworkPacket): CompletableFuture<NetworkResponse>
+    abstract val serverName: String
+    abstract fun send(packet: NetworkPacket): CompletableFuture<NetworkResponse>
+    abstract fun connectedServer(): List<String>
+
+    val requests = HashMap<NetworkRequest, CompletableFuture<NetworkResponse>>()
 
 }

@@ -11,14 +11,16 @@ import kotlin.collections.HashMap
 class TCPHandler(
     val networkPacketListener: NetworkPacketListener,
     val settings: TCPNetworkSettings, override val serverName: String
-): NetworkAdapter {
+): NetworkAdapter() {
 
     val server = ServerSocket(settings.port)
     val clients = HashMap<String, Socket>()
 
-    val requests = HashMap<NetworkRequest, CompletableFuture<NetworkResponse>>()
+    init {
+        setup()
+    }
 
-    fun setup() {
+    private fun setup() {
         val server = server.accept()
         Thread {
             val iS = server.getInputStream()
@@ -91,5 +93,9 @@ class TCPHandler(
             )
         }
         return future
+    }
+
+    override fun connectedServer(): List<String> {
+        return clients.keys.toList()
     }
 }
