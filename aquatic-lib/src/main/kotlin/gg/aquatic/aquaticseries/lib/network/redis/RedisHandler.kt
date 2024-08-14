@@ -50,8 +50,7 @@ class RedisHandler(
 
                 future.complete(null)
                 settings.servers.forEach { server ->
-                    send(RedisServerConnectPacket(server)).thenAccept { response ->
-                    }
+                    send(RedisServerConnectPacket(server)).thenAccept {}
                 }
             }
         }.runTask(AbstractAquaticSeriesLib.INSTANCE.plugin)
@@ -70,9 +69,7 @@ class RedisHandler(
                         }
                         continue
                     }
-                    send(RedisServerConnectPacket(server)).thenAccept { response ->
-                        if (response.status == NetworkResponse.Status.ERROR) return@thenAccept
-                    }
+                    send(RedisServerConnectPacket(server)).thenAccept {}
                 }
             }
         }.runTaskTimer(AbstractAquaticSeriesLib.INSTANCE.plugin, 20 * 60, 20 * 60)
