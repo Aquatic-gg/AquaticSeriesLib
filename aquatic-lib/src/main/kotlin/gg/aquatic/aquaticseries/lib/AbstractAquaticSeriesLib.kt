@@ -7,6 +7,7 @@ import gg.aquatic.aquaticseries.lib.feature.IFeature
 import gg.aquatic.aquaticseries.lib.format.Format
 import gg.aquatic.aquaticseries.lib.interactable.InteractableHandler
 import gg.aquatic.aquaticseries.lib.inventory.lib.InventoryHandler
+import gg.aquatic.aquaticseries.lib.network.NetworkPacketListener
 import gg.aquatic.aquaticseries.lib.nms.NMSAdapter
 import gg.aquatic.aquaticseries.paper.PaperAdapter
 import gg.aquatic.aquaticseries.spigot.SpigotAdapter
@@ -21,6 +22,10 @@ abstract class AbstractAquaticSeriesLib(val plugin: JavaPlugin, val nmsAdapter: 
     val inventoryHandler: InventoryHandler?
         get() {
             return features[Features.INVENTORIES] as? InventoryHandler?
+        }
+    val networkPacketListener: NetworkPacketListener?
+        get() {
+            return features[Features.NETWORKING] as? NetworkPacketListener?
         }
 
     var adapter: AquaticLibAdapter

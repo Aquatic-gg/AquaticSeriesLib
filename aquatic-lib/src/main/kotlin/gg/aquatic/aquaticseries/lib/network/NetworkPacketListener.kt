@@ -1,5 +1,8 @@
 package gg.aquatic.aquaticseries.lib.network
 
+import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.feature.Features
+import gg.aquatic.aquaticseries.lib.feature.IFeature
 import gg.aquatic.aquaticseries.lib.network.redis.RedisHandler
 import gg.aquatic.aquaticseries.lib.network.redis.RedisNetworkSettings
 import kotlinx.serialization.encodeToString
@@ -8,7 +11,7 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.plus
 import java.util.concurrent.CompletableFuture
 
-class NetworkPacketListener {
+class NetworkPacketListener: IFeature {
 
     val adapter: NetworkAdapter
 
@@ -34,7 +37,9 @@ class NetworkPacketListener {
     }
 
     fun handle(packet: SignedNetworkPacket): CompletableFuture<NetworkResponse> {
-        val handler = handlers[packet.packet.javaClass] ?: return CompletableFuture.completedFuture(NetworkResponse(NetworkResponse.Status.ERROR, null) )
+        val handler = handlers[packet.packet.javaClass] ?: return CompletableFuture.completedFuture(
+            NetworkResponse(
+                NetworkResponse.Status.ERROR, null) )
         return handler.handle(packet).thenApply {
             NetworkResponse(NetworkResponse.Status.SUCCESS, it)
         }
@@ -56,6 +61,12 @@ class NetworkPacketListener {
         } catch (_: Exception) {
             null
         }
+    }
+
+    override val type: Features = Features.NETWORKING
+
+    override fun initialize(lib: AbstractAquaticSeriesLib) {
+
     }
 
 }

@@ -51,9 +51,6 @@ class RedisHandler(
                 future.complete(null)
                 settings.servers.forEach { server ->
                     send(RedisServerConnectPacket(server)).thenAccept { response ->
-                        if (response.status == NetworkResponse.Status.ERROR) return@thenAccept
-                        connectedServers += server
-                        ServerNetworkConnectEvent(server).call()
                     }
                 }
             }
@@ -64,7 +61,10 @@ class RedisHandler(
                 for (server in settings.servers) {
                     if (connectedServers.contains(server)) {
                         send(RedisServerPingPacket(server)).thenAccept { response ->
-                            if (response.status != NetworkResponse.Status.ERROR) return@thenAccept
+                            if (response.status != NetworkResponse.Status.ERROR) {
+                                if (!connectedServers.contains(server)) connectedServers += server
+                                return@thenAccept
+                            }
                             connectedServers -= server
                             ServerNetworkDisconnectEvent(server).call()
                         }
@@ -72,8 +72,6 @@ class RedisHandler(
                     }
                     send(RedisServerConnectPacket(server)).thenAccept { response ->
                         if (response.status == NetworkResponse.Status.ERROR) return@thenAccept
-                        connectedServers += server
-                        ServerNetworkConnectEvent(server).call()
                     }
                 }
             }

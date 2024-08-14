@@ -21,18 +21,6 @@ class RedisListener(private val handler: RedisHandler): JedisPubSub() {
         val signedPacket = handler.networkPacketListener.serializePacket(message) ?: return
         val packet = signedPacket.packet
 
-        if (packet is RedisServerConnectPacket) {
-            handler.connectedServers += signedPacket.sentFrom
-            ServerNetworkConnectEvent(signedPacket.sentFrom).call()
-            return
-        }
-
-        if (packet is RedisServerDisconnectPacket) {
-            handler.connectedServers -= signedPacket.sentFrom
-            ServerNetworkDisconnectEvent(signedPacket.sentFrom).call()
-            return
-        }
-
         handler.networkPacketListener.handle(signedPacket).thenAccept { response ->
             if (packet !is NetworkResponsePacket) {
                 handler.send(NetworkResponsePacket(signedPacket.sentFrom, response))

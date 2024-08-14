@@ -1,5 +1,6 @@
 plugins {
     `maven-publish`
+    kotlin("plugin.serialization") version "2.0.0"
 }
 
 val maven_username: String by rootProject.extra
@@ -16,6 +17,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":paper"))
     implementation(project(":spigot"))
+    compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0")
 }
 
 tasks {
