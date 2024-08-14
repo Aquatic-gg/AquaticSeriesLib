@@ -18,7 +18,10 @@ dependencies {
     implementation(project(":aquatic-lib"))
     implementation(project(":core"))
     compileOnly("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
-    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_17_1:1.0.0") {
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_17_1:1.0.1") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_20_4:1.0.1") {
         exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
     }
 }

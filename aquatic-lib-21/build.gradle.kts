@@ -9,6 +9,9 @@ group = "gg.aquatic.aquaticseries"
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://repo.nekroplex.com/releases")
+    }
 }
 
 
@@ -16,6 +19,9 @@ dependencies {
     implementation(project(":aquatic-lib"))
     implementation(project(":core"))
     compileOnly("org.spigotmc:spigot-api:1.20.5-R0.1-SNAPSHOT")
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_21_1:1.0.1") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
 }
 
 kotlin {
