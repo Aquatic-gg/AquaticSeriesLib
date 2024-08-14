@@ -36,4 +36,20 @@ object ItemStackAdapter: IItemStackAdapter {
         itemMeta.lore = strings.map { string -> if (string is SpigotString) string.formatted else string.string }
     }
 
+    override fun getAquaticLore(itemStack: ItemStack): List<AquaticString> {
+        return itemStack.itemMeta?.lore?.map { SpigotString(it) } ?: emptyList()
+    }
+
+    override fun getAquaticDisplayName(itemStack: ItemStack): AquaticString? {
+        return itemStack.itemMeta?.displayName?.let { SpigotString(it) }
+    }
+
+    override fun getAquaticLore(itemMeta: ItemMeta): List<AquaticString> {
+        return itemMeta.lore?.map { SpigotString(it) } ?: emptyList()
+    }
+
+    override fun getAquaticDisplayName(itemMeta: ItemMeta): AquaticString {
+        return SpigotString(itemMeta.displayName)
+    }
+
 }

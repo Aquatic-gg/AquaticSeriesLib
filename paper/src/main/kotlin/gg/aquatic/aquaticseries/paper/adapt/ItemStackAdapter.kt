@@ -3,6 +3,7 @@ package gg.aquatic.aquaticseries.paper.adapt
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.adapt.IItemStackAdapter
 import gg.aquatic.aquaticseries.paper.PaperAdapter
+import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 
@@ -33,5 +34,21 @@ object ItemStackAdapter: IItemStackAdapter {
 
     override fun lore(strings: Collection<AquaticString>, itemMeta: ItemMeta) {
         itemMeta.lore(strings.map { string -> PaperAdapter.minimessage.deserialize(string.string) })
+    }
+
+    override fun getAquaticLore(itemStack: ItemStack): List<AquaticString> {
+        return itemStack.itemMeta.lore()?.map { PaperString(MiniMessage.miniMessage().serialize(it)) } ?: return listOf()
+    }
+
+    override fun getAquaticDisplayName(itemStack: ItemStack): AquaticString? {
+        return itemStack.itemMeta.displayName()?.let { PaperString(MiniMessage.miniMessage().serialize(it)) }
+    }
+
+    override fun getAquaticDisplayName(itemMeta: ItemMeta): AquaticString? {
+        return itemMeta.displayName()?.let { PaperString(MiniMessage.miniMessage().serialize(it)) }
+    }
+
+    override fun getAquaticLore(itemMeta: ItemMeta): List<AquaticString> {
+        return itemMeta.lore()?.map { PaperString(MiniMessage.miniMessage().serialize(it)) } ?: return listOf()
     }
 }

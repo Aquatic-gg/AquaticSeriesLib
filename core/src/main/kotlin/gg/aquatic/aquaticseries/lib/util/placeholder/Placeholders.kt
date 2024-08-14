@@ -1,5 +1,7 @@
 package gg.aquatic.aquaticseries.lib.util.placeholder
 
+import gg.aquatic.aquaticseries.lib.adapt.AquaticString
+
 class Placeholders(
 ) {
 

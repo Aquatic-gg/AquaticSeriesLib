@@ -6,15 +6,21 @@ import gg.aquatic.aquaticseries.lib.feature.Features
 import gg.aquatic.aquaticseries.lib.feature.IFeature
 import gg.aquatic.aquaticseries.lib.format.Format
 import gg.aquatic.aquaticseries.lib.interactable.InteractableHandler
+import gg.aquatic.aquaticseries.lib.inventory.lib.InventoryHandler
+import gg.aquatic.aquaticseries.lib.nms.NMSAdapter
 import gg.aquatic.aquaticseries.paper.PaperAdapter
 import gg.aquatic.aquaticseries.spigot.SpigotAdapter
 import org.bukkit.plugin.java.JavaPlugin
 
-abstract class AbstractAquaticSeriesLib(val plugin: JavaPlugin, val features: HashMap<Features,IFeature>) {
+abstract class AbstractAquaticSeriesLib(val plugin: JavaPlugin, val nmsAdapter: NMSAdapter?, val features: HashMap<Features,IFeature>) {
 
     val interactableHandler: InteractableHandler?
         get() {
             return features[Features.INTERACTABLES] as? InteractableHandler?
+        }
+    val inventoryHandler: InventoryHandler?
+        get() {
+            return features[Features.INVENTORIES] as? InventoryHandler?
         }
 
     var adapter: AquaticLibAdapter

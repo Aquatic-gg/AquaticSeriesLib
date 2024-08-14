@@ -13,4 +13,10 @@ interface IItemStackAdapter{
     fun lore(vararg strings: AquaticString, itemMeta: ItemMeta)
     fun lore(strings: Collection<AquaticString>, itemMeta: ItemMeta)
 
+    fun getAquaticLore(itemStack: ItemStack): List<AquaticString>
+    fun getAquaticDisplayName(itemStack: ItemStack): AquaticString?
+
+    fun getAquaticLore(itemMeta: ItemMeta): List<AquaticString>
+    fun getAquaticDisplayName(itemMeta: ItemMeta): AquaticString?
+
 }
