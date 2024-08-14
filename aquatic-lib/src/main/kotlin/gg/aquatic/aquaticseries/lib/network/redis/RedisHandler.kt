@@ -10,6 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.JedisPool
 import redis.clients.jedis.JedisPoolConfig
+import java.net.Socket
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -73,6 +74,17 @@ class RedisHandler(
                 }
             }
         }.runTaskTimer(AbstractAquaticSeriesLib.INSTANCE.plugin, 20 * 60, 20 * 60)
+
+        object : BukkitRunnable() {
+            override fun run() {
+                for ((request, f) in requests) {
+                    if (request.timestamp > System.currentTimeMillis() + 10000) {
+                        requests.remove(request)
+                        f.complete(NetworkResponse(NetworkResponse.Status.ERROR, null))
+                    }
+                }
+            }
+        }.runTaskTimer(AbstractAquaticSeriesLib.INSTANCE.plugin, 40, 40)
 
         return future
     }
