@@ -5,6 +5,8 @@ plugins {
 val maven_username: String by rootProject.extra
 val maven_password: String by rootProject.extra
 
+val nmsVersion = "1.0.2"
+
 group = "gg.aquatic.aquaticseries"
 
 repositories {
@@ -18,10 +20,10 @@ dependencies {
     implementation(project(":aquatic-lib"))
     implementation(project(":core"))
     compileOnly("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
-    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_17_1:1.0.1") {
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_17_1:$nmsVersion") {
         exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
     }
-    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_20_4:1.0.1") {
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_20_4:$nmsVersion") {
         exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
     }
 }
@@ -58,6 +60,8 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
         include(project(":core"))
         include(project(":aquatic-lib"))
         include(dependency("com.jeff-media:custom-block-data:2.2.2"))
+        include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_20_4"))
+        include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_17_1"))
     }
 }
 

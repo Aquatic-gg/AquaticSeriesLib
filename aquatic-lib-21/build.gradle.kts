@@ -56,6 +56,7 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
         include(project(":paper"))
         include(project(":core"))
         include(project(":aquatic-lib"))
+        include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_21_1"))
         include(dependency("com.jeff-media:custom-block-data:2.2.2"))
     }
 }

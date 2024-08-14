@@ -3,8 +3,8 @@ package gg.aquatic.aquaticseries.lib
 import gg.aquatic.aquaticseries.lib.feature.Features
 import gg.aquatic.aquaticseries.lib.feature.IFeature
 import gg.aquatic.aquaticseries.lib.nms.NMSAdapter
-import gg.aquatic.aquaticseries.nms.NMS_1_17_1
-import gg.aquatic.aquaticseries.nms.NMS_1_20_4
+import gg.aquatic.aquaticseries.nms.v1_17_1.NMS_1_17_1
+import gg.aquatic.aquaticseries.nms.v1_20_4.NMS_1_20_4
 import org.bukkit.plugin.java.JavaPlugin
 
 class AquaticSeriesLib private constructor(
