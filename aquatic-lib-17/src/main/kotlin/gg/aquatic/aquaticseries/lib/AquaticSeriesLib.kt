@@ -66,6 +66,7 @@ class AquaticSeriesLib private constructor(
                 }
 
                 "1.20.4-R0.1-SNAPSHOT" -> {
+                    println("[DEBUG] Server is currently running on 1.20.4 NMS!")
                     return NMS_1_20_4()
                 }
 

@@ -49,6 +49,10 @@ abstract class AbstractAquaticSeriesLib(val plugin: JavaPlugin, val nmsAdapter: 
             SpigotAdapter(plugin)
         }
         println("[AquaticSeriesLib] Currently using $messageFormat message formatting!")
+
+        for (feature in features) {
+            feature.value.initialize(this)
+        }
     }
 
     fun getMessageFormatting(): Format {
