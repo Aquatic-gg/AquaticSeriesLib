@@ -23,7 +23,22 @@ dependencies {
     implementation("gg.aquatic.aquaticseries.nms:NMS_v1_17_1:$nmsVersion") {
         exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
     }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_18_2:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_19_4:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
     implementation("gg.aquatic.aquaticseries.nms:NMS_v1_20_4:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_20_6:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_21:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_21_1:$nmsVersion") {
         exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
     }
 }

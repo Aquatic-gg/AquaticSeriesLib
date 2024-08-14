@@ -5,6 +5,8 @@ plugins {
 val maven_username: String by rootProject.extra
 val maven_password: String by rootProject.extra
 
+val nmsVersion = "1.0.10"
+
 group = "gg.aquatic.aquaticseries"
 
 repositories {
@@ -20,6 +22,27 @@ dependencies {
     implementation(project(":core"))
     compileOnly("org.spigotmc:spigot-api:1.20.5-R0.1-SNAPSHOT")
     implementation("gg.aquatic.aquaticseries.nms:NMS_v1_21_1:1.0.1") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_17_1:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_18_2:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_19_4:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_20_4:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_20_6:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_21:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_21_1:$nmsVersion") {
         exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
     }
 }
