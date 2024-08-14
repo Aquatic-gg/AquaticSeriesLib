@@ -16,12 +16,12 @@ class NetworkPacketListener {
         adapter = RedisHandler(this, redisNetworkSettings, serverName)
     }
 
-    val handlers = mutableMapOf<Class<NetworkPacket>, NetworkPacketHandler<*>>()
+    val handlers = mutableMapOf<Class<out NetworkPacket>, NetworkPacketHandler<*>>()
 
     private var serializerModules: SerializersModule? = null
     private var serializerFormat: Json? = null
 
-    fun registerPacket(clazz: Class<NetworkPacket>, handler: NetworkPacketHandler<*>, serializerModule: SerializersModule) {
+    fun registerPacket(clazz: Class<out NetworkPacket>, handler: NetworkPacketHandler<*>, serializerModule: SerializersModule) {
         handlers[clazz] = handler
         if (serializerModules == null) {
             serializerModules = serializerModule

@@ -1,6 +1,11 @@
 package gg.aquatic.aquaticseries.lib.network.redis
 
+import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.network.*
+import gg.aquatic.aquaticseries.lib.network.event.ServerNetworkConnectEvent
+import gg.aquatic.aquaticseries.lib.network.event.ServerNetworkDisconnectEvent
+import gg.aquatic.aquaticseries.lib.network.redis.packet.*
+import gg.aquatic.aquaticseries.lib.util.call
 import org.bukkit.scheduler.BukkitRunnable
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.JedisPool
@@ -17,7 +22,13 @@ class RedisHandler(
 
     init {
         setup()
+
+        networkPacketListener.registerPacket(RedisServerConnectPacket::class.java, RedisServerConnectPacketHandler, RedisServerConnectPacketHandler.serializersModule)
+        networkPacketListener.registerPacket(RedisServerDisconnectPacket::class.java, RedisServerDisconnectPacketHandler, RedisServerDisconnectPacketHandler.serializersModule)
+        networkPacketListener.registerPacket(RedisServerPingPacket::class.java, RedisServerPingPacketHandler, RedisServerPingPacketHandler.serializersModule)
     }
+
+    val connectedServers = mutableListOf<String>()
 
     private fun setup(): CompletableFuture<Void> {
         val future = CompletableFuture<Void>()
@@ -38,8 +49,36 @@ class RedisHandler(
                 }.start()
 
                 future.complete(null)
+                settings.servers.forEach { server ->
+                    send(RedisServerConnectPacket(server)).thenAccept { response ->
+                        if (response.status == NetworkResponse.Status.ERROR) return@thenAccept
+                        connectedServers += server
+                        ServerNetworkConnectEvent(server).call()
+                    }
+                }
             }
-        }
+        }.runTask(AbstractAquaticSeriesLib.INSTANCE.plugin)
+
+        object : BukkitRunnable() {
+            override fun run() {
+                for (server in settings.servers) {
+                    if (connectedServers.contains(server)) {
+                        send(RedisServerPingPacket(server)).thenAccept { response ->
+                            if (response.status != NetworkResponse.Status.ERROR) return@thenAccept
+                            connectedServers -= server
+                            ServerNetworkDisconnectEvent(server).call()
+                        }
+                        continue
+                    }
+                    send(RedisServerConnectPacket(server)).thenAccept { response ->
+                        if (response.status == NetworkResponse.Status.ERROR) return@thenAccept
+                        connectedServers += server
+                        ServerNetworkConnectEvent(server).call()
+                    }
+                }
+            }
+        }.runTaskTimer(AbstractAquaticSeriesLib.INSTANCE.plugin, 20 * 60, 20 * 60)
+
         return future
     }
 

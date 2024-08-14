@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.inventory.lib.component
 
-import gg.aquatic.aquaticseries.lib.call
+import gg.aquatic.aquaticseries.lib.util.call
 import org.bukkit.entity.HumanEntity
 import org.bukkit.entity.Player
 import gg.aquatic.aquaticseries.lib.inventory.lib.event.ComponentClickEvent

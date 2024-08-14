@@ -1,7 +1,7 @@
 package gg.aquatic.aquaticseries.lib.network.tcp
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
-import gg.aquatic.aquaticseries.lib.call
+import gg.aquatic.aquaticseries.lib.util.call
 import gg.aquatic.aquaticseries.lib.network.*
 import gg.aquatic.aquaticseries.lib.network.event.ServerNetworkConnectEvent
 import gg.aquatic.aquaticseries.lib.network.event.ServerNetworkDisconnectEvent

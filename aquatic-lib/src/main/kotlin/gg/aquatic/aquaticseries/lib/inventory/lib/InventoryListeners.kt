@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.inventory.lib
 
-import gg.aquatic.aquaticseries.lib.call
+import gg.aquatic.aquaticseries.lib.util.call
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent

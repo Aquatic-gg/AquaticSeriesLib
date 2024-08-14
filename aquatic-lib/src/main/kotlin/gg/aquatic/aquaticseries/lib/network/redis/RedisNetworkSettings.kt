@@ -5,6 +5,7 @@ class RedisNetworkSettings(
     val port: Int,
     val user: String,
     val password: String,
-    val channel: String
+    val channel: String,
+    val servers: List<String>
 ) {
 }
