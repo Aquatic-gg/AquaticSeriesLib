@@ -84,6 +84,7 @@ subprojects {
         compileOnly("io.th0rgal:oraxen:1.171.0")
         compileOnly("com.github.LoneDev6:API-ItemsAdder:3.6.2-beta-r3-b")
         compileOnly ("com.ticxo.modelengine:ModelEngine:R4.0.4")
+        compileOnly("redis.clients:jedis:5.0.0")
         //implementation("net.kyori:adventure-api:4.17.0")
     }
 
