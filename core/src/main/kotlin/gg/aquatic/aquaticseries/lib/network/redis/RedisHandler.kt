@@ -1,8 +1,6 @@
 package gg.aquatic.aquaticseries.lib.network.redis
 
-import gg.aquatic.aquaticseries.lib.network.NetworkAdapter
-import gg.aquatic.aquaticseries.lib.network.NetworkPacket
-import gg.aquatic.aquaticseries.lib.network.NetworkPacketListener
+import gg.aquatic.aquaticseries.lib.network.*
 import org.bukkit.scheduler.BukkitRunnable
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.JedisPool
@@ -12,9 +10,10 @@ import java.util.function.Consumer
 
 class RedisHandler(
     val networkPacketListener: NetworkPacketListener,
-    val settings: RedisNetworkSettings
+    val settings: RedisNetworkSettings, override val serverName: String
 ): NetworkAdapter {
 
+    val requests = HashMap<NetworkRequest, CompletableFuture<NetworkResponse>>()
     private lateinit var jedisPool: JedisPool
 
     fun setup(): CompletableFuture<Void> {
@@ -41,7 +40,7 @@ class RedisHandler(
         return future
     }
 
-    fun publishAsync(channel: String?, message: String): CompletableFuture<Void> {
+    private fun publishAsync(channel: String?, message: String): CompletableFuture<Void> {
         val future = CompletableFuture<Void>()
 
         CompletableFuture.runAsync {
@@ -61,8 +60,20 @@ class RedisHandler(
         }
     }
 
-    override fun send(packet: NetworkPacket) {
-        publishAsync(settings.channel,networkPacketListener.deserializePacket(packet) ?: return)
+    override fun send(packet: NetworkPacket): CompletableFuture<NetworkResponse> {
+        val future = CompletableFuture<NetworkResponse>()
+
+        val signedPacket = SignedNetworkPacket(
+            packet,
+            serverName
+        )
+
+        publishAsync(settings.channel,networkPacketListener.deserializePacket(signedPacket) ?: return CompletableFuture.completedFuture(
+            NetworkResponse(NetworkResponse.Status.ERROR, null)
+        ))
+        requests[NetworkRequest(packet)] = future
+
+        return future
     }
 
 }

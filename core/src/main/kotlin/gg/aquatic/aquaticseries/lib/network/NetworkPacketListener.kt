@@ -6,13 +6,14 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.plus
+import java.util.concurrent.CompletableFuture
 
 class NetworkPacketListener {
 
     val adapter: NetworkAdapter
 
-    constructor(redisNetworkSettings: RedisNetworkSettings) {
-        adapter = RedisHandler(this, redisNetworkSettings)
+    constructor(redisNetworkSettings: RedisNetworkSettings, serverName: String) {
+        adapter = RedisHandler(this, redisNetworkSettings, serverName)
     }
 
     val handlers = mutableMapOf<Class<NetworkPacket>, NetworkPacketHandler<*>>()
@@ -32,21 +33,23 @@ class NetworkPacketListener {
         }
     }
 
-    fun handle(packet: NetworkPacket) {
-        val handler = handlers[packet.javaClass] ?: return
-        handler.handle(packet)
+    fun handle(packet: SignedNetworkPacket): CompletableFuture<NetworkResponse> {
+        val handler = handlers[packet.packet.javaClass] ?: return CompletableFuture.completedFuture(NetworkResponse(NetworkResponse.Status.ERROR, null) )
+        return handler.handle(packet).thenApply {
+            NetworkResponse(NetworkResponse.Status.SUCCESS, it)
+        }
     }
 
-    fun serializePacket(json: String): NetworkPacket? {
+    fun serializePacket(json: String): SignedNetworkPacket? {
         val format = serializerFormat ?: return null
         return try {
-            format.decodeFromString<NetworkPacket>(json)
+            format.decodeFromString<SignedNetworkPacket>(json)
         } catch (_: Exception) {
             null
         }
     }
 
-    fun deserializePacket(packet: NetworkPacket): String? {
+    fun deserializePacket(packet: SignedNetworkPacket): String? {
         val format = serializerFormat ?: return null
         return try {
             format.encodeToString(packet)

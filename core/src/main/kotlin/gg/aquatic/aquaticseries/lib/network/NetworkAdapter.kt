@@ -1,7 +1,10 @@
 package gg.aquatic.aquaticseries.lib.network
 
+import java.util.concurrent.CompletableFuture
+
 interface NetworkAdapter {
 
-    fun send(packet: NetworkPacket)
+    val serverName: String
+    fun send(packet: NetworkPacket): CompletableFuture<NetworkResponse>
 
 }
