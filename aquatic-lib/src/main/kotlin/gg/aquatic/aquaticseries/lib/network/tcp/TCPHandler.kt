@@ -1,7 +1,10 @@
 package gg.aquatic.aquaticseries.lib.network.tcp
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.call
 import gg.aquatic.aquaticseries.lib.network.*
+import gg.aquatic.aquaticseries.lib.network.event.ServerNetworkConnectEvent
+import gg.aquatic.aquaticseries.lib.network.event.ServerNetworkDisconnectEvent
 import org.bukkit.scheduler.BukkitRunnable
 import java.net.ServerSocket
 import java.net.Socket
@@ -44,6 +47,7 @@ class TCPHandler(
                     if (clients.containsKey(name)) {
                         val client = clients[name] ?: continue
                         if (client.isClosed || !client.isConnected) {
+                            ServerNetworkDisconnectEvent(name).call()
                             clients.remove(name)
                         }
                         continue
@@ -51,6 +55,7 @@ class TCPHandler(
                     try {
                         val client = Socket(serverInfo.ip, serverInfo.port)
                         if (!(client.isClosed || !client.isConnected)) {
+                            ServerNetworkConnectEvent(name).call()
                             clients[name] = client
                         }
                     } catch (_: Exception) {
