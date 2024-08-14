@@ -15,7 +15,6 @@ class NetworkPacketListener {
         adapter = RedisHandler(this, redisNetworkSettings)
     }
 
-
     val handlers = mutableMapOf<Class<NetworkPacket>, NetworkPacketHandler<*>>()
 
     private var serializerModules: SerializersModule? = null

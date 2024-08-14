@@ -1,7 +1,10 @@
 package gg.aquatic.aquaticseries.lib.network.tcp
 
-class TCPNetworkSettings {
+class TCPNetworkSettings(
+    val port: Int,
+    val servers: HashMap<String,String>
+) {
 
-    val servers = HashMap<String,String>()
+
 
 }
