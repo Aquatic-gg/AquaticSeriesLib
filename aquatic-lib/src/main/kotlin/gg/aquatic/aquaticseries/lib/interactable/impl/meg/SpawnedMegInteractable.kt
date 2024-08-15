@@ -54,7 +54,6 @@ class SpawnedMegInteractable(
         val cbd = CustomBlockData(location.block, AbstractAquaticSeriesLib.INSTANCE.plugin)
         cbd.remove(AbstractInteractable.INTERACTABLE_KEY)
         AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.removeParent(location)
-        cbd.clear()
     }
 
     fun destroyEntity() {

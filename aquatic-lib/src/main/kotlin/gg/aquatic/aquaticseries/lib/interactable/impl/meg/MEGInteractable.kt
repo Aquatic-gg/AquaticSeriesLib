@@ -19,7 +19,7 @@ class MEGInteractable(
 ) : AbstractInteractable() {
     override val serializer: MegInteractableSerializer
         get() {
-            return AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.serializers[MEGInteractable::class.java] as gg.aquatic.aquaticseries.lib.interactable.impl.meg.MegInteractableSerializer
+            return AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.serializers[MEGInteractable::class.java] as MegInteractableSerializer
         }
 
 
@@ -27,7 +27,7 @@ class MEGInteractable(
         AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.registry[id] = this
     }
 
-    override fun spawn(location: Location): SpawnedMegInteractable {
+    override fun spawn(location: Location, persistent: Boolean): SpawnedMegInteractable {
         val locations = ArrayList<Location>()
         val spawned =
             SpawnedMegInteractable(location, this, locations)
@@ -44,11 +44,14 @@ class MEGInteractable(
                 locations += newLoc
             }
         }
-        val cbd = CustomBlockData(location.block, AbstractAquaticSeriesLib.INSTANCE.plugin)
-        val blockData =
-            InteractableData(id, location.yaw, location.pitch, serializer.serialize(spawned), shape.layers, nullChars)
-        cbd.set(INTERACTABLE_KEY, PersistentDataType.STRING, AbstractAquaticSeriesLib.GSON.toJson(blockData))
-        AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.addParent(location, spawned)
+        if (persistent) {
+            val cbd = CustomBlockData(location.block, AbstractAquaticSeriesLib.INSTANCE.plugin)
+            val blockData =
+                InteractableData(id, location.yaw, location.pitch, serializer.serialize(spawned), shape.layers, nullChars)
+            cbd.set(INTERACTABLE_KEY, PersistentDataType.STRING, AbstractAquaticSeriesLib.GSON.toJson(blockData))
+            AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.addParent(location, spawned)
+        }
+
         for (loc in locations) {
             AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.addChildren(loc, location)
         }

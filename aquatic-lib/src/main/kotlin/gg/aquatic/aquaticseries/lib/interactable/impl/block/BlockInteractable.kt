@@ -44,7 +44,7 @@ class BlockInteractable(
         }
     }
 
-    override fun spawn(location: Location): SpawnedBlockInteractable {
+    override fun spawn(location: Location, persistent: Boolean): SpawnedBlockInteractable {
         /*
         //despawn()
         val locations = ArrayList<Location>()

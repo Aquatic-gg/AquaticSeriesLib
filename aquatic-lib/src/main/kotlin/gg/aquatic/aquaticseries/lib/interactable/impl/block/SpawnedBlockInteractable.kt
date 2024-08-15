@@ -18,7 +18,7 @@ class SpawnedBlockInteractable(
     override var loaded = false
     var removed = false
 
-    fun spawn(data: InteractableData?, reset: Boolean) {
+    fun spawn(data: InteractableData?, reset: Boolean, persistent: Boolean) {
         if (removed) return
         if (data != null && !reset) {
             for (associatedLocation in associatedLocations) {
@@ -48,21 +48,23 @@ class SpawnedBlockInteractable(
                 }
             }
 
-            val cbd = CustomBlockData(location.block, AbstractAquaticSeriesLib.INSTANCE.plugin)
-            val blockData =
-                InteractableData(
-                    interactable.id,
-                    location.yaw,
-                    location.pitch,
-                    interactable.serializer.serialize(this),
-                    interactable.shape.layers,
-                    nullChars
+            if (persistent) {
+                val cbd = CustomBlockData(location.block, AbstractAquaticSeriesLib.INSTANCE.plugin)
+                val blockData =
+                    InteractableData(
+                        interactable.id,
+                        location.yaw,
+                        location.pitch,
+                        interactable.serializer.serialize(this),
+                        interactable.shape.layers,
+                        nullChars
+                    )
+                cbd.set(
+                    AbstractInteractable.INTERACTABLE_KEY,
+                    PersistentDataType1.STRING,
+                    AbstractAquaticSeriesLib.GSON.toJson(blockData)
                 )
-            cbd.set(
-                AbstractInteractable.INTERACTABLE_KEY,
-                PersistentDataType1.STRING,
-                AbstractAquaticSeriesLib.GSON.toJson(blockData)
-            )
+            }
         }
         AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.addParent(location,this)
         for (loc in associatedLocations) {
@@ -77,9 +79,9 @@ class SpawnedBlockInteractable(
             associatedLocation.block.type = Material.AIR
             AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.removeChildren(associatedLocation)
         }
+
         val cbd = CustomBlockData(location.block, AbstractAquaticSeriesLib.INSTANCE.plugin)
         cbd.remove(AbstractInteractable.INTERACTABLE_KEY)
-        cbd.clear()
         AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.removeParent(location)
     }
 }

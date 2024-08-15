@@ -26,7 +26,7 @@ abstract class AbstractInteractable {
         }
     }
 
-    abstract fun spawn(location: Location): AbstractSpawnedInteractable
+    abstract fun spawn(location: Location, persistent: Boolean): AbstractSpawnedInteractable
 
     abstract fun onChunkLoad(data: InteractableData, location: Location)
     abstract fun onChunkUnload(data: InteractableData)
