@@ -4,6 +4,7 @@ enum class Features {
 
     INTERACTABLES,
     INVENTORIES,
-    NETWORKING
+    NETWORKING,
+    FAKEOBJECTS
 
 }
