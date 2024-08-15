@@ -2,7 +2,6 @@ package gg.aquatic.aquaticseries.lib.network.redis
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.network.*
-import gg.aquatic.aquaticseries.lib.network.event.ServerNetworkConnectEvent
 import gg.aquatic.aquaticseries.lib.network.event.ServerNetworkDisconnectEvent
 import gg.aquatic.aquaticseries.lib.network.redis.packet.*
 import gg.aquatic.aquaticseries.lib.util.call
@@ -10,7 +9,6 @@ import org.bukkit.scheduler.BukkitRunnable
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.JedisPool
 import redis.clients.jedis.JedisPoolConfig
-import java.net.Socket
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 

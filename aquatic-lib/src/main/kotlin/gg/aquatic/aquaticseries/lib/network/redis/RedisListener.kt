@@ -1,11 +1,6 @@
 package gg.aquatic.aquaticseries.lib.network.redis
 
 import gg.aquatic.aquaticseries.lib.network.NetworkResponsePacket
-import gg.aquatic.aquaticseries.lib.network.event.ServerNetworkConnectEvent
-import gg.aquatic.aquaticseries.lib.network.event.ServerNetworkDisconnectEvent
-import gg.aquatic.aquaticseries.lib.network.redis.packet.RedisServerConnectPacket
-import gg.aquatic.aquaticseries.lib.network.redis.packet.RedisServerDisconnectPacket
-import gg.aquatic.aquaticseries.lib.util.call
 import redis.clients.jedis.JedisPubSub
 
 class RedisListener(private val handler: RedisHandler): JedisPubSub() {
@@ -19,6 +14,13 @@ class RedisListener(private val handler: RedisHandler): JedisPubSub() {
         }
 
         val signedPacket = handler.networkPacketListener.serializePacket(message) ?: return
+
+        val sentTo = signedPacket.packet.channel
+
+        if (sentTo != handler.serverName) {
+            return
+        }
+
         val packet = signedPacket.packet
 
         handler.networkPacketListener.handle(signedPacket).thenAccept { response ->
