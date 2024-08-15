@@ -13,6 +13,8 @@ import org.bukkit.Location
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.scheduler.BukkitRunnable
 
@@ -44,6 +46,16 @@ object FakeObjectHandler: IFeature {
     }
 
     class Listeners: Listener {
+
+        @EventHandler
+        fun PlayerJoinEvent.onPlayerJoin() {
+            AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.packetListenerAdapter().inject(player)
+        }
+
+        @EventHandler
+        fun PlayerQuitEvent.onPlayerQuit() {
+            AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.packetListenerAdapter().eject(player)
+        }
 
         @EventHandler
         fun PlayerInteractEvent.onInteract() {
