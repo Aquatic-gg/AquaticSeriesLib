@@ -23,6 +23,7 @@ class InventoryListeners : Listener {
     fun onInvClick(event: InventoryClickEvent) {
         val inv = event.inventory
         val holder = inv.holder ?: return
+
         if (holder is CustomInventory) {
             val e = CustomInventoryClickEvent(holder, event)
             e.call()
