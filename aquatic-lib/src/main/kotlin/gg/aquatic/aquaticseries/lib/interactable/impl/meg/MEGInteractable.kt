@@ -15,7 +15,7 @@ class MEGInteractable(
     override val id: String,
     override val shape: BlockShape,
     val modelId: String,
-    val onInteract: Consumer<MegInteractableInteractEvent>
+    val onInteract: Consumer<MegInteractableInteractEvent>, override val persistent: Boolean
 ) : AbstractInteractable() {
     override val serializer: MegInteractableSerializer
         get() {
@@ -27,7 +27,7 @@ class MEGInteractable(
         AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.registry[id] = this
     }
 
-    override fun spawn(location: Location, persistent: Boolean): SpawnedMegInteractable {
+    override fun spawn(location: Location): SpawnedMegInteractable {
         val locations = ArrayList<Location>()
         val spawned =
             SpawnedMegInteractable(location, this, locations)

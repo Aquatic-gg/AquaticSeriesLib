@@ -12,7 +12,7 @@ class BlockInteractable(
     override val id: String,
     val onInteract: Consumer<gg.aquatic.aquaticseries.lib.interactable.event.BlockInteractableInteractEvent>,
     val onBreak: Consumer<BlockInteractableBreakEvent>,
-    override val shape: BlockShape
+    override val shape: BlockShape, override val persistent: Boolean
 ) : AbstractInteractable() {
 
 
@@ -44,7 +44,7 @@ class BlockInteractable(
         }
     }
 
-    override fun spawn(location: Location, persistent: Boolean): SpawnedBlockInteractable {
+    override fun spawn(location: Location): SpawnedBlockInteractable {
         /*
         //despawn()
         val locations = ArrayList<Location>()

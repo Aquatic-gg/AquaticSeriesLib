@@ -18,7 +18,8 @@ class SpawnedBlockInteractable(
     override var loaded = false
     var removed = false
 
-    fun spawn(data: InteractableData?, reset: Boolean, persistent: Boolean) {
+    fun spawn(data: InteractableData?, reset: Boolean) {
+        val persistent = interactable.persistent
         if (removed) return
         if (data != null && !reset) {
             for (associatedLocation in associatedLocations) {
@@ -80,6 +81,7 @@ class SpawnedBlockInteractable(
             AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.removeChildren(associatedLocation)
         }
 
+        if (!interactable.persistent) return
         val cbd = CustomBlockData(location.block, AbstractAquaticSeriesLib.INSTANCE.plugin)
         cbd.remove(AbstractInteractable.INTERACTABLE_KEY)
         AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.removeParent(location)

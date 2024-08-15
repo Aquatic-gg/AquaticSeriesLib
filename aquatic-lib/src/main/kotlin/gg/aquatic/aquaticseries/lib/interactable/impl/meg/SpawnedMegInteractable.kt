@@ -51,6 +51,7 @@ class SpawnedMegInteractable(
         for (associatedLocation in associatedLocations) {
             AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.removeChildren(associatedLocation)
         }
+        if (!interactable.persistent) return
         val cbd = CustomBlockData(location.block, AbstractAquaticSeriesLib.INSTANCE.plugin)
         cbd.remove(AbstractInteractable.INTERACTABLE_KEY)
         AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.removeParent(location)

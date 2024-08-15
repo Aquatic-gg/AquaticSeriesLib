@@ -12,6 +12,7 @@ import kotlin.math.floor
 
 abstract class AbstractInteractable {
 
+    abstract val persistent: Boolean
     abstract val id: String
     abstract val serializer: AbstractInteractableSerializer<*>
     abstract val shape: BlockShape
@@ -26,7 +27,7 @@ abstract class AbstractInteractable {
         }
     }
 
-    abstract fun spawn(location: Location, persistent: Boolean): AbstractSpawnedInteractable
+    abstract fun spawn(location: Location): AbstractSpawnedInteractable
 
     abstract fun onChunkLoad(data: InteractableData, location: Location)
     abstract fun onChunkUnload(data: InteractableData)
