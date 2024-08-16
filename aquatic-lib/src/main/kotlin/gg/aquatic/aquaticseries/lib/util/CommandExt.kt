@@ -5,14 +5,14 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandMap
 import java.lang.reflect.Field
 
-fun Command.register() {
+fun Command.register(namespace: String) {
     try {
         val bukkitCommandMap: Field = Bukkit.getServer().javaClass.getDeclaredField("commandMap")
 
         bukkitCommandMap.setAccessible(true)
         val commandMap: CommandMap = bukkitCommandMap.get(Bukkit.getServer()) as CommandMap
 
-        commandMap.register("aquaticrewards", this)
+        commandMap.register(namespace, this)
     } catch (e: Exception) {
         e.printStackTrace()
     }
