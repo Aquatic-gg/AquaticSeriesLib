@@ -1,11 +1,11 @@
-package gg.aquatic.aquaticseries.lib.action.impl
+package gg.aquatic.aquaticseries.lib.action.player.impl
 
-import gg.aquatic.aquaticseries.lib.action.AbstractAction
+import gg.aquatic.aquaticseries.lib.action.player.AbstractPlayerAction
 import gg.aquatic.aquaticseries.lib.requirement.RequirementArgument
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import org.bukkit.entity.Player
 
-class SoundAction: AbstractAction() {
+class SoundAction: AbstractPlayerAction() {
     override fun run(player: Player, args: Map<String, Any?>, placeholders: Placeholders) {
         val sound = args["sound"] as String
         val volume = args["volume"] as Float

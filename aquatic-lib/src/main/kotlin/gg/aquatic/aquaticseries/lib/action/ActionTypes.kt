@@ -1,11 +1,11 @@
 package gg.aquatic.aquaticseries.lib.action
 
-import gg.aquatic.aquaticseries.lib.action.impl.*
+import gg.aquatic.aquaticseries.lib.action.player.impl.*
 
 class ActionTypes {
 
     companion object {
-        val actions = HashMap<String, AbstractAction>().apply {
+        val actions = HashMap<String, AbstractAction<*>>().apply {
             this += "command" to CommandAction()
             this += "message" to MessageAction()
             this += "actionbar" to ActionbarAction()
