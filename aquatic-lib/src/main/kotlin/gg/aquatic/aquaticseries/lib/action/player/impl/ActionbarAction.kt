@@ -1,9 +1,9 @@
 package gg.aquatic.aquaticseries.lib.action.player.impl
 
 import gg.aquatic.aquaticseries.lib.action.player.AbstractPlayerAction
-import gg.aquatic.aquaticseries.lib.requirement.RequirementArgument
 import gg.aquatic.aquaticseries.lib.toAquatic
-import gg.aquatic.aquaticseries.lib.util.AquaticObjectArgument
+import gg.aquatic.aquaticseries.lib.util.argument.AquaticObjectArgument
+import gg.aquatic.aquaticseries.lib.util.argument.impl.PrimitiveObjectArgument
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import org.bukkit.entity.Player
 
@@ -13,7 +13,7 @@ class ActionbarAction: AbstractPlayerAction() {
         message.toAquatic().sendActionBar(player)
     }
 
-    override fun arguments(): List<AquaticObjectArgument> {
-        return listOf(AquaticObjectArgument("message", "", true))
+    override fun arguments(): List<AquaticObjectArgument<*>> {
+        return listOf(PrimitiveObjectArgument("message", "", true))
     }
 }

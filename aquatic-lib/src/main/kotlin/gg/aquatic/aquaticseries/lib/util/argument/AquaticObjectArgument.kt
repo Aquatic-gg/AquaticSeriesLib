@@ -1,17 +1,20 @@
-package gg.aquatic.aquaticseries.lib.util
+package gg.aquatic.aquaticseries.lib.util.argument
 
 import gg.aquatic.aquaticseries.lib.format.color.ColorUtils
 import org.bukkit.Bukkit
 import org.bukkit.configuration.ConfigurationSection
 
-class AquaticObjectArgument(
-    val id: String, val defaultValue: Any?, val required: Boolean
+abstract class AquaticObjectArgument<T>(
+    val id: String, val defaultValue: T?, val required: Boolean
 ) {
+
+    abstract val serializer: AbstractObjectArgumentSerializer<T?>
+    abstract fun load(section: ConfigurationSection): T?
 
     companion object {
         fun loadRequirementArguments(
             section: ConfigurationSection,
-            arguments: List<AquaticObjectArgument>
+            arguments: List<AquaticObjectArgument<*>>
         ): Map<String, Any?> {
             val args: MutableMap<String, Any?> = java.util.HashMap()
 

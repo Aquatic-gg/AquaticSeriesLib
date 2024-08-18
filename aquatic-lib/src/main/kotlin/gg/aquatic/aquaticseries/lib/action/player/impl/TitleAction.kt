@@ -2,9 +2,9 @@ package gg.aquatic.aquaticseries.lib.action.player.impl
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.action.player.AbstractPlayerAction
-import gg.aquatic.aquaticseries.lib.requirement.RequirementArgument
 import gg.aquatic.aquaticseries.lib.toAquatic
-import gg.aquatic.aquaticseries.lib.util.AquaticObjectArgument
+import gg.aquatic.aquaticseries.lib.util.argument.AquaticObjectArgument
+import gg.aquatic.aquaticseries.lib.util.argument.impl.PrimitiveObjectArgument
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import org.bukkit.entity.Player
 
@@ -26,13 +26,13 @@ class TitleAction : AbstractPlayerAction() {
         )
     }
 
-    override fun arguments(): List<AquaticObjectArgument> {
+    override fun arguments(): List<AquaticObjectArgument<*>> {
         return listOf(
-            AquaticObjectArgument("title", "", true),
-            AquaticObjectArgument("subtitle", "", true),
-            AquaticObjectArgument("fadeIn", 0, true),
-            AquaticObjectArgument("stay", 60, true),
-            AquaticObjectArgument("fadeOut", 0, true)
+            PrimitiveObjectArgument("title", "", true),
+            PrimitiveObjectArgument("subtitle", "", true),
+            PrimitiveObjectArgument("fadeIn", 0, true),
+            PrimitiveObjectArgument("stay", 60, true),
+            PrimitiveObjectArgument("fadeOut", 0, true)
         )
     }
 }

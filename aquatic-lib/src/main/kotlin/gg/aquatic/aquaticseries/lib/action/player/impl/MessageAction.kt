@@ -2,9 +2,9 @@ package gg.aquatic.aquaticseries.lib.action.player.impl
 
 import org.bukkit.entity.Player
 import gg.aquatic.aquaticseries.lib.action.player.AbstractPlayerAction
-import gg.aquatic.aquaticseries.lib.requirement.RequirementArgument
 import gg.aquatic.aquaticseries.lib.toAquatic
-import gg.aquatic.aquaticseries.lib.util.AquaticObjectArgument
+import gg.aquatic.aquaticseries.lib.util.argument.AquaticObjectArgument
+import gg.aquatic.aquaticseries.lib.util.argument.impl.PrimitiveObjectArgument
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 
 class MessageAction : AbstractPlayerAction() {
@@ -17,10 +17,10 @@ class MessageAction : AbstractPlayerAction() {
         }
     }
 
-    override fun arguments(): List<AquaticObjectArgument> {
+    override fun arguments(): List<AquaticObjectArgument<*>> {
         return listOf(
-            AquaticObjectArgument("message", "", false),
-            AquaticObjectArgument("messages", ArrayList<String>(), false)
+            PrimitiveObjectArgument("message", "", false),
+            PrimitiveObjectArgument("messages", ArrayList<String>(), false)
         )
     }
 

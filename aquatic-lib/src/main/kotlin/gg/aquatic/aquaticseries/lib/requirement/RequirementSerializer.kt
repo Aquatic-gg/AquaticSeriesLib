@@ -1,9 +1,6 @@
 package gg.aquatic.aquaticseries.lib.requirement
 
-import gg.aquatic.aquaticseries.lib.format.color.ColorUtils
-import gg.aquatic.aquaticseries.lib.requirement.RequirementArgument
-import gg.aquatic.aquaticseries.lib.util.AquaticObjectArgument
-import org.bukkit.Bukkit
+import gg.aquatic.aquaticseries.lib.util.argument.AquaticObjectArgument
 import org.bukkit.configuration.ConfigurationSection
 
 object RequirementSerializer {

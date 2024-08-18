@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.action
 
-import gg.aquatic.aquaticseries.lib.util.AquaticObjectArgument
+import gg.aquatic.aquaticseries.lib.util.argument.AquaticObjectArgument
 import org.bukkit.configuration.ConfigurationSection
 
 object ActionSerializer {
