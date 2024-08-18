@@ -1,4 +1,4 @@
-package gg.aquatic.aquaticseries.lib
+package gg.aquatic.aquaticseries.lib.util
 
 import gg.aquatic.aquaticseries.lib.chance.ChanceUtils
 import gg.aquatic.aquaticseries.lib.chance.IChance
