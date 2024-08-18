@@ -4,6 +4,7 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import gg.aquatic.aquaticseries.lib.action.player.AbstractPlayerAction
 import gg.aquatic.aquaticseries.lib.requirement.RequirementArgument
+import gg.aquatic.aquaticseries.lib.util.AquaticObjectArgument
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 
 class CommandAction: AbstractPlayerAction() {
@@ -14,7 +15,7 @@ class CommandAction: AbstractPlayerAction() {
         )
     }
 
-    override fun arguments(): List<RequirementArgument> {
-        return listOf(RequirementArgument("command", "", true))
+    override fun arguments(): List<AquaticObjectArgument> {
+        return listOf(AquaticObjectArgument("command", "", true))
     }
 }

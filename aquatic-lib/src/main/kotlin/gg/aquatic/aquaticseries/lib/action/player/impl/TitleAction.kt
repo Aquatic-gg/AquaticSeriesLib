@@ -4,6 +4,7 @@ import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.action.player.AbstractPlayerAction
 import gg.aquatic.aquaticseries.lib.requirement.RequirementArgument
 import gg.aquatic.aquaticseries.lib.toAquatic
+import gg.aquatic.aquaticseries.lib.util.AquaticObjectArgument
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import org.bukkit.entity.Player
 
@@ -25,13 +26,13 @@ class TitleAction : AbstractPlayerAction() {
         )
     }
 
-    override fun arguments(): List<RequirementArgument> {
+    override fun arguments(): List<AquaticObjectArgument> {
         return listOf(
-            RequirementArgument("title", "", true),
-            RequirementArgument("subtitle", "", true),
-            RequirementArgument("fadeIn", 0, true),
-            RequirementArgument("stay", 60, true),
-            RequirementArgument("fadeOut", 0, true)
+            AquaticObjectArgument("title", "", true),
+            AquaticObjectArgument("subtitle", "", true),
+            AquaticObjectArgument("fadeIn", 0, true),
+            AquaticObjectArgument("stay", 60, true),
+            AquaticObjectArgument("fadeOut", 0, true)
         )
     }
 }

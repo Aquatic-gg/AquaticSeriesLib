@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.requirement
 
-abstract class AbstractInstancedRequirement<T>(
+class ConfiguredRequirement<T>(
     val requirement: AbstractRequirement<T>,
     val arguments: Map<String, Any?>
 ) {

@@ -5,6 +5,7 @@ import gg.aquatic.aquaticseries.lib.action.player.AbstractPlayerAction
 import gg.aquatic.aquaticseries.lib.adapt.AquaticBossBar
 import gg.aquatic.aquaticseries.lib.requirement.RequirementArgument
 import gg.aquatic.aquaticseries.lib.toAquatic
+import gg.aquatic.aquaticseries.lib.util.AquaticObjectArgument
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
@@ -26,13 +27,13 @@ class BossbarAction : AbstractPlayerAction() {
         }.runTaskLater(AbstractAquaticSeriesLib.INSTANCE.plugin,duration.toLong())
     }
 
-    override fun arguments(): List<RequirementArgument> {
+    override fun arguments(): List<AquaticObjectArgument> {
         return listOf(
-            RequirementArgument("message", "", true),
-            RequirementArgument("progress", 0.0, false),
-            RequirementArgument("color", "BLUE", false),
-            RequirementArgument("style", "SOLID", false),
-            RequirementArgument("duration", 60, true)
+            AquaticObjectArgument("message", "", true),
+            AquaticObjectArgument("progress", 0.0, false),
+            AquaticObjectArgument("color", "BLUE", false),
+            AquaticObjectArgument("style", "SOLID", false),
+            AquaticObjectArgument("duration", 60, true)
         )
     }
 }

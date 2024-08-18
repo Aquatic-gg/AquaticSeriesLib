@@ -2,6 +2,7 @@ package gg.aquatic.aquaticseries.lib.action.player.impl
 
 import gg.aquatic.aquaticseries.lib.action.player.AbstractPlayerAction
 import gg.aquatic.aquaticseries.lib.requirement.RequirementArgument
+import gg.aquatic.aquaticseries.lib.util.AquaticObjectArgument
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import org.bukkit.entity.Player
 
@@ -14,11 +15,11 @@ class SoundAction: AbstractPlayerAction() {
         player.playSound(player.location, sound, volume, pitch)
     }
 
-    override fun arguments(): List<RequirementArgument> {
+    override fun arguments(): List<AquaticObjectArgument> {
         return listOf(
-            RequirementArgument("sound", "minecraft:ambient.basalt_deltas.additions", true),
-            RequirementArgument("volume", 1.0f, false),
-            RequirementArgument("pitch", 1.0f, false)
+            AquaticObjectArgument("sound", "minecraft:ambient.basalt_deltas.additions", true),
+            AquaticObjectArgument("volume", 1.0f, false),
+            AquaticObjectArgument("pitch", 1.0f, false)
         )
     }
 }

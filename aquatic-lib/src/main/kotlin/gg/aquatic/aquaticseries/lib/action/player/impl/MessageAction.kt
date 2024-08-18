@@ -4,6 +4,7 @@ import org.bukkit.entity.Player
 import gg.aquatic.aquaticseries.lib.action.player.AbstractPlayerAction
 import gg.aquatic.aquaticseries.lib.requirement.RequirementArgument
 import gg.aquatic.aquaticseries.lib.toAquatic
+import gg.aquatic.aquaticseries.lib.util.AquaticObjectArgument
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 
 class MessageAction : AbstractPlayerAction() {
@@ -16,10 +17,10 @@ class MessageAction : AbstractPlayerAction() {
         }
     }
 
-    override fun arguments(): List<RequirementArgument> {
+    override fun arguments(): List<AquaticObjectArgument> {
         return listOf(
-            RequirementArgument("message", "", false),
-            RequirementArgument("messages", ArrayList<String>(), false)
+            AquaticObjectArgument("message", "", false),
+            AquaticObjectArgument("messages", ArrayList<String>(), false)
         )
     }
 
