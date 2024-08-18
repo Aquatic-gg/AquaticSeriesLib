@@ -4,14 +4,14 @@ class ChanceUtils {
 
     companion object {
 
-        fun <T : IChance> getRandomItem(items: MutableList<T>): T? {
+        fun <T : IChance> getRandomItem(items: List<T>): T? {
             val chances = items.map { it.chance() }.toMutableList()
             val randomIndex = getRandomChanceIndex(chances)
             if (randomIndex < 0) return null
             return items[randomIndex]
         }
 
-        fun getRandomChanceIndex(chances: MutableList<Double>): Int {
+        fun getRandomChanceIndex(chances: List<Double>): Int {
             if (chances.isEmpty()) return -1
             if (getTotalPercentage(chances) <= 0) {
                 return -1
@@ -31,7 +31,7 @@ class ChanceUtils {
             return -1
         }
 
-        private fun getTotalPercentage(chances: MutableList<Double>): Double {
+        private fun getTotalPercentage(chances: Collection<Double>): Double {
             return chances.sum()
         }
     }
