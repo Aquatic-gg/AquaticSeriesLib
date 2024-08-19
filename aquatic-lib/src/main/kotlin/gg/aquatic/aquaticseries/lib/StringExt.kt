@@ -1,6 +1,9 @@
 package gg.aquatic.aquaticseries.lib
 
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
+import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
+import gg.aquatic.aquaticseries.paper.adapt.PaperString
+import gg.aquatic.aquaticseries.spigot.adapt.SpigotString
 import org.bukkit.entity.Player
 
 fun String.toAquatic(): AquaticString {
@@ -9,6 +12,28 @@ fun String.toAquatic(): AquaticString {
 
 fun Collection<String>.toAquatic(): List<AquaticString> {
     return map { it.toAquatic() }
+}
+
+fun PaperString.replace(placeholders: Placeholders): PaperString {
+    val replaced = placeholders.replace(this.string)
+    return PaperString(replaced)
+}
+
+fun SpigotString.replace(placeholders: Placeholders): SpigotString {
+    val replaced = placeholders.replace(this.string)
+    return SpigotString(replaced)
+}
+
+fun AquaticString.replace(placeholders: Placeholders): AquaticString {
+    val replaced = placeholders.replace(this.string)
+    if (this is SpigotString) {
+        return SpigotString(replaced)
+    }
+    return PaperString(replaced)
+}
+
+fun Placeholders.replace(input: AquaticString): AquaticString {
+    return input.replace(this)
 }
 
 fun AquaticString.sendTitle(

@@ -3,6 +3,7 @@ package gg.aquatic.aquaticseries.lib.action.player.impl
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.action.player.AbstractPlayerAction
 import gg.aquatic.aquaticseries.lib.adapt.AquaticBossBar
+import gg.aquatic.aquaticseries.lib.replace
 import gg.aquatic.aquaticseries.lib.toAquatic
 import gg.aquatic.aquaticseries.lib.util.argument.AquaticObjectArgument
 import gg.aquatic.aquaticseries.lib.util.argument.impl.PrimitiveObjectArgument
@@ -18,7 +19,7 @@ class BossbarAction : AbstractPlayerAction() {
         val style = AquaticBossBar.Style.valueOf((args["style"] as String).uppercase())
         val duration = args["duration"] as Int
 
-        val bossBar = AbstractAquaticSeriesLib.INSTANCE.adapter.bossBarAdapter.create(message.toAquatic(), color, style, progress)
+        val bossBar = AbstractAquaticSeriesLib.INSTANCE.adapter.bossBarAdapter.create(message.toAquatic().replace(placeholders), color, style, progress)
         bossBar.addPlayer(player)
         object : BukkitRunnable() {
             override fun run() {

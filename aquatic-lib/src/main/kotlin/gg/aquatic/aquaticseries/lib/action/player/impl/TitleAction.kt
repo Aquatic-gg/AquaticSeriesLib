@@ -2,6 +2,7 @@ package gg.aquatic.aquaticseries.lib.action.player.impl
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.action.player.AbstractPlayerAction
+import gg.aquatic.aquaticseries.lib.replace
 import gg.aquatic.aquaticseries.lib.toAquatic
 import gg.aquatic.aquaticseries.lib.util.argument.AquaticObjectArgument
 import gg.aquatic.aquaticseries.lib.util.argument.impl.PrimitiveObjectArgument
@@ -18,8 +19,8 @@ class TitleAction : AbstractPlayerAction() {
 
         AbstractAquaticSeriesLib.INSTANCE.adapter.titleAdapter.send(
             player,
-            title.toAquatic(),
-            subtitle.toAquatic(),
+            title.toAquatic().replace(placeholders),
+            subtitle.toAquatic().replace(placeholders),
             fadeIn,
             stay,
             fadeOut
