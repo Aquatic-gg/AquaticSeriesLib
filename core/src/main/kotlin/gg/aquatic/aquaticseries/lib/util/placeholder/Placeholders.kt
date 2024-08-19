@@ -25,9 +25,9 @@ class Placeholders(
     }
 
     fun replace(input: String): String {
-        return placeholders.fold(input) { acc, placeholder ->
-            placeholder.replace(acc)
-        }
+        var str = input
+        placeholders.forEach { placeholder -> str = placeholder.replace(str) }
+        return str
     }
 
     fun replace(input: List<String>): MutableList<String> {
