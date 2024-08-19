@@ -8,16 +8,16 @@ class Placeholders(
     val placeholders = ArrayList<Placeholder>()
 
 
-    constructor(vararg placeholders: Placeholder): this() {
+    constructor(vararg placeholders: Placeholder) : this() {
         this.placeholders.addAll(placeholders)
     }
 
-    constructor(vararg placeholders: Pair<String,Any>) : this() {
+    constructor(vararg placeholders: Pair<String, Any>) : this() {
         this.placeholders.addAll(placeholders.map { Placeholder(it.first, it.second) })
     }
 
     fun addPlaceholder(placeholder: Placeholder) {
-        placeholders+=placeholders
+        placeholders += placeholder
     }
 
     operator fun plusAssign(placeholder: Placeholder) {
