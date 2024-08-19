@@ -1,7 +1,7 @@
 package gg.aquatic.aquaticseries.lib.action.player.impl
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
-import gg.aquatic.aquaticseries.lib.action.player.AbstractPlayerAction
+import gg.aquatic.aquaticseries.lib.action.AbstractAction
 import gg.aquatic.aquaticseries.lib.adapt.AquaticBossBar
 import gg.aquatic.aquaticseries.lib.replace
 import gg.aquatic.aquaticseries.lib.toAquatic
@@ -11,7 +11,7 @@ import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 
-class BossbarAction : AbstractPlayerAction() {
+class BossbarAction : AbstractAction<Player>() {
     override fun run(player: Player, args: Map<String, Any?>, placeholders: Placeholders) {
         val message = args["message"] as String
         val progress = args["progress"] as Double

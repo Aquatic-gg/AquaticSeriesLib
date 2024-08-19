@@ -1,13 +1,13 @@
 package gg.aquatic.aquaticseries.lib.action.player.impl
 
+import gg.aquatic.aquaticseries.lib.action.AbstractAction
 import org.bukkit.entity.Player
-import gg.aquatic.aquaticseries.lib.action.player.AbstractPlayerAction
 import gg.aquatic.aquaticseries.lib.toAquatic
 import gg.aquatic.aquaticseries.lib.util.argument.AquaticObjectArgument
 import gg.aquatic.aquaticseries.lib.util.argument.impl.PrimitiveObjectArgument
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 
-class MessageAction : AbstractPlayerAction() {
+class MessageAction : AbstractAction<Player>() {
 
     override fun run(player: Player, args: Map<String, Any?>, placeholders: Placeholders) {
         val messages = if (args["message"] != null) listOf(args["message"] as String) else args["messages"] as List<String>

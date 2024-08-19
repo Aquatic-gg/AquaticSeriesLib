@@ -1,7 +1,7 @@
 package gg.aquatic.aquaticseries.lib.action.player.impl
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
-import gg.aquatic.aquaticseries.lib.action.player.AbstractPlayerAction
+import gg.aquatic.aquaticseries.lib.action.AbstractAction
 import gg.aquatic.aquaticseries.lib.replace
 import gg.aquatic.aquaticseries.lib.toAquatic
 import gg.aquatic.aquaticseries.lib.util.argument.AquaticObjectArgument
@@ -9,7 +9,7 @@ import gg.aquatic.aquaticseries.lib.util.argument.impl.PrimitiveObjectArgument
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import org.bukkit.entity.Player
 
-class TitleAction : AbstractPlayerAction() {
+class TitleAction : AbstractAction<Player>() {
     override fun run(player: Player, args: Map<String, Any?>, placeholders: Placeholders) {
         val title = args["title"] as String
         val subtitle = args["subtitle"] as String
