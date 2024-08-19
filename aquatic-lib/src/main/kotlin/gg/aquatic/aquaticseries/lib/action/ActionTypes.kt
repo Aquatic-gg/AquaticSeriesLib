@@ -12,6 +12,7 @@ object ActionTypes {
         this += "bossbar" to BossbarAction()
         this += "sound" to SoundAction()
         this += "broadcast" to BroadcastAction()
+        this += "giveitem" to GiveItemAction()
     }
 
 }
