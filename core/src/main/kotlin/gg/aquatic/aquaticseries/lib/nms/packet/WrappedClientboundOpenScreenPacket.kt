@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.nms.packet
 
-class WrappedClientboundOpenScreenpacket(
+class WrappedClientboundOpenScreenPacket(
     private var _containerId: Int,
     private var _type: Int,
     private var _stringOrJsonTitle: String,
