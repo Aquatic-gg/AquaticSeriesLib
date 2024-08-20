@@ -5,6 +5,4 @@ abstract class WrappedPacket {
     var modified: Boolean = false
         protected set
 
-    var cancelled: Boolean = false
-
 }
