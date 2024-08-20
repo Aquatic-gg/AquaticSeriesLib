@@ -1,4 +1,4 @@
-package gg.aquatic.aquaticseries.lib.nms
+package gg.aquatic.aquaticseries.lib.nms.listener
 
 import org.bukkit.entity.Player
 

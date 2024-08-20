@@ -1,6 +1,7 @@
 package gg.aquatic.aquaticseries.lib.nms
 
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
+import gg.aquatic.aquaticseries.lib.nms.listener.PacketListenerAdapter
 import gg.aquatic.aquaticseries.lib.util.AbstractAudience
 import org.bukkit.GameMode
 import org.bukkit.Location
