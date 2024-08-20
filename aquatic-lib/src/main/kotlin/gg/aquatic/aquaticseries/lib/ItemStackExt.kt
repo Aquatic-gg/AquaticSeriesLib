@@ -2,8 +2,11 @@ package gg.aquatic.aquaticseries.lib
 
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
+import org.bukkit.block.CreatureSpawner
+import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.BlockStateMeta
 import org.bukkit.inventory.meta.ItemMeta
 
 fun ItemStack.displayName(string: AquaticString) {
@@ -15,6 +18,11 @@ fun ItemStack.lore(vararg strings: AquaticString) {
 fun ItemStack.lore(strings: List<AquaticString>) {
     AbstractAquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.lore(strings = strings, this)
 }
+fun ItemStack.setSpawnerType(type: EntityType) {
+    val meta = itemMeta ?: return
+    meta.setSpawnerType(type)
+    itemMeta = meta
+}
 
 fun ItemMeta.displayName(string: AquaticString) {
     AbstractAquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.displayName(string, this)
@@ -24,6 +32,12 @@ fun ItemMeta.lore(vararg strings: AquaticString) {
 }
 fun ItemMeta.lore(strings: List<AquaticString>) {
     AbstractAquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.lore(strings = strings, this)
+}
+fun ItemMeta.setSpawnerType(type: EntityType) {
+    if (this !is BlockStateMeta) return
+    val blockState = this.blockState as? CreatureSpawner ?: return
+    blockState.spawnedType = type
+    this.blockState = blockState
 }
 
 fun ItemMeta.updatePlaceholders(player: Player, placeholders: Placeholders): ItemMeta {
