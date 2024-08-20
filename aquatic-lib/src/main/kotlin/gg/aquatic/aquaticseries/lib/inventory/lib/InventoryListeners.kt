@@ -70,12 +70,12 @@ class InventoryListeners : Listener {
 
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
-        InventoryHandler.inventoryAdapter.injectPlayer(event.player)
+        InventoryHandler.inventoryAdapter.inject(event.player)
     }
 
     @EventHandler
     fun onQuit(event: PlayerQuitEvent) {
-        InventoryHandler.inventoryAdapter.ejectPlayer(event.player)
+        InventoryHandler.inventoryAdapter.inject(event.player)
     }
 
 }

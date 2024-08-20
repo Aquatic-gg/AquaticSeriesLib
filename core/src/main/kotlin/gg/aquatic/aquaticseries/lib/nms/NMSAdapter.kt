@@ -13,7 +13,6 @@ import java.util.function.Consumer
 
 interface NMSAdapter {
 
-    fun inventoryAdapter(): InventoryAdapter
     fun packetListenerAdapter(): PacketListenerAdapter
 
     fun spawnEntity(location: Location, type: String, audience: AbstractAudience, factory: Consumer<Entity>): Int
