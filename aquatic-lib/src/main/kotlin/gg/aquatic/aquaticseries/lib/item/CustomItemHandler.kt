@@ -21,6 +21,10 @@ object CustomItemHandler {
         put("itemsadder", IAFactory)
     }
 
+    fun registerItemFactory(provider: String, factory: ItemFactory) {
+        itemRegistries[provider] = factory
+    }
+
     val itemRegistry = HashMap<String, CustomItem>()
 
     val NAMESPACE_KEY = NamespacedKey(AbstractAquaticSeriesLib.INSTANCE.plugin,"Custom_Item_Registry")
