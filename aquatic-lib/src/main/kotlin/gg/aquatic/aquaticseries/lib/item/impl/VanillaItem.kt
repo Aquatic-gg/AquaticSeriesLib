@@ -3,6 +3,7 @@ package gg.aquatic.aquaticseries.lib.item.impl
 import gg.aquatic.aquaticseries.lib.item.CustomItem
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
@@ -13,7 +14,7 @@ class VanillaItem(
     override val amount: Int,
     override val modelData: Int,
     override val enchantments: MutableMap<Enchantment, Int>?,
-    override val flags: MutableList<ItemFlag>?,
+    override val flags: MutableList<ItemFlag>?, override val spawnerEntityType: EntityType?,
     ): CustomItem() {
     override fun getUnmodifiedItem(): ItemStack {
         return ItemStack(material)

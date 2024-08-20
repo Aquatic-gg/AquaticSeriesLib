@@ -9,6 +9,7 @@ import gg.aquatic.aquaticseries.lib.item.impl.VanillaItem
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemFlag
 import java.util.*
 import kotlin.collections.HashMap
@@ -36,7 +37,8 @@ object CustomItemHandler {
         amount: Int,
         modeldata: Int,
         enchantments: MutableMap<Enchantment, Int>?,
-        flags: MutableList<ItemFlag>?
+        flags: MutableList<ItemFlag>?,
+        spawnerEntityType: EntityType?
     ): CustomItem {
         val strs = namespace.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         val provider = strs[0].lowercase(Locale.getDefault())
@@ -49,11 +51,12 @@ object CustomItemHandler {
                 amount,
                 modeldata,
                 enchantments,
-                flags
+                flags,
+                spawnerEntityType
             )
         }
         val identifier = namespace.substring(provider.length + 1)
-        return factory.create(identifier, name, description, amount, modeldata, enchantments, flags)
+        return factory.create(identifier, name, description, amount, modeldata, enchantments, flags, spawnerEntityType)
     }
 
 }

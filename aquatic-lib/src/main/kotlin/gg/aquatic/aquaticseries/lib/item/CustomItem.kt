@@ -2,11 +2,13 @@ package gg.aquatic.aquaticseries.lib.item
 
 import gg.aquatic.aquaticseries.lib.displayName
 import gg.aquatic.aquaticseries.lib.lore
+import gg.aquatic.aquaticseries.lib.setSpawnerType
 import gg.aquatic.aquaticseries.lib.toAquatic
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
@@ -21,13 +23,14 @@ abstract class CustomItem(
     abstract val description: MutableList<String>?
     abstract val amount: Int
     abstract val modelData: Int
-    abstract val enchantments: MutableMap<Enchantment,Int>?
+    abstract val enchantments: MutableMap<Enchantment, Int>?
     abstract val flags: MutableList<ItemFlag>?
+    abstract val spawnerEntityType: EntityType?
 
     var registryId: String? = null
 
     fun giveItem(player: Player) {
-        giveItem(player,amount)
+        giveItem(player, amount)
     }
 
     fun giveItem(player: Player, amount: Int) {
@@ -58,7 +61,12 @@ abstract class CustomItem(
         }
 
         registryId?.let {
-            im.persistentDataContainer.set(CustomItemHandler.NAMESPACE_KEY, PersistentDataType.STRING,it)
+            im.persistentDataContainer.set(CustomItemHandler.NAMESPACE_KEY, PersistentDataType.STRING, it)
+        }
+        spawnerEntityType?.apply {
+            if (iS.type == Material.SPAWNER) {
+                im.setSpawnerType(this)
+            }
         }
 
         iS.itemMeta = im
@@ -67,7 +75,7 @@ abstract class CustomItem(
             if (iS.type == Material.ENCHANTED_BOOK) {
                 val esm = im as EnchantmentStorageMeta
                 this.forEach { (t, u) ->
-                    esm.addStoredEnchant(t,u,true)
+                    esm.addStoredEnchant(t, u, true)
                 }
                 iS.itemMeta = esm
             } else {
@@ -99,6 +107,7 @@ abstract class CustomItem(
         fun get(id: String): CustomItem? {
             return CustomItemHandler.itemRegistry[id]
         }
+
         fun get(itemStack: ItemStack): CustomItem? {
             val pdc = itemStack.itemMeta?.persistentDataContainer ?: return null
             if (!pdc.has(CustomItemHandler.NAMESPACE_KEY, PersistentDataType.STRING)) return null
@@ -113,9 +122,19 @@ abstract class CustomItem(
             amount: Int,
             modeldata: Int,
             enchantments: MutableMap<Enchantment, Int>?,
-            flags: MutableList<ItemFlag>?
+            flags: MutableList<ItemFlag>?,
+            spawnerEntityType: EntityType?
         ): CustomItem {
-            return CustomItemHandler.getCustomItem(namespace, name, description, amount, modeldata, enchantments, flags)
+            return CustomItemHandler.getCustomItem(
+                namespace,
+                name,
+                description,
+                amount,
+                modeldata,
+                enchantments,
+                flags,
+                spawnerEntityType
+            )
         }
 
         fun loadFromYaml(section: ConfigurationSection?): CustomItem? {
@@ -143,6 +162,7 @@ abstract class CustomItem(
                     flags.add(itemFlag)
                 }
             }
+            val spawnerEntityType = section.getString("entity-type")?.let { EntityType.valueOf(it.uppercase(Locale.getDefault())) }
             return create(
                 section.getString("material", "STONE")!!,
                 section.getString("display-name"),
@@ -150,7 +170,8 @@ abstract class CustomItem(
                 section.getInt("amount", 1),
                 section.getInt("model-data"),
                 enchantments,
-                flags
+                flags,
+                spawnerEntityType
             )
         }
     }

@@ -4,6 +4,7 @@ import gg.aquatic.aquaticseries.lib.item.CustomItem
 import gg.aquatic.aquaticseries.lib.item.factory.ItemFactory
 import gg.aquatic.aquaticseries.lib.item.impl.OraxenItem
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemFlag
 
 object OraxenFactory: ItemFactory {
@@ -15,9 +16,10 @@ object OraxenFactory: ItemFactory {
         amount: Int,
         modelData: Int,
         enchantments: MutableMap<Enchantment, Int>?,
-        flags: MutableList<ItemFlag>?
+        flags: MutableList<ItemFlag>?,
+        spawnerEntityType: EntityType?
     ): CustomItem {
-        return OraxenItem(id, name, description, amount, modelData, enchantments, flags)
+        return OraxenItem(id, name, description, amount, modelData, enchantments, flags, spawnerEntityType)
     }
 
 }
