@@ -2,6 +2,7 @@ package gg.aquatic.aquaticseries.lib.item
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.item.factory.ItemFactory
+import gg.aquatic.aquaticseries.lib.item.factory.impl.IAFactory
 import gg.aquatic.aquaticseries.lib.item.factory.impl.MMFactory
 import gg.aquatic.aquaticseries.lib.item.factory.impl.OraxenFactory
 import gg.aquatic.aquaticseries.lib.item.impl.VanillaItem
@@ -17,6 +18,7 @@ object CustomItemHandler {
     private val itemRegistries = HashMap<String, ItemFactory>().apply {
         put("mythicitem", MMFactory)
         put("oraxen", OraxenFactory)
+        put("itemsadder", IAFactory)
     }
 
     val itemRegistry = HashMap<String, CustomItem>()
