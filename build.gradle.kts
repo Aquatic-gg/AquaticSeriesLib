@@ -77,6 +77,7 @@ subprojects {
         maven("https://mvn.lumine.io/repository/maven-public/")
         maven("https://repo.oraxen.com/releases")
         maven("https://jitpack.io")
+        maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     }
 
     dependencies {
@@ -88,6 +89,7 @@ subprojects {
         compileOnly ("com.ticxo.modelengine:ModelEngine:R4.0.4")
         compileOnly("redis.clients:jedis:5.0.0")
         compileOnly("com.github.MilkBowl:VaultAPI:1.7")
+        compileOnly("me.clip:placeholderapi:2.11.2")
         //implementation("net.kyori:adventure-api:4.17.0")
     }
 
