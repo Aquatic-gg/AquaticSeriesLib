@@ -162,7 +162,7 @@ abstract class CustomItem(
                     flags.add(itemFlag)
                 }
             }
-            val spawnerEntityType = section.getString("entity-type")?.let { EntityType.valueOf(it.uppercase(Locale.getDefault())) }
+            val spawnerEntityType = section.getString("entity-type")?.let { EntityType.valueOf(it.uppercase()) }
             return create(
                 section.getString("material", "STONE")!!,
                 section.getString("display-name"),
