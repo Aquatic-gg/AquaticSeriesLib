@@ -4,6 +4,7 @@ import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.feature.Features
 import gg.aquatic.aquaticseries.lib.feature.IFeature
+import gg.aquatic.aquaticseries.lib.inventory.InventoryPacketListener
 import gg.aquatic.aquaticseries.lib.inventory.lib.title.TitleHandler
 import gg.aquatic.aquaticseries.lib.nms.InventoryAdapter
 import java.util.UUID
@@ -22,6 +23,7 @@ object InventoryHandler: IFeature {
 
     override fun initialize(lib: AbstractAquaticSeriesLib) {
         lib.plugin.server.pluginManager.registerEvents(InventoryListeners(),lib.plugin)
+        lib.nmsAdapter!!.packetListenerAdapter().registerListener(InventoryPacketListener())
     }
 
 }
