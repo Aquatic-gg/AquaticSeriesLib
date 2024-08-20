@@ -68,14 +68,4 @@ class InventoryListeners : Listener {
         }
     }
 
-    @EventHandler
-    fun onJoin(event: PlayerJoinEvent) {
-        InventoryHandler.inventoryAdapter.inject(event.player)
-    }
-
-    @EventHandler
-    fun onQuit(event: PlayerQuitEvent) {
-        InventoryHandler.inventoryAdapter.inject(event.player)
-    }
-
 }

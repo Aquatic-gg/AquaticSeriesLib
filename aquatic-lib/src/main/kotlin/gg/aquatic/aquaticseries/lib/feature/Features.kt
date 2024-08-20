@@ -5,6 +5,7 @@ enum class Features {
     INTERACTABLES,
     INVENTORIES,
     NETWORKING,
-    FAKEOBJECTS
+    FAKEOBJECTS,
+    PACKET_LISTENER,
 
 }

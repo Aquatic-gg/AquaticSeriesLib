@@ -48,16 +48,6 @@ object FakeObjectHandler: IFeature {
     class Listeners: Listener {
 
         @EventHandler
-        fun PlayerJoinEvent.onPlayerJoin() {
-            AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.packetListenerAdapter().inject(player)
-        }
-
-        @EventHandler
-        fun PlayerQuitEvent.onPlayerQuit() {
-            AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.packetListenerAdapter().eject(player)
-        }
-
-        @EventHandler
         fun PlayerInteractEvent.onInteract() {
             if (hand == EquipmentSlot.OFF_HAND) return
             val block = registry.getBlock(clickedBlock?.location ?: return) ?: return
