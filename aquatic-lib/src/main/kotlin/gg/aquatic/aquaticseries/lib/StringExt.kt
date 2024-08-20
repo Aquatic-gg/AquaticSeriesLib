@@ -4,6 +4,7 @@ import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import gg.aquatic.aquaticseries.paper.adapt.PaperString
 import gg.aquatic.aquaticseries.spigot.adapt.SpigotString
+import me.clip.placeholderapi.PlaceholderAPI
 import org.bukkit.entity.Player
 
 fun String.toAquatic(): AquaticString {
@@ -34,6 +35,11 @@ fun AquaticString.replace(placeholders: Placeholders): AquaticString {
 
 fun Placeholders.replace(input: AquaticString): AquaticString {
     return input.replace(this)
+}
+
+fun String.updatePAPIPlaceholders(player: Player): String {
+    AbstractAquaticSeriesLib.INSTANCE.plugin.server.pluginManager.getPlugin("PlaceholderAPI") ?: return this
+    return PlaceholderAPI.setPlaceholders(player,this)
 }
 
 fun AquaticString.sendTitle(

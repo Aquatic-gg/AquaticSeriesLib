@@ -20,6 +20,7 @@ repositories {
     maven("https://repo.oraxen.com/releases")
     maven("https://jitpack.io")
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 }
 
 dependencies {
@@ -28,6 +29,7 @@ dependencies {
     compileOnly("io.th0rgal:oraxen:1.171.0")
     compileOnly("com.github.LoneDev6:API-ItemsAdder:3.6.2-beta-r3-b")
     compileOnly ("com.ticxo.modelengine:ModelEngine:R4.0.4")
+    compileOnly("me.clip:placeholderapi:2.11.2")
     //implementation("net.kyori:adventure-api:4.17.0")
 }
 
