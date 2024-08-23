@@ -41,8 +41,8 @@ object FakeObjectHandler: IFeature {
         registry.unregisterEntity(location, id)
     }
 
-    fun getBlock(location: Location): PacketBlock? {
-        return registry.getBlock(location)
+    fun getBlock(location: Location): MutableList<PacketBlock> {
+        return registry.getBlocks(location)
     }
 
     class Listeners: Listener {
@@ -50,11 +50,17 @@ object FakeObjectHandler: IFeature {
         @EventHandler
         fun PlayerInteractEvent.onInteract() {
             if (hand == EquipmentSlot.OFF_HAND) return
-            val block = registry.getBlock(clickedBlock?.location ?: return) ?: return
-            val e = PacketBlockInteractEvent(block,action)
-            block.onInteract.accept(this)
-            isCancelled = true
-            e.call()
+            val blocks = registry.getBlocks(clickedBlock?.location ?: return)
+            if (blocks.isEmpty()) return
+
+            for (block in blocks) {
+                if (!block.audience.canBeApplied(player.uniqueId)) continue
+
+                val e = PacketBlockInteractEvent(block,action)
+                block.onInteract.accept(this)
+                isCancelled = true
+                e.call()
+            }
         }
 
         @EventHandler
@@ -71,15 +77,23 @@ object FakeObjectHandler: IFeature {
             val packetEntities = entityChunkMap?.get("${chunk.x};${chunk.z}")
 
             val fakeObjects = ArrayList<AbstractPacketObject>()
-            if (packetBlocks != null) fakeObjects.addAll(packetBlocks.values)
-            if (packetEntities != null) fakeObjects.addAll(packetEntities.values)
+            packetBlocks?.values?.forEach { pb ->
+                for (packetBlock in pb) {
+                    if (packetBlock.audience.canBeApplied(player.uniqueId)) fakeObjects.add(packetBlock)
+                }
+            }
+            packetEntities?.values?.forEach { pe ->
+                for (packetEntity in pe) {
+                    if (packetEntity.audience.canBeApplied(player.uniqueId)) fakeObjects.add(packetEntity)
+                }
+            }
 
             if (fakeObjects.isNotEmpty()) {
                 object : BukkitRunnable() {
                     override fun run() {
                         for (fakeObject in fakeObjects) {
                             if (!fakeObject.spawned) continue
-                            if (!fakeObject.audience.currentlyViewing.contains(player.uniqueId)) continue
+                            if (!fakeObject.audience.canBeApplied(player.uniqueId)) continue
                             fakeObject.sendSpawnPacket(player)
                         }
                     }

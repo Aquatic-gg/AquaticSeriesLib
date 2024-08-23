@@ -1,17 +1,21 @@
-package gg.aquatic.aquaticseries.lib.interactable.impl.block
+package gg.aquatic.aquaticseries.lib.interactable.impl.global.block
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.interactable.AbstractInteractable
+import gg.aquatic.aquaticseries.lib.interactable.AbstractSpawnedPacketInteractable
+import gg.aquatic.aquaticseries.lib.interactable.AudienceList
 import gg.aquatic.aquaticseries.lib.interactable.InteractableData
 import gg.aquatic.aquaticseries.lib.interactable.event.BlockInteractableBreakEvent
+import gg.aquatic.aquaticseries.lib.interactable.event.BlockInteractableInteractEvent
+import gg.aquatic.aquaticseries.lib.interactable.impl.personalized.block.SpawnedPacketBlockInteractable
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.util.Consumer
 
 class BlockInteractable(
     override val id: String,
-    val onInteract: Consumer<gg.aquatic.aquaticseries.lib.interactable.event.BlockInteractableInteractEvent>,
-    val onBreak: Consumer<BlockInteractableBreakEvent>,
+    var onInteract: Consumer<BlockInteractableInteractEvent>?,
+    var onBreak: Consumer<BlockInteractableBreakEvent>?,
     override val shape: BlockShape, override val persistent: Boolean
 ) : AbstractInteractable() {
 
@@ -21,11 +25,11 @@ class BlockInteractable(
     }
 
     fun onBreak(event: BlockInteractableBreakEvent) {
-        onBreak.accept(event)
+        onBreak?.accept(event)
     }
 
-    fun onInteract(event: gg.aquatic.aquaticseries.lib.interactable.event.BlockInteractableInteractEvent) {
-        this.onInteract.accept(event)
+    fun onInteract(event: BlockInteractableInteractEvent) {
+        this.onInteract?.accept(event)
     }
 
     override val serializer: BlockInteractableSerializer
@@ -45,37 +49,13 @@ class BlockInteractable(
     }
 
     override fun spawn(location: Location): SpawnedBlockInteractable {
-        /*
-        //despawn()
-        val locations = ArrayList<Location>()
-        val spawned = SpawnedBlockInteractable(location, this, locations)
-        Bukkit.broadcastMessage("Spawning")
-        //val nullChars = ArrayList<Char>()
-
-        processLayerCells(shape.layers, location) {char, newLoc ->
-            val block = shape.blocks[char]
-            if (block == null) {
-                //nullChars += char
-            } else {
-                block.place(newLoc)
-                locations += newLoc
-            }
-        }
-
-        val cbd = CustomBlockData(location.block, AquaticSeriesLib.INSTANCE.plugin)
-        val blockData =
-            InteractableData(id, location.yaw, location.pitch, serializer.serialize(spawned), shape.layers)
-        cbd.set(INTERACTABLE_KEY, PersistentDataType.STRING, AquaticSeriesLib.GSON.toJson(blockData))
-
-        val mainLocStr = location.toStringDetailed()
-
-        AquaticSeriesLib.INSTANCE.interactableHandler.spawnedIntectables[mainLocStr] = spawned
-        for (loc in locations) {
-            AquaticSeriesLib.INSTANCE.interactableHandler.spawnedChildren[loc.toStringSimple()] = mainLocStr
-        }
-        return spawned
-         */
         val spawned = SpawnedBlockInteractable(location, this)
+        spawned.spawn(null,false)
+        return spawned
+    }
+
+    override fun spawn(location: Location, audienceList: AudienceList): AbstractSpawnedPacketInteractable {
+        val spawned = SpawnedPacketBlockInteractable(location, this, audienceList)
         spawned.spawn(null,false)
         return spawned
     }

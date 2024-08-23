@@ -1,4 +1,4 @@
-package gg.aquatic.aquaticseries.lib.interactable.impl.meg
+package gg.aquatic.aquaticseries.lib.interactable.impl.global.meg
 
 import com.jeff_media.customblockdata.CustomBlockData
 import com.ticxo.modelengine.api.ModelEngineAPI
@@ -7,7 +7,9 @@ import com.ticxo.modelengine.api.model.ModeledEntity
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.interactable.AbstractInteractable
 import gg.aquatic.aquaticseries.lib.interactable.AbstractSpawnedInteractable
+import gg.aquatic.aquaticseries.lib.interactable.event.MegInteractableInteractEvent
 import org.bukkit.Location
+import org.bukkit.util.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class SpawnedMegInteractable(
@@ -15,6 +17,8 @@ class SpawnedMegInteractable(
     override val interactable: MEGInteractable,
     override val associatedLocations: List<Location>
 ) : AbstractSpawnedInteractable() {
+
+    var onInteract: Consumer<MegInteractableInteractEvent>? = null
 
     val dummy = MegInteractableDummy(this)
     override var loaded = false
@@ -51,9 +55,10 @@ class SpawnedMegInteractable(
         for (associatedLocation in associatedLocations) {
             AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.removeChildren(associatedLocation)
         }
-        if (!interactable.persistent) return
-        val cbd = CustomBlockData(location.block, AbstractAquaticSeriesLib.INSTANCE.plugin)
-        cbd.remove(AbstractInteractable.INTERACTABLE_KEY)
+        if (interactable.persistent) {
+            val cbd = CustomBlockData(location.block, AbstractAquaticSeriesLib.INSTANCE.plugin)
+            cbd.remove(AbstractInteractable.INTERACTABLE_KEY)
+        }
         AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.removeParent(location)
     }
 

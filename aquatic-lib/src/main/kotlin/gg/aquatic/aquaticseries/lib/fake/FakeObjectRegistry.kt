@@ -4,7 +4,7 @@ import org.bukkit.Location
 
 class FakeObjectRegistry {
 
-    val blocks = HashMap<String,HashMap<String,HashMap<String,PacketBlock>>>()
+    val blocks = HashMap<String,HashMap<String,HashMap<String,MutableList<PacketBlock>>>>()
     val entities = HashMap<String,HashMap<String,ArrayList<Int>>>()
 
     val entitiesMapper = HashMap<Int,PacketEntity>()
@@ -25,7 +25,9 @@ class FakeObjectRegistry {
 
         val worldMap = blocks.getOrPut(loc.world!!.name) { HashMap() }
         val chunkMap = worldMap.getOrPut("${chunk.x};${chunk.z}") { HashMap() }
-        chunkMap += "${loc.blockX};${loc.blockY};${loc.blockZ}" to packetBlock
+        val blockList = chunkMap.getOrPut("${loc.blockX};${loc.blockY};${loc.blockZ}") { ArrayList() }
+        blockList += packetBlock
+        //chunkMap += "${loc.blockX};${loc.blockY};${loc.blockZ}" to packetBlock
     }
 
     fun unregisterBlock(loc: Location) {
@@ -59,12 +61,12 @@ class FakeObjectRegistry {
         }
     }
 
-    fun getBlock(loc: Location): PacketBlock? {
+    fun getBlocks(loc: Location): MutableList<PacketBlock> {
         val chunk = loc.chunk
 
-        val worldMap = blocks[loc.world!!.name] ?: return null
-        val chunkMap = worldMap["${chunk.x};${chunk.z}"] ?: return null
-        return chunkMap["${loc.blockX};${loc.blockY};${loc.blockZ}"]
+        val worldMap = blocks[loc.world!!.name] ?: return mutableListOf()
+        val chunkMap = worldMap["${chunk.x};${chunk.z}"] ?: return mutableListOf()
+        return chunkMap["${loc.blockX};${loc.blockY};${loc.blockZ}"] ?: return mutableListOf()
     }
 
 }

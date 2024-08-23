@@ -7,5 +7,6 @@ enum class Features {
     NETWORKING,
     FAKEOBJECTS,
     PACKET_LISTENER,
+    WORLD_OBJECTS
 
 }

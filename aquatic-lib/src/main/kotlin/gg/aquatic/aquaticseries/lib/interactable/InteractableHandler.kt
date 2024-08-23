@@ -9,14 +9,16 @@ import gg.aquatic.aquaticseries.lib.awaiters.MEGAwaiter
 import gg.aquatic.aquaticseries.lib.feature.Features
 import gg.aquatic.aquaticseries.lib.feature.IFeature
 import gg.aquatic.aquaticseries.lib.interactable.event.BlockInteractableBreakEvent
+import gg.aquatic.aquaticseries.lib.interactable.event.BlockInteractableInteractEvent
 import gg.aquatic.aquaticseries.lib.interactable.event.MegInteractableInteractEvent
-import gg.aquatic.aquaticseries.lib.interactable.impl.block.BlockInteractable
-import gg.aquatic.aquaticseries.lib.interactable.impl.block.BlockInteractableSerializer
-import gg.aquatic.aquaticseries.lib.interactable.impl.block.SpawnedBlockInteractable
-import gg.aquatic.aquaticseries.lib.interactable.impl.meg.MEGInteractable
-import gg.aquatic.aquaticseries.lib.interactable.impl.meg.MegInteractableDummy
-import gg.aquatic.aquaticseries.lib.interactable.impl.meg.MegInteractableSerializer
-import gg.aquatic.aquaticseries.lib.interactable.impl.meg.SpawnedMegInteractable
+import gg.aquatic.aquaticseries.lib.interactable.impl.global.block.BlockInteractable
+import gg.aquatic.aquaticseries.lib.interactable.impl.global.block.BlockInteractableSerializer
+import gg.aquatic.aquaticseries.lib.interactable.impl.global.block.SpawnedBlockInteractable
+import gg.aquatic.aquaticseries.lib.interactable.impl.global.meg.MEGInteractable
+import gg.aquatic.aquaticseries.lib.interactable.impl.global.meg.MegInteractableDummy
+import gg.aquatic.aquaticseries.lib.interactable.impl.global.meg.MegInteractableSerializer
+import gg.aquatic.aquaticseries.lib.interactable.impl.global.meg.SpawnedMegInteractable
+import gg.aquatic.aquaticseries.lib.interactable.impl.personalized.block.SpawnedPacketBlockInteractable
 import gg.aquatic.aquaticseries.lib.workload.ChunkWorkload
 import gg.aquatic.aquaticseries.lib.workload.ContainerWorkload
 import org.bukkit.Bukkit
@@ -35,7 +37,7 @@ import java.util.concurrent.CompletableFuture
 
 class InteractableHandler(
     val workloadDelay: Long
-): IFeature {
+) : IFeature {
 
     override val type: Features = Features.INTERACTABLES
     var enginesLoaded = false
@@ -45,7 +47,7 @@ class InteractableHandler(
             override fun run() {
                 registerListeners(lib.plugin)
             }
-        }.runTaskLater(lib.plugin,1)
+        }.runTaskLater(lib.plugin, 1)
 
         val loaders = ArrayList<AbstractAwaiter>()
         if (Bukkit.getPluginManager().getPlugin("ModelEngine") != null) {
@@ -224,6 +226,9 @@ class InteractableHandler(
                 for (associatedLocation in spawnedInteractable.associatedLocations) {
                     removeChildren(associatedLocation)
                 }
+                if (spawnedInteractable is SpawnedPacketBlockInteractable) {
+                    spawnedInteractable.despawn()
+                }
                 if (spawnedInteractable is SpawnedMegInteractable) {
                     spawnedInteractable.destroyEntity()
                 }
@@ -235,26 +240,33 @@ class InteractableHandler(
         fun onMegInteract(event: BaseEntityInteractEvent) {
             val dummy = event.baseEntity as? MegInteractableDummy ?: return
             val interactable = dummy.spawnedInteractable
-            interactable.interactable.onInteract(MegInteractableInteractEvent(event, interactable))
+            val event = MegInteractableInteractEvent(
+                originalEvent = event,
+                interactable = interactable
+            )
+            interactable.onInteract?.accept(event)
+            interactable.interactable.onInteract(event)
         }
 
         @EventHandler
         fun onInteract(event: PlayerInteractEvent) {
             val block = event.clickedBlock ?: return
             val blockInteractable = getBlockInteractable(block) ?: return
-            blockInteractable.interactable.onInteract(
-                gg.aquatic.aquaticseries.lib.interactable.event.BlockInteractableInteractEvent(
-                    event,
-                    blockInteractable
-                )
+            val event = BlockInteractableInteractEvent(
+                event,
+                blockInteractable
             )
+            blockInteractable.onInteract?.accept(event)
+            blockInteractable.interactable.onInteract(event)
         }
 
         @EventHandler
         fun onBlockBreak(event: BlockBreakEvent) {
             val block = event.block
             val blockInteractable = getBlockInteractable(block) ?: return
-            blockInteractable.interactable.onBreak(BlockInteractableBreakEvent(event, blockInteractable))
+            val event = BlockInteractableBreakEvent(event, blockInteractable)
+            blockInteractable.onBreak?.accept(event)
+            blockInteractable.interactable.onBreak(event)
         }
     }
 }

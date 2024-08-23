@@ -1,4 +1,4 @@
-package gg.aquatic.aquaticseries.lib.interactable.impl.meg
+package gg.aquatic.aquaticseries.lib.interactable.impl.global.meg
 
 import gg.aquatic.aquaticseries.lib.interactable.AbstractInteractable
 import gg.aquatic.aquaticseries.lib.interactable.AbstractInteractableSerializer

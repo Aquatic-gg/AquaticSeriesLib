@@ -2,7 +2,7 @@ package gg.aquatic.aquaticseries.lib.interactable
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.util.Utils
-import gg.aquatic.aquaticseries.lib.interactable.impl.block.BlockShape
+import gg.aquatic.aquaticseries.lib.interactable.impl.global.block.BlockShape
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
@@ -28,6 +28,7 @@ abstract class AbstractInteractable {
     }
 
     abstract fun spawn(location: Location): AbstractSpawnedInteractable
+    abstract fun spawn(location: Location, audienceList: AudienceList): AbstractSpawnedPacketInteractable
 
     abstract fun onChunkLoad(data: InteractableData, location: Location)
     abstract fun onChunkUnload(data: InteractableData)

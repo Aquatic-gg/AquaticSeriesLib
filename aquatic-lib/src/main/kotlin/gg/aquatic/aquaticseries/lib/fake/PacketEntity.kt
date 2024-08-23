@@ -2,6 +2,7 @@ package gg.aquatic.aquaticseries.lib.fake
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.fake.event.PacketEntityInteractEvent
+import gg.aquatic.aquaticseries.lib.interactable.AudienceList
 import gg.aquatic.aquaticseries.lib.util.AbstractAudience
 import org.bukkit.Bukkit
 import org.bukkit.Location
@@ -11,7 +12,7 @@ import java.util.function.Consumer
 class PacketEntity(
     override val location: Location,
     val entityId: Int,
-    override val audience: AbstractAudience,
+    override val audience: AudienceList,
     val onInteract: Consumer<PacketEntityInteractEvent>
 ): AbstractPacketObject() {
 
@@ -34,7 +35,7 @@ class PacketEntity(
 
 
     override fun spawn() {
-        for (uuid in audience.currentlyViewing) {
+        for (uuid in audience.appliedTo) {
             val player = Bukkit.getPlayer(uuid) ?: continue
             sendSpawnPacket(player)
         }
@@ -42,7 +43,7 @@ class PacketEntity(
     }
 
     override fun despawn() {
-        for (uuid in audience.currentlyViewing) {
+        for (uuid in audience.appliedTo) {
             val player = Bukkit.getPlayer(uuid) ?: continue
             sendDespawnPacket(player)
         }

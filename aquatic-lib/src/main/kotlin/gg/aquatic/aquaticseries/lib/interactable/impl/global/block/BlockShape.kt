@@ -1,4 +1,4 @@
-package gg.aquatic.aquaticseries.lib.interactable.impl.block
+package gg.aquatic.aquaticseries.lib.interactable.impl.global.block
 
 import gg.aquatic.aquaticseries.lib.block.AquaticBlock
 

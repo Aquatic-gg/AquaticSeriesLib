@@ -1,11 +1,13 @@
-package gg.aquatic.aquaticseries.lib.interactable.impl.meg
+package gg.aquatic.aquaticseries.lib.interactable.impl.global.meg
 
 import com.jeff_media.customblockdata.CustomBlockData
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.interactable.AbstractInteractable
+import gg.aquatic.aquaticseries.lib.interactable.AbstractSpawnedPacketInteractable
+import gg.aquatic.aquaticseries.lib.interactable.AudienceList
 import gg.aquatic.aquaticseries.lib.interactable.InteractableData
 import gg.aquatic.aquaticseries.lib.interactable.event.MegInteractableInteractEvent
-import gg.aquatic.aquaticseries.lib.interactable.impl.block.BlockShape
+import gg.aquatic.aquaticseries.lib.interactable.impl.global.block.BlockShape
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.persistence.PersistentDataType
@@ -15,7 +17,8 @@ class MEGInteractable(
     override val id: String,
     override val shape: BlockShape,
     val modelId: String,
-    val onInteract: Consumer<MegInteractableInteractEvent>, override val persistent: Boolean
+    var onInteract: Consumer<MegInteractableInteractEvent>?,
+    override val persistent: Boolean
 ) : AbstractInteractable() {
     override val serializer: MegInteractableSerializer
         get() {
@@ -58,8 +61,12 @@ class MEGInteractable(
         return spawned
     }
 
+    override fun spawn(location: Location, audienceList: AudienceList): AbstractSpawnedPacketInteractable {
+        TODO("Not yet implemented")
+    }
+
     fun onInteract(event: MegInteractableInteractEvent) {
-        this.onInteract.accept(event)
+        this.onInteract?.accept(event)
     }
 
     override fun onChunkLoad(data: InteractableData, location: Location) {

@@ -1,25 +1,49 @@
-package gg.aquatic.aquaticseries.lib.interactable.impl.block
+package gg.aquatic.aquaticseries.lib.interactable.impl.personalized.block
 
-import com.jeff_media.customblockdata.CustomBlockData
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
-import gg.aquatic.aquaticseries.lib.interactable.AbstractInteractable
-import gg.aquatic.aquaticseries.lib.interactable.AbstractSpawnedInteractable
+import gg.aquatic.aquaticseries.lib.fake.PacketBlock
+import gg.aquatic.aquaticseries.lib.interactable.AbstractSpawnedPacketInteractable
+import gg.aquatic.aquaticseries.lib.interactable.AudienceList
 import gg.aquatic.aquaticseries.lib.interactable.InteractableData
+import gg.aquatic.aquaticseries.lib.interactable.event.BlockInteractableBreakEvent
+import gg.aquatic.aquaticseries.lib.interactable.event.BlockInteractableInteractEvent
+import gg.aquatic.aquaticseries.lib.interactable.impl.global.block.BlockInteractable
+import gg.aquatic.aquaticseries.lib.util.toStringSimple
 import org.bukkit.Location
-import org.bukkit.Material
-import org.bukkit.persistence.PersistentDataType as PersistentDataType1
+import org.bukkit.entity.Player
+import org.bukkit.util.Consumer
 
-class SpawnedBlockInteractable(
+class SpawnedPacketBlockInteractable(
     override val location: Location,
     override val interactable: BlockInteractable,
-) : AbstractSpawnedInteractable() {
+    var audienceList: AudienceList
+): AbstractSpawnedPacketInteractable() {
+
+    override fun show(player: Player) {
+        if (audienceList.mode == AudienceList.Mode.BLACKLIST) {
+            audienceList.whitelist -= player.uniqueId
+        } else {
+            audienceList.whitelist += player.uniqueId
+        }
+    }
+
+    override fun hide(player: Player) {
+        if (audienceList.mode == AudienceList.Mode.BLACKLIST) {
+            audienceList.whitelist += player.uniqueId
+        }
+    }
+
     override val associatedLocations = ArrayList<Location>()
+
+    val blocks = HashMap<String, PacketBlock>()
+
+    val onInteract: Consumer<BlockInteractableInteractEvent>? = null
+    val onBreak: Consumer<BlockInteractableBreakEvent>? = null
 
     override var loaded = false
     var removed = false
 
     fun spawn(data: InteractableData?, reset: Boolean) {
-        val persistent = interactable.persistent
         if (removed) return
         if (data != null && !reset) {
             for (associatedLocation in associatedLocations) {
@@ -44,27 +68,10 @@ class SpawnedBlockInteractable(
                 if (block == null) {
                     nullChars += char
                 } else {
-                    block.place(newLoc)
+                    blocks += newLoc.toStringSimple() to block.placePacket(newLoc, audienceList)
+                    //block.place(newLoc)
                     associatedLocations += newLoc
                 }
-            }
-
-            if (persistent) {
-                val cbd = CustomBlockData(location.block, AbstractAquaticSeriesLib.INSTANCE.plugin)
-                val blockData =
-                    InteractableData(
-                        interactable.id,
-                        location.yaw,
-                        location.pitch,
-                        interactable.serializer.serialize(this),
-                        interactable.shape.layers,
-                        nullChars
-                    )
-                cbd.set(
-                    AbstractInteractable.INTERACTABLE_KEY,
-                    PersistentDataType1.STRING,
-                    AbstractAquaticSeriesLib.GSON.toJson(blockData)
-                )
             }
         }
         AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.addParent(location,this)
@@ -77,13 +84,12 @@ class SpawnedBlockInteractable(
     override fun despawn() {
         removed = true
         for (associatedLocation in associatedLocations) {
-            associatedLocation.block.type = Material.AIR
+            for (value in blocks.values) {
+                value.despawn()
+            }
+            blocks.clear()
             AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.removeChildren(associatedLocation)
         }
-
-        if (!interactable.persistent) return
-        val cbd = CustomBlockData(location.block, AbstractAquaticSeriesLib.INSTANCE.plugin)
-        cbd.remove(AbstractInteractable.INTERACTABLE_KEY)
         AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.removeParent(location)
     }
 }
