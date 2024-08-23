@@ -1,8 +1,11 @@
 package gg.aquatic.aquaticseries.lib.interactable
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.interactable.worldobject.InteractableWorldObject
 import gg.aquatic.aquaticseries.lib.util.Utils
 import gg.aquatic.aquaticseries.lib.interactable.impl.global.block.BlockShape
+import gg.aquatic.aquaticseries.lib.interactable.impl.personalized.AbstractSpawnedPacketInteractable
+import gg.aquatic.aquaticseries.lib.worldobject.`object`.SpawnedWorldObject
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
@@ -16,6 +19,7 @@ abstract class AbstractInteractable {
     abstract val id: String
     abstract val serializer: AbstractInteractableSerializer<*>
     abstract val shape: BlockShape
+    abstract val worldObject: InteractableWorldObject
 
     companion object {
         val INTERACTABLE_KEY =
@@ -27,8 +31,14 @@ abstract class AbstractInteractable {
         }
     }
 
-    abstract fun spawn(location: Location): AbstractSpawnedInteractable
-    abstract fun spawn(location: Location, audienceList: AudienceList): AbstractSpawnedPacketInteractable
+    abstract fun spawn(location: Location, register: Boolean = true): AbstractSpawnedInteractable
+    abstract fun spawnPacket(location: Location, register: Boolean = true): AbstractSpawnedPacketInteractable
+
+    /*
+    abstract fun spawn(location: Location, spawnedWorldObject: SpawnedWorldObject<*>): AbstractSpawnedInteractable
+    abstract fun spawnPacket(location: Location, spawnedWorldObject: SpawnedWorldObject<*>): AbstractSpawnedPacketInteractable
+
+     */
 
     abstract fun onChunkLoad(data: InteractableData, location: Location)
     abstract fun onChunkUnload(data: InteractableData)

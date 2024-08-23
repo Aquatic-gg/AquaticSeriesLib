@@ -2,13 +2,14 @@ package gg.aquatic.aquaticseries.lib.interactable.impl.personalized.block
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.fake.PacketBlock
-import gg.aquatic.aquaticseries.lib.interactable.AbstractSpawnedPacketInteractable
+import gg.aquatic.aquaticseries.lib.interactable.impl.personalized.AbstractSpawnedPacketInteractable
 import gg.aquatic.aquaticseries.lib.interactable.AudienceList
 import gg.aquatic.aquaticseries.lib.interactable.InteractableData
 import gg.aquatic.aquaticseries.lib.interactable.event.BlockInteractableBreakEvent
 import gg.aquatic.aquaticseries.lib.interactable.event.BlockInteractableInteractEvent
 import gg.aquatic.aquaticseries.lib.interactable.impl.global.block.BlockInteractable
 import gg.aquatic.aquaticseries.lib.util.toStringSimple
+import gg.aquatic.aquaticseries.lib.worldobject.`object`.SpawnedWorldObject
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.util.Consumer
@@ -16,7 +17,7 @@ import org.bukkit.util.Consumer
 class SpawnedPacketBlockInteractable(
     override val location: Location,
     override val interactable: BlockInteractable,
-    var audienceList: AudienceList
+    override val spawnedWorldObject: SpawnedWorldObject<*>
 ): AbstractSpawnedPacketInteractable() {
 
     override fun show(player: Player) {
@@ -31,6 +32,10 @@ class SpawnedPacketBlockInteractable(
         if (audienceList.mode == AudienceList.Mode.BLACKLIST) {
             audienceList.whitelist += player.uniqueId
         }
+    }
+
+    override fun updateVisibility() {
+        TODO("Not yet implemented")
     }
 
     override val associatedLocations = ArrayList<Location>()

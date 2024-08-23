@@ -7,6 +7,7 @@ import gg.aquatic.aquaticseries.lib.interactable.AbstractSpawnedInteractable
 import gg.aquatic.aquaticseries.lib.interactable.InteractableData
 import gg.aquatic.aquaticseries.lib.interactable.event.BlockInteractableBreakEvent
 import gg.aquatic.aquaticseries.lib.interactable.event.BlockInteractableInteractEvent
+import gg.aquatic.aquaticseries.lib.worldobject.`object`.SpawnedWorldObject
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.util.Consumer
@@ -14,7 +15,7 @@ import org.bukkit.persistence.PersistentDataType as PersistentDataType1
 
 class SpawnedBlockInteractable(
     override val location: Location,
-    override val interactable: BlockInteractable,
+    override val interactable: BlockInteractable, override val spawnedWorldObject: SpawnedWorldObject<*>,
 ) : AbstractSpawnedInteractable() {
     override val associatedLocations = ArrayList<Location>()
 
@@ -73,9 +74,9 @@ class SpawnedBlockInteractable(
                 )
             }
         }
-        AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.addParent(location,this)
+        AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.addParent(location, this)
         for (loc in associatedLocations) {
-            AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.addChildren(loc,location)
+            AbstractAquaticSeriesLib.INSTANCE.interactableHandler!!.addChildren(loc, location)
         }
         loaded = true
     }

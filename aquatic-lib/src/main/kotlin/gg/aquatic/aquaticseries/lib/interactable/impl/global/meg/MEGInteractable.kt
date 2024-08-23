@@ -3,7 +3,7 @@ package gg.aquatic.aquaticseries.lib.interactable.impl.global.meg
 import com.jeff_media.customblockdata.CustomBlockData
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.interactable.AbstractInteractable
-import gg.aquatic.aquaticseries.lib.interactable.AbstractSpawnedPacketInteractable
+import gg.aquatic.aquaticseries.lib.interactable.impl.personalized.AbstractSpawnedPacketInteractable
 import gg.aquatic.aquaticseries.lib.interactable.AudienceList
 import gg.aquatic.aquaticseries.lib.interactable.InteractableData
 import gg.aquatic.aquaticseries.lib.interactable.event.MegInteractableInteractEvent

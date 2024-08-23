@@ -3,6 +3,7 @@ package gg.aquatic.aquaticseries.lib.interactable
 import com.jeff_media.customblockdata.CustomBlockData
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.interactable.AbstractInteractable.Companion.INTERACTABLE_KEY
+import gg.aquatic.aquaticseries.lib.worldobject.`object`.SpawnedWorldObject
 import org.bukkit.Location
 import org.bukkit.block.Block
 import org.bukkit.persistence.PersistentDataType
@@ -13,6 +14,7 @@ abstract class AbstractSpawnedInteractable {
     abstract val interactable: AbstractInteractable
     abstract val associatedLocations: List<Location>
     abstract var loaded: Boolean
+    abstract val spawnedWorldObject: SpawnedWorldObject<*>
 
     companion object {
         fun get(block: Block): InteractableData? {
