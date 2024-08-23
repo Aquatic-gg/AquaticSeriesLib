@@ -136,6 +136,7 @@ object WorldObjectHandler: IFeature {
                         val spawned = worldObject.serializer.load(CustomBlockData(block, namespace))
                         spawned.onLoad()
                         worldObject.onLoad(block.location, spawned)
+                        registerSpawnedObject(spawned)
                     }
                 }
             }
@@ -151,11 +152,12 @@ object WorldObjectHandler: IFeature {
 
                 worldObject.onChunkUnload(chunk)
 
-                if (worldObject is PersistentWorldObject) {
-                    for (block in blocks) {
-                        val spawned = worldObject.serializer.load(CustomBlockData(block, namespace))
-                        spawned.onUnload()
-                        worldObject.onUnload(block.location, spawned)
+                for (block in blocks) {
+                    val spawned = getSpawnedObject(block.location)
+                    for (s in spawned.values) {
+                        s.onUnload()
+                        worldObject.onUnload(block.location, s)
+                        removeSpawnedObject(s)
                     }
                 }
             }
