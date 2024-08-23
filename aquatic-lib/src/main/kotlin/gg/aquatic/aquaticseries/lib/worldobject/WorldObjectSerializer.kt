@@ -7,6 +7,7 @@ import gg.aquatic.aquaticseries.lib.worldobject.`object`.WorldObject
 abstract class WorldObjectSerializer<T: WorldObject> {
 
     abstract fun load(blockData: CustomBlockData): SpawnedWorldObject<T>
+    abstract fun retrieve(blockData: CustomBlockData): SpawnedWorldObject<T>
     abstract fun save(blockData: CustomBlockData, spawned: SpawnedWorldObject<T>)
 
 }
