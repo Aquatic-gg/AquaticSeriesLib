@@ -2,7 +2,7 @@ package gg.aquatic.aquaticseries.lib.block.impl
 
 import gg.aquatic.aquaticseries.lib.block.AquaticBlock
 import gg.aquatic.aquaticseries.lib.fake.PacketBlock
-import gg.aquatic.aquaticseries.lib.interactable.AudienceList
+import gg.aquatic.aquaticseries.lib.interactable2.AudienceList
 import io.th0rgal.oraxen.api.OraxenBlocks
 import org.bukkit.Location
 import org.bukkit.block.data.BlockData

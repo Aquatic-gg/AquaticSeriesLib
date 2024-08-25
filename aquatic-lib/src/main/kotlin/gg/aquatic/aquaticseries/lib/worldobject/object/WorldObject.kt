@@ -18,8 +18,14 @@ abstract class WorldObject {
 
     abstract fun create(location: Location): SpawnedWorldObject<*>
 
-    val namespace = WorldObjectHandler.namespacedKeyPrefix + "_" + id
-    val namespaceKey = NamespacedKey(AbstractAquaticSeriesLib.INSTANCE.plugin, namespace)
+    val namespace: String
+        get() {
+            return WorldObjectHandler.namespacedKeyPrefix + "_" + id
+        }
+    val namespaceKey: NamespacedKey
+        get() {
+            return NamespacedKey(AbstractAquaticSeriesLib.INSTANCE.plugin, namespace)
+        }
 
     fun register() {
         WorldObjectHandler.registry += id to this

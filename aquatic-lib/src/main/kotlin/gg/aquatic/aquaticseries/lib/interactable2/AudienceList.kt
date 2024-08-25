@@ -1,4 +1,4 @@
-package gg.aquatic.aquaticseries.lib.interactable
+package gg.aquatic.aquaticseries.lib.interactable2
 
 import org.bukkit.Bukkit
 import java.util.UUID

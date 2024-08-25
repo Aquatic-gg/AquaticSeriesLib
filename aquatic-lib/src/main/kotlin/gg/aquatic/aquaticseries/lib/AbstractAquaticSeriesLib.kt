@@ -5,7 +5,7 @@ import gg.aquatic.aquaticseries.lib.adapt.AquaticLibAdapter
 import gg.aquatic.aquaticseries.lib.feature.Features
 import gg.aquatic.aquaticseries.lib.feature.IFeature
 import gg.aquatic.aquaticseries.lib.format.Format
-import gg.aquatic.aquaticseries.lib.interactable.InteractableHandler
+import gg.aquatic.aquaticseries.lib.interactable2.InteractableHandler
 import gg.aquatic.aquaticseries.lib.inventory.lib.InventoryHandler
 import gg.aquatic.aquaticseries.lib.network.NetworkPacketListener
 import gg.aquatic.aquaticseries.lib.nms.NMSAdapter

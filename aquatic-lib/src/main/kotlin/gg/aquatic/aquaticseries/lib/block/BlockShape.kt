@@ -1,6 +1,4 @@
-package gg.aquatic.aquaticseries.lib.interactable.impl.global.block
-
-import gg.aquatic.aquaticseries.lib.block.AquaticBlock
+package gg.aquatic.aquaticseries.lib.block
 
 
 class BlockShape(

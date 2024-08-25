@@ -2,7 +2,7 @@ package gg.aquatic.aquaticseries.lib.fake
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.fake.event.PacketEntityInteractEvent
-import gg.aquatic.aquaticseries.lib.interactable.AudienceList
+import gg.aquatic.aquaticseries.lib.interactable2.AudienceList
 import gg.aquatic.aquaticseries.lib.util.AbstractAudience
 import org.bukkit.Bukkit
 import org.bukkit.Location

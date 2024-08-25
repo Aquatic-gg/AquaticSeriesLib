@@ -1,7 +1,6 @@
 package gg.aquatic.aquaticseries.lib.fake
 
-import gg.aquatic.aquaticseries.lib.interactable.AudienceList
-import gg.aquatic.aquaticseries.lib.util.AbstractAudience
+import gg.aquatic.aquaticseries.lib.interactable2.AudienceList
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.block.data.BlockData
@@ -22,13 +21,13 @@ class PacketBlock(
 
     override fun sendDespawnPacket(vararg players: Player) {
         for (player in players) {
-            player.sendBlockChange(location, blockData)
+            player.sendBlockChange(location, location.block.blockData)
         }
     }
 
     override fun sendSpawnPacket(vararg players: Player) {
         for (player in players) {
-            player.sendBlockChange(location, location.block.blockData)
+            player.sendBlockChange(location, blockData)
         }
     }
 

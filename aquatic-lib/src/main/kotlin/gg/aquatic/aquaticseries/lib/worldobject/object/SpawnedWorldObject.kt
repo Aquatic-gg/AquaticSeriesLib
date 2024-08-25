@@ -9,7 +9,7 @@ abstract class SpawnedWorldObject<T: WorldObject> {
     abstract val location: Location
     abstract val worldObject: T
 
-    abstract val children: List<SpawnedWorldChildrenObject<T>>
+    abstract val children: MutableList<SpawnedWorldChildrenObject<T>>
 
     abstract fun onLoad()
     abstract fun onUnload()
