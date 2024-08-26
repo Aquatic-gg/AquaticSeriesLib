@@ -4,6 +4,8 @@ import gg.aquatic.aquaticseries.lib.adapt.AquaticBossBar
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.paper.PaperAdapter
 import net.kyori.adventure.bossbar.BossBar
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.entity.Player
 
 class PaperBossBar(
@@ -24,7 +26,7 @@ class PaperBossBar(
         get() = _text
         set(value) {
             this._text = value
-            this.bossBar.name(PaperAdapter.minimessage.deserialize(value.string))
+            this.bossBar.name(convert(value))
         }
 
     override var color: Color
@@ -55,4 +57,11 @@ class PaperBossBar(
     override fun removePlayer(player: Player) {
         bossBar.removeViewer(player)
     }
+
+    fun convert(aquaticString: AquaticString): Component {
+        val legacyComp = LegacyComponentSerializer.legacyAmpersand().deserialize(aquaticString.string)
+        val preparedString = LegacyComponentSerializer.legacyAmpersand().serialize(legacyComp)
+        return PaperAdapter.minimessage.deserialize(preparedString)
+    }
+
 }

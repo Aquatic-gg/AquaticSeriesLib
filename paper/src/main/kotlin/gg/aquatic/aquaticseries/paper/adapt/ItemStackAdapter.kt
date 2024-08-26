@@ -3,24 +3,26 @@ package gg.aquatic.aquaticseries.paper.adapt
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.adapt.IItemStackAdapter
 import gg.aquatic.aquaticseries.paper.PaperAdapter
+import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 
 object ItemStackAdapter: IItemStackAdapter {
     override fun displayName(string: AquaticString, itemStack: ItemStack) {
         val im = itemStack.itemMeta
-        im?.displayName(PaperAdapter.minimessage.deserialize(string.string))
+        im?.displayName(convert(string))
         itemStack.itemMeta = im
     }
 
     override fun displayName(string: AquaticString, itemMeta: ItemMeta) {
-        itemMeta.displayName(PaperAdapter.minimessage.deserialize(string.string))
+        itemMeta.displayName(convert(string))
     }
 
     override fun lore(vararg strings: AquaticString, itemStack: ItemStack) {
         val im = itemStack.itemMeta
-        im?.lore(strings.map { string -> PaperAdapter.minimessage.deserialize(string.string) })
+        im?.lore(strings.map { string -> convert(string) })
         itemStack.itemMeta = im
     }
 
@@ -29,11 +31,14 @@ object ItemStackAdapter: IItemStackAdapter {
     }
 
     override fun lore(vararg strings: AquaticString, itemMeta: ItemMeta) {
-        itemMeta.lore(strings.map { string -> PaperAdapter.minimessage.deserialize(string.string) })
+        itemMeta.lore(strings.map { string -> convert(string) })
     }
 
     override fun lore(strings: Collection<AquaticString>, itemMeta: ItemMeta) {
-        itemMeta.lore(strings.map { string -> PaperAdapter.minimessage.deserialize(string.string) })
+        val newLore = strings.map { string ->
+            convert(string)
+        }
+        itemMeta.lore(newLore)
     }
 
     override fun getAquaticLore(itemStack: ItemStack): List<AquaticString> {
@@ -50,5 +55,11 @@ object ItemStackAdapter: IItemStackAdapter {
 
     override fun getAquaticLore(itemMeta: ItemMeta): List<AquaticString> {
         return itemMeta.lore()?.map { PaperString(MiniMessage.miniMessage().serialize(it)) } ?: return listOf()
+    }
+
+    private fun convert(aquaticString: AquaticString): Component {
+        val legacyComp = LegacyComponentSerializer.legacyAmpersand().deserialize(aquaticString.string)
+        val preparedString = LegacyComponentSerializer.legacyAmpersand().serialize(legacyComp)
+        return PaperAdapter.minimessage.deserialize(preparedString)
     }
 }

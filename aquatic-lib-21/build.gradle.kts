@@ -5,7 +5,7 @@ plugins {
 val maven_username: String by rootProject.extra
 val maven_password: String by rootProject.extra
 
-val nmsVersion = "1.0.18"
+val nmsVersion = "1.0.19"
 
 group = "gg.aquatic.aquaticseries"
 

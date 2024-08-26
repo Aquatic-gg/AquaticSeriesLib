@@ -3,6 +3,8 @@ package gg.aquatic.aquaticseries.paper.adapt
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.adapt.ITitleAdapter
 import gg.aquatic.aquaticseries.paper.PaperAdapter
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import net.kyori.adventure.title.Title
 import org.bukkit.entity.Player
 import java.time.Duration
@@ -18,8 +20,8 @@ object TitleAdapter : ITitleAdapter {
     ) {
         player.showTitle(
             Title.title(
-                PaperAdapter.minimessage.deserialize(title.string),
-                PaperAdapter.minimessage.deserialize(subtitle.string),
+                convert(title),
+                convert(subtitle),
                 Title.Times.times(
                     Duration.ofMillis(fadeIn.toLong() * 50L),
                     Duration.ofMillis(stay.toLong() * 50L),
@@ -27,5 +29,12 @@ object TitleAdapter : ITitleAdapter {
                 )
             )
         )
+    }
+
+
+    fun convert(aquaticString: AquaticString): Component {
+        val legacyComp = LegacyComponentSerializer.legacyAmpersand().deserialize(aquaticString.string)
+        val preparedString = LegacyComponentSerializer.legacyAmpersand().serialize(legacyComp)
+        return PaperAdapter.minimessage.deserialize(preparedString)
     }
 }
