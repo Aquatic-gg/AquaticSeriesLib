@@ -22,6 +22,8 @@ class SpawnedPacketMegInteractable(
     override val spawnedInteractableBase: SpawnedInteractableBase<*>
 ) : AbstractSpawnedPacketInteractable<MegInteractable<*>>(), ISpawnedMegInteractable {
 
+    override val dummy = MegInteractableDummy(this)
+
     val blocks = HashMap<Location, PacketBlock>()
     override fun show(player: Player) {
         if (audience.mode == AudienceList.Mode.WHITELIST) {
@@ -65,7 +67,6 @@ class SpawnedPacketMegInteractable(
         spawnModel()
     }
 
-    override val dummy = MegInteractableDummy(this)
 
     private fun spawnBlocks() {
         base.multiBlock.processLayerCells(location) { char, loc ->

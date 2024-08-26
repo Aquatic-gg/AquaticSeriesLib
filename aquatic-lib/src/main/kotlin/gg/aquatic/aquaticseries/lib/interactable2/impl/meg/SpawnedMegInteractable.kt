@@ -26,12 +26,13 @@ class SpawnedMegInteractable(
             return blocks.keys
         }
 
+    override val dummy = MegInteractableDummy(this)
+
     init {
         spawnBlocks()
         spawnModel()
     }
 
-    override val dummy = MegInteractableDummy(this)
 
     private fun spawnBlocks() {
         base.multiBlock.processLayerCells(location) { char, loc ->
