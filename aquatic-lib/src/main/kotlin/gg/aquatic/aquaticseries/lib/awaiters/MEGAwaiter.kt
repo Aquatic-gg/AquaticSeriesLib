@@ -6,6 +6,7 @@ import com.ticxo.modelengine.api.generator.ModelGenerator
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.register
 import java.util.concurrent.CompletableFuture
 
 class MEGAwaiter(val lib: AbstractAquaticSeriesLib): AbstractAwaiter() {
@@ -16,7 +17,7 @@ class MEGAwaiter(val lib: AbstractAquaticSeriesLib): AbstractAwaiter() {
             future.complete(null)
             loaded = true
         } else {
-            lib.plugin.server.pluginManager.registerEvents(Listeners(),lib.plugin)
+            Listeners().register()
         }
     }
 
