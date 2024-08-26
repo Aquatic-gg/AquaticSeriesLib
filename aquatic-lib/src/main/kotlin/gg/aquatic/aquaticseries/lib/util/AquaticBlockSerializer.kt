@@ -18,7 +18,7 @@ import org.bukkit.configuration.ConfigurationSection
 
 object AquaticBlockSerializer {
 
-    fun load(section: ConfigurationSection): AquaticBlock? {
+    fun load(section: ConfigurationSection): AquaticBlock {
         val material = section.getString("material", "STONE")!!.uppercase()
         return if (material.startsWith("ORAXEN:")) {
             OraxenBlock(material.substringAfter("ORAXEN:"))
