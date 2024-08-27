@@ -10,7 +10,7 @@ class ColorUtils {
     companion object {
 
         private val colors = HashMap<Color, ChatColor>()
-        private val patterns = listOf(ClassicPattern())
+        private val patterns = listOf(ClassicPattern(), GradientPattern())
 
         fun format(str: List<String>): MutableList<String> {
             return str.map { format(it) }.toMutableList()
