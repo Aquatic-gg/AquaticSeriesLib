@@ -4,6 +4,7 @@ import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.adapt.IItemStackAdapter
 import gg.aquatic.aquaticseries.paper.PaperAdapter
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import net.md_5.bungee.api.ChatColor
@@ -59,6 +60,6 @@ object ItemStackAdapter: IItemStackAdapter {
     }
 
     private fun convert(aquaticString: AquaticString): Component {
-        return PaperAdapter.minimessage.deserialize(ChatColor.stripColor(aquaticString.string))
+        return PaperAdapter.minimessage.deserialize(ChatColor.stripColor(aquaticString.string)).decoration(TextDecoration.ITALIC, false)
     }
 }
