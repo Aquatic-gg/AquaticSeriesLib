@@ -59,9 +59,7 @@ class PaperBossBar(
         bossBar.removeViewer(player)
     }
     private fun convert(aquaticString: AquaticString): Component {
-        val legacyComp = LegacyComponentSerializer.legacy('§').deserialize(ChatColor.translateAlternateColorCodes('&', aquaticString.string))
-        val preparedString =  PaperAdapter.minimessage.serialize(legacyComp)
-        return PaperAdapter.minimessage.deserialize(preparedString)
+        return PaperAdapter.minimessage.deserialize(ChatColor.stripColor(aquaticString.string))
     }
 
 }

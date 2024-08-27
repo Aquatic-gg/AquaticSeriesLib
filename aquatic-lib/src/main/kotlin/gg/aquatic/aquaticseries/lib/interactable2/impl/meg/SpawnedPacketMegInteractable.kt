@@ -10,6 +10,7 @@ import gg.aquatic.aquaticseries.lib.interactable2.AbstractSpawnedPacketInteracta
 import gg.aquatic.aquaticseries.lib.interactable2.AudienceList
 import gg.aquatic.aquaticseries.lib.interactable2.InteractableInteractEvent
 import gg.aquatic.aquaticseries.lib.interactable2.base.SpawnedInteractableBase
+import gg.aquatic.aquaticseries.lib.worldobject.WorldObjectHandler
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -112,6 +113,7 @@ class SpawnedPacketMegInteractable(
 
         dummy.isRemoved = true
         modeledEntity?.destroy()
+        WorldObjectHandler.removeSpawnedObject(spawnedInteractableBase)
     }
 
     override fun onInteract(event: InteractableInteractEvent) {

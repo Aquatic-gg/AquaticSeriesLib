@@ -3,6 +3,7 @@ package gg.aquatic.aquaticseries.lib.interactable2.impl.block
 import gg.aquatic.aquaticseries.lib.interactable2.AbstractSpawnedInteractable
 import gg.aquatic.aquaticseries.lib.interactable2.InteractableInteractEvent
 import gg.aquatic.aquaticseries.lib.interactable2.base.SpawnedInteractableBase
+import gg.aquatic.aquaticseries.lib.worldobject.WorldObjectHandler
 import org.bukkit.Location
 import org.bukkit.Material
 
@@ -36,6 +37,7 @@ class SpawnedBlockInteractable(
             associatedLocation.block.type = Material.AIR
         }
         associatedLocations.clear()
+        WorldObjectHandler.removeSpawnedObject(spawnedInteractableBase)
     }
 
     override fun onInteract(event: InteractableInteractEvent) {

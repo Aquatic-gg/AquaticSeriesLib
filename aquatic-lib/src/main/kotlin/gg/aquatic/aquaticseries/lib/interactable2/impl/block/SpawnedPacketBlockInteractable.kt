@@ -6,6 +6,7 @@ import gg.aquatic.aquaticseries.lib.interactable2.AbstractSpawnedPacketInteracta
 import gg.aquatic.aquaticseries.lib.interactable2.AudienceList
 import gg.aquatic.aquaticseries.lib.interactable2.InteractableInteractEvent
 import gg.aquatic.aquaticseries.lib.interactable2.base.SpawnedInteractableBase
+import gg.aquatic.aquaticseries.lib.worldobject.WorldObjectHandler
 import org.bukkit.Location
 import org.bukkit.entity.Player
 
@@ -74,6 +75,7 @@ class SpawnedPacketBlockInteractable(
             FakeObjectHandler.registry.unregisterBlock(value.location)
         }
         blocks.clear()
+        WorldObjectHandler.removeSpawnedObject(spawnedInteractableBase)
     }
 
     override fun onInteract(event: InteractableInteractEvent) {
