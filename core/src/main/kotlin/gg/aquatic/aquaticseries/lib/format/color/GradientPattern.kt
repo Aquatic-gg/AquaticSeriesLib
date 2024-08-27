@@ -8,6 +8,9 @@ class GradientPattern: IPattern {
     private val pattern = Regex("\\{#([A-Fa-f0-9]{6})>#([A-Fa-f0-9]{6})<}(.*?)((?=\\{|$))")
     override fun process(string: String): String {
         val matches = pattern.findAll(string)
+        if (matches.none()) {
+            return string
+        }
         var processedText = ""
         var lastIndex = 0
         for (match in matches) {
