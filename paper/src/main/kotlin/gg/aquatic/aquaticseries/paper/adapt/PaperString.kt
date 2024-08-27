@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
+import net.md_5.bungee.api.ChatColor
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Entity
@@ -50,9 +51,9 @@ class PaperString(
             return PaperAdapter.minimessage
         }
 
-    fun convert(): Component {
-        val legacyComp = LegacyComponentSerializer.legacyAmpersand().deserialize(string)
-        val preparedString = LegacyComponentSerializer.legacyAmpersand().serialize(legacyComp)
+    private fun convert(): Component {
+        val legacyComp = LegacyComponentSerializer.legacy('§').deserialize(ChatColor.translateAlternateColorCodes('&', string))
+        val preparedString = LegacyComponentSerializer.legacy('§').serialize(legacyComp)
         return PaperAdapter.minimessage.deserialize(preparedString)
     }
 }

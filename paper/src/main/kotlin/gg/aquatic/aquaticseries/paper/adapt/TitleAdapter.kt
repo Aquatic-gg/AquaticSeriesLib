@@ -6,6 +6,7 @@ import gg.aquatic.aquaticseries.paper.PaperAdapter
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import net.kyori.adventure.title.Title
+import net.md_5.bungee.api.ChatColor
 import org.bukkit.entity.Player
 import java.time.Duration
 
@@ -32,9 +33,9 @@ object TitleAdapter : ITitleAdapter {
     }
 
 
-    fun convert(aquaticString: AquaticString): Component {
-        val legacyComp = LegacyComponentSerializer.legacyAmpersand().deserialize(aquaticString.string)
-        val preparedString = LegacyComponentSerializer.legacyAmpersand().serialize(legacyComp)
+    private fun convert(aquaticString: AquaticString): Component {
+        val legacyComp = LegacyComponentSerializer.legacy('§').deserialize(ChatColor.translateAlternateColorCodes('&', aquaticString.string))
+        val preparedString = LegacyComponentSerializer.legacy('§').serialize(legacyComp)
         return PaperAdapter.minimessage.deserialize(preparedString)
     }
 }
