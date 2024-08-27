@@ -5,7 +5,7 @@ import java.awt.Color
 
 class GradientPattern: IPattern {
 
-    private val pattern = Regex("\\{#([A-Fa-f0-9]{6})>#([A-Fa-f0-9]{6})<}(.*?)((?=\\{|$))")
+    private val pattern = Regex("\\{#([A-Fa-f0-9]{6})>}([^{}]+)\\{#([A-Fa-f0-9]{6})<}")
     override fun process(string: String): String {
         val matches = pattern.findAll(string)
         if (matches.none()) {
@@ -25,6 +25,11 @@ class GradientPattern: IPattern {
             )
             lastIndex = match.range.last + 1
         }
+
+        if (lastIndex < string.length) {
+            processedText += string.substring(lastIndex)
+        }
+
         return processedText
     }
 
