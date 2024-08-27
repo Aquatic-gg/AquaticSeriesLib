@@ -59,8 +59,8 @@ object ItemStackAdapter: IItemStackAdapter {
     }
 
     private fun convert(aquaticString: AquaticString): Component {
-        val legacyComp = LegacyComponentSerializer.legacy('§').deserialize(ChatColor.translateAlternateColorCodes('&', aquaticString.string))
-        val preparedString = LegacyComponentSerializer.legacy('§').serialize(legacyComp)
+        val legacyComp = LegacyComponentSerializer.legacy('&').deserialize(ChatColor.translateAlternateColorCodes('&', aquaticString.string))
+        val preparedString = LegacyComponentSerializer.legacy('&').serialize(legacyComp)
         return PaperAdapter.minimessage.deserialize(preparedString)
     }
 }

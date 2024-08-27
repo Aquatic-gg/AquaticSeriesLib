@@ -52,8 +52,8 @@ class PaperString(
         }
 
     private fun convert(): Component {
-        val legacyComp = LegacyComponentSerializer.legacy('§').deserialize(ChatColor.translateAlternateColorCodes('&', string))
-        val preparedString = LegacyComponentSerializer.legacy('§').serialize(legacyComp)
+        val legacyComp = LegacyComponentSerializer.legacy('&').deserialize(ChatColor.translateAlternateColorCodes('&', string))
+        val preparedString = LegacyComponentSerializer.legacy('&').serialize(legacyComp)
         return PaperAdapter.minimessage.deserialize(preparedString)
     }
 }
