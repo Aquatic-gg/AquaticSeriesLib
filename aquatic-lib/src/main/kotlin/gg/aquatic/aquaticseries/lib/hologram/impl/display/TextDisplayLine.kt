@@ -5,7 +5,6 @@ import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.audience.AquaticAudience
 import gg.aquatic.aquaticseries.lib.audience.GlobalAudience
 import gg.aquatic.aquaticseries.lib.audience.WhitelistAudience
-import gg.aquatic.aquaticseries.lib.fake.PacketEntity
 import gg.aquatic.aquaticseries.lib.toAquatic
 import org.joml.Quaternionf
 import org.joml.Vector3f
@@ -15,6 +14,7 @@ import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.ArmorStand
+import org.bukkit.entity.Display
 import org.bukkit.entity.Player
 import org.bukkit.entity.TextDisplay
 import org.bukkit.util.Transformation
@@ -27,8 +27,8 @@ class TextDisplayLine(
     val onSpawn: Consumer<TextDisplay>,
 ) : AquaticHologram.Line() {
 
-
     var entityId: Int? = null
+    var anchorOffset: Vector? = null
 
     override fun spawn(location: Location, offset: Vector, placeholders: Placeholders, audience: AquaticAudience) {
         if (entityId != null) {
@@ -42,11 +42,16 @@ class TextDisplayLine(
 
             textDisplay.text = placeholders.replace(text.string)
             textDisplay.transformation = Transformation(
-                Vector3f(offset.x.toFloat(), offset.y.toFloat(), offset.z.toFloat()),
+                Vector3f(
+                    offset.x.toFloat() + (anchorOffset?.x?.toFloat() ?: 0f),
+                    offset.y.toFloat() + (anchorOffset?.y?.toFloat() ?: 0f),
+                    offset.z.toFloat() + (anchorOffset?.z?.toFloat() ?: 0f)
+                ),
                 Quaternionf(),
                 Vector3f(1f, 1f, 1f),
                 Quaternionf(),
             )
+            textDisplay.billboard = Display.Billboard.CENTER
             onSpawn.accept(textDisplay)
         }
         for (uuid in audience.uuids) {

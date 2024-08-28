@@ -4,6 +4,7 @@ import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.audience.AquaticAudience
 import gg.aquatic.aquaticseries.lib.audience.BlacklistAudience
 import gg.aquatic.aquaticseries.lib.audience.WhitelistAudience
+import gg.aquatic.aquaticseries.lib.hologram.impl.display.TextDisplayLine
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import org.bukkit.Location
 import org.bukkit.entity.Player
@@ -13,7 +14,8 @@ class AquaticHologram(
     location: Location,
     placeholders: Placeholders,
     val audience: AquaticAudience,
-    val lines: List<Line>
+    val lines: List<Line>,
+    val anchor: Anchor = Anchor.CENTER
 ) {
     var spawned = true
 
@@ -97,9 +99,21 @@ class AquaticHologram(
 
     private fun spawn(location: Location, placeholders: Placeholders) {
         var currentHeight = 0.0
+        val totalHeight = lines.sumOf { it.paddingBottom + it.height + it.paddingTop }
         for ((index, line) in lines.reversed().withIndex()) {
             currentHeight += line.paddingBottom
-            line.spawn(location, Vector(0.0, currentHeight, 0.0), placeholders, audience)
+
+            if (line is TextDisplayLine) {
+                if (anchor == Anchor.CENTER) {
+                    val vector = Vector(0.0, (currentHeight - (totalHeight / 2.0)/2.0), 0.0)
+                    line.anchorOffset = vector
+
+                    line.spawn(location, vector, placeholders, audience)
+                }
+            } else {
+                line.spawn(location, Vector(0.0, currentHeight, 0.0), placeholders, audience)
+            }
+
             currentHeight += line.paddingTop + line.height
         }
     }
@@ -137,6 +151,12 @@ class AquaticHologram(
 
         var height: Double = 0.3
 
+    }
+
+    enum class Anchor {
+        CENTER,
+        TOP,
+        BOTTOM,
     }
 
 }
