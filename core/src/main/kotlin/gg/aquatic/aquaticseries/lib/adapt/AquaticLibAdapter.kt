@@ -1,5 +1,6 @@
 package gg.aquatic.aquaticseries.lib.adapt
 
+import org.bukkit.entity.Entity
 import org.bukkit.plugin.java.JavaPlugin
 
 abstract class AquaticLibAdapter {
@@ -12,5 +13,6 @@ abstract class AquaticLibAdapter {
     abstract val bossBarAdapter: IBossBarAdapter
 
     abstract fun adaptString(string: String): AquaticString
+    abstract fun getEntityName(entity: Entity): AquaticString
 
 }

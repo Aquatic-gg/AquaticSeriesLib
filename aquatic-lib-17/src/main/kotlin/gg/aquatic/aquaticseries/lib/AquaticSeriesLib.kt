@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib
 
-import gg.aquatic.aquaticseries.lib.adapt.displayentity.IDisplayEntityAdapter
+import gg.aquatic.aquaticseries.lib.displayentity.IDisplayEntityAdapter
 import gg.aquatic.aquaticseries.lib.displayentity.DisplayEntityAdapter
 import gg.aquatic.aquaticseries.lib.displayentity.DisplayEntityExtendedAdapter
 import gg.aquatic.aquaticseries.lib.feature.Features

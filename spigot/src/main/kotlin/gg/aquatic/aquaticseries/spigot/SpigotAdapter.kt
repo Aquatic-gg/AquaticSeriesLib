@@ -3,6 +3,7 @@ package gg.aquatic.aquaticseries.spigot
 import gg.aquatic.aquaticseries.lib.adapt.AquaticLibAdapter
 import gg.aquatic.aquaticseries.lib.adapt.*
 import gg.aquatic.aquaticseries.spigot.adapt.*
+import org.bukkit.entity.Entity
 import org.bukkit.plugin.java.JavaPlugin
 
 class SpigotAdapter(override val plugin: JavaPlugin) : AquaticLibAdapter() {
@@ -13,5 +14,9 @@ class SpigotAdapter(override val plugin: JavaPlugin) : AquaticLibAdapter() {
 
     override fun adaptString(string: String): AquaticString {
         return SpigotString(string)
+    }
+
+    override fun getEntityName(entity: Entity): AquaticString {
+        return SpigotString(entity.name)
     }
 }

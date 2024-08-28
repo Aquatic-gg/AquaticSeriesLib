@@ -31,6 +31,12 @@ class PacketEntity(
         }
     }
 
+    fun update() {
+        for (player in audience.uuids.mapNotNull { Bukkit.getPlayer(it) }) {
+            sendSpawnPacket(player)
+        }
+    }
+
 
     override fun spawn() {
         for (uuid in audience.uuids) {

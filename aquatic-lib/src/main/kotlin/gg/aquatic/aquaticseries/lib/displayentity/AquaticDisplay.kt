@@ -1,4 +1,4 @@
-package gg.aquatic.aquaticseries.lib.adapt.displayentity
+package gg.aquatic.aquaticseries.lib.displayentity
 
 import org.bukkit.Color
 import org.bukkit.entity.Entity

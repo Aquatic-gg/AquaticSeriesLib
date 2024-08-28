@@ -3,7 +3,9 @@ package gg.aquatic.aquaticseries.paper
 import gg.aquatic.aquaticseries.lib.adapt.AquaticLibAdapter
 import gg.aquatic.aquaticseries.lib.adapt.*
 import gg.aquatic.aquaticseries.paper.adapt.*
+import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
+import org.bukkit.entity.Entity
 import org.bukkit.plugin.java.JavaPlugin
 
 class PaperAdapter(override val plugin: JavaPlugin) : AquaticLibAdapter() {
@@ -24,5 +26,9 @@ class PaperAdapter(override val plugin: JavaPlugin) : AquaticLibAdapter() {
 
     override fun adaptString(string: String): AquaticString {
         return PaperString(string)
+    }
+
+    override fun getEntityName(entity: Entity): AquaticString {
+        return PaperString( minimessage.serialize(entity.customName() ?: return PaperString("")))
     }
 }
