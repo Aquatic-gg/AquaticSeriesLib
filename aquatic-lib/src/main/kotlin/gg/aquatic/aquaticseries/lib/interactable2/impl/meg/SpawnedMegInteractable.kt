@@ -3,11 +3,11 @@ package gg.aquatic.aquaticseries.lib.interactable2.impl.meg
 import com.ticxo.modelengine.api.ModelEngineAPI
 import com.ticxo.modelengine.api.model.ActiveModel
 import com.ticxo.modelengine.api.model.ModeledEntity
+import gg.aquatic.aquaticseries.lib.audience.BlacklistAudience
 import gg.aquatic.aquaticseries.lib.block.impl.VanillaBlock
 import gg.aquatic.aquaticseries.lib.fake.FakeObjectHandler
 import gg.aquatic.aquaticseries.lib.fake.PacketBlock
 import gg.aquatic.aquaticseries.lib.interactable2.AbstractSpawnedInteractable
-import gg.aquatic.aquaticseries.lib.util.AudienceList
 import gg.aquatic.aquaticseries.lib.interactable2.InteractableInteractEvent
 import gg.aquatic.aquaticseries.lib.interactable2.base.SpawnedInteractableBase
 import gg.aquatic.aquaticseries.lib.worldobject.WorldObjectHandler
@@ -40,7 +40,7 @@ class SpawnedMegInteractable(
             if (char != ' ') {
                 val block = VanillaBlock(Material.AIR.createBlockData())
                 val blockData = block.blockData
-                val packetBlock = PacketBlock(loc, blockData, AudienceList(mutableListOf(), AudienceList.Mode.BLACKLIST)) {}
+                val packetBlock = PacketBlock(loc, blockData, BlacklistAudience(mutableListOf())) {}
                 packetBlock.spawn()
                 blocks += loc to packetBlock
             }

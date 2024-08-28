@@ -1,10 +1,10 @@
 package gg.aquatic.aquaticseries.lib.interactable2
 
+import gg.aquatic.aquaticseries.lib.audience.AquaticAudience
 import gg.aquatic.aquaticseries.lib.interactable2.base.InteractableBase
 import gg.aquatic.aquaticseries.lib.interactable2.base.PersistentInteractableBase
 import gg.aquatic.aquaticseries.lib.interactable2.base.SpawnedInteractableBase
 import gg.aquatic.aquaticseries.lib.interactable2.base.TempInteractableBase
-import gg.aquatic.aquaticseries.lib.util.AudienceList
 import gg.aquatic.aquaticseries.lib.worldobject.WorldObjectHandler
 import gg.aquatic.aquaticseries.lib.worldobject.WorldObjectSerializer
 import gg.aquatic.aquaticseries.lib.worldobject.`object`.SpawnedWorldObject
@@ -76,6 +76,6 @@ abstract class AbstractInteractable<B>(
     abstract val id: String
 
     abstract fun spawn(location: Location, register: Boolean): AbstractSpawnedInteractable<*>
-    abstract fun spawnPacket(location: Location, audienceList: AudienceList, register: Boolean): AbstractSpawnedPacketInteractable<*>
+    abstract fun spawnPacket(location: Location, audience: AquaticAudience, register: Boolean): AbstractSpawnedPacketInteractable<*>
 
 }

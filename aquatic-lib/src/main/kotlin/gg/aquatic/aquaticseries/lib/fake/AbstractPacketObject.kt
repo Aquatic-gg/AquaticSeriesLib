@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.fake
 
-import gg.aquatic.aquaticseries.lib.util.AudienceList
+import gg.aquatic.aquaticseries.lib.audience.AquaticAudience
 import org.bukkit.Location
 import org.bukkit.entity.Player
 
@@ -8,7 +8,7 @@ abstract class AbstractPacketObject(
 
 ) {
     abstract val location: Location
-    abstract val audience: AudienceList
+    abstract val audience: AquaticAudience
 
     var spawned: Boolean = false
 

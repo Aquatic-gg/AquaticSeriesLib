@@ -11,4 +11,9 @@ class FilterAudience(
         get() {
             return Bukkit.getOnlinePlayers().filter(filter).map { it.uniqueId }
         }
+
+    override fun canBeApplied(player: Player): Boolean {
+        return filter(player)
+    }
+
 }

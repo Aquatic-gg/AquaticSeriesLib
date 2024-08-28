@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.fake
 
-import gg.aquatic.aquaticseries.lib.util.AudienceList
+import gg.aquatic.aquaticseries.lib.audience.AquaticAudience
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.block.data.BlockData
@@ -11,7 +11,7 @@ import java.util.function.Consumer
 class PacketBlock(
     override val location: Location,
     val blockData: BlockData,
-    override val audience: AudienceList,
+    override val audience: AquaticAudience,
     val onInteract: Consumer<PlayerInteractEvent>
 ): AbstractPacketObject() {
 
@@ -32,7 +32,7 @@ class PacketBlock(
     }
 
     override fun spawn() {
-        for (uuid in audience.appliedTo) {
+        for (uuid in audience.uuids) {
             val player = Bukkit.getPlayer(uuid) ?: continue
             sendSpawnPacket(player)
         }
@@ -40,7 +40,7 @@ class PacketBlock(
     }
 
     override fun despawn() {
-        for (uuid in audience.appliedTo) {
+        for (uuid in audience.uuids) {
             val player = Bukkit.getPlayer(uuid) ?: continue
             sendDespawnPacket(player)
         }

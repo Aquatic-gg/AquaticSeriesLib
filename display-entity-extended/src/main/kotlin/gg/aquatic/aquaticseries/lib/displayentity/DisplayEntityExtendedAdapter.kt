@@ -4,16 +4,17 @@ import gg.aquatic.aquaticseries.lib.adapt.displayentity.AquaticBlockDisplay
 import gg.aquatic.aquaticseries.lib.adapt.displayentity.AquaticItemDisplay
 import gg.aquatic.aquaticseries.lib.adapt.displayentity.AquaticTextDisplay
 import gg.aquatic.aquaticseries.lib.adapt.displayentity.IDisplayEntityAdapter
+import gg.aquatic.aquaticseries.lib.audience.AquaticAudience
+import gg.aquatic.aquaticseries.lib.audience.BlacklistAudience
 import gg.aquatic.aquaticseries.lib.displayentity.implextended.AquaticTextDisplayImpl
-import gg.aquatic.aquaticseries.lib.util.AudienceList
 import org.bukkit.Location
 
 object DisplayEntityExtendedAdapter: IDisplayEntityAdapter {
     override fun createTextDisplay(location: Location): AquaticTextDisplay {
-        return AquaticTextDisplayImpl(false, location, AudienceList(mutableListOf(),AudienceList.Mode.WHITELIST))
+        return AquaticTextDisplayImpl(false, location, BlacklistAudience(mutableListOf()))
     }
 
-    override fun createPacketTextDisplay(location: Location, audienceList: AudienceList): AquaticTextDisplay {
+    override fun createPacketTextDisplay(location: Location, audienceList: AquaticAudience): AquaticTextDisplay {
         return AquaticTextDisplayImpl(true, location, audienceList)
     }
 
@@ -21,7 +22,7 @@ object DisplayEntityExtendedAdapter: IDisplayEntityAdapter {
         TODO("Not yet implemented")
     }
 
-    override fun createPacketItemDisplay(location: Location, audienceList: AudienceList): AquaticItemDisplay {
+    override fun createPacketItemDisplay(location: Location, audienceList: AquaticAudience): AquaticItemDisplay {
         TODO("Not yet implemented")
     }
 
@@ -29,7 +30,7 @@ object DisplayEntityExtendedAdapter: IDisplayEntityAdapter {
         TODO("Not yet implemented")
     }
 
-    override fun createPacketBlockDisplay(location: Location, audienceList: AudienceList): AquaticBlockDisplay {
+    override fun createPacketBlockDisplay(location: Location, audienceList: AquaticAudience): AquaticBlockDisplay {
         TODO("Not yet implemented")
     }
 }

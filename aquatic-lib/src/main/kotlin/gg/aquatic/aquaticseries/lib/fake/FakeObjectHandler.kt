@@ -54,7 +54,7 @@ object FakeObjectHandler: IFeature {
             if (blocks.isEmpty()) return
 
             for (block in blocks) {
-                if (!block.audience.canBeApplied(player.uniqueId)) continue
+                if (!block.audience.canBeApplied(player)) continue
 
                 val e = PacketBlockInteractEvent(block,action)
                 block.onInteract.accept(this)
@@ -79,12 +79,12 @@ object FakeObjectHandler: IFeature {
             val fakeObjects = ArrayList<AbstractPacketObject>()
             packetBlocks?.values?.forEach { pb ->
                 for (packetBlock in pb) {
-                    if (packetBlock.audience.canBeApplied(player.uniqueId)) fakeObjects.add(packetBlock)
+                    if (packetBlock.audience.canBeApplied(player)) fakeObjects.add(packetBlock)
                 }
             }
             packetEntities?.values?.forEach { pe ->
                 for (packetEntity in pe) {
-                    if (packetEntity.audience.canBeApplied(player.uniqueId)) fakeObjects.add(packetEntity)
+                    if (packetEntity.audience.canBeApplied(player)) fakeObjects.add(packetEntity)
                 }
             }
 
@@ -93,7 +93,7 @@ object FakeObjectHandler: IFeature {
                     override fun run() {
                         for (fakeObject in fakeObjects) {
                             if (!fakeObject.spawned) continue
-                            if (!fakeObject.audience.canBeApplied(player.uniqueId)) continue
+                            if (!fakeObject.audience.canBeApplied(player)) continue
                             fakeObject.sendSpawnPacket(player)
                         }
                     }

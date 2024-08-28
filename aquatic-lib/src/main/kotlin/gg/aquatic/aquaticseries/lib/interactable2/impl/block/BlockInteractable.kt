@@ -1,10 +1,10 @@
 package gg.aquatic.aquaticseries.lib.interactable2.impl.block
 
+import gg.aquatic.aquaticseries.lib.audience.AquaticAudience
 import gg.aquatic.aquaticseries.lib.block.AquaticMultiBlock
 import gg.aquatic.aquaticseries.lib.interactable2.*
 import gg.aquatic.aquaticseries.lib.interactable2.base.InteractableBase
 import gg.aquatic.aquaticseries.lib.interactable2.base.SpawnedInteractableBase
-import gg.aquatic.aquaticseries.lib.util.AudienceList
 import gg.aquatic.aquaticseries.lib.worldobject.WorldObjectHandler
 import gg.aquatic.aquaticseries.lib.worldobject.`object`.WorldObject
 import org.bukkit.Location
@@ -43,7 +43,7 @@ class BlockInteractable<B>(
 
     override fun spawnPacket(
         location: Location,
-        audienceList: AudienceList,
+        audienceList: AquaticAudience,
         register: Boolean
     ): AbstractSpawnedPacketInteractable<*> {
         val spawnedBase = base.create(location)

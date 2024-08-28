@@ -3,9 +3,9 @@ package gg.aquatic.aquaticseries.lib.interactable2.base
 import com.google.gson.Gson
 import com.jeff_media.customblockdata.CustomBlockData
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.audience.WhitelistAudience
 import gg.aquatic.aquaticseries.lib.interactable2.AbstractInteractable
 import gg.aquatic.aquaticseries.lib.interactable2.AbstractSpawnedPacketInteractable
-import gg.aquatic.aquaticseries.lib.util.AudienceList
 import gg.aquatic.aquaticseries.lib.interactable2.InteractableData
 import gg.aquatic.aquaticseries.lib.worldobject.WorldObjectSerializer
 import gg.aquatic.aquaticseries.lib.worldobject.`object`.PersistentWorldObject
@@ -67,7 +67,7 @@ class PersistentInteractableBase : InteractableBase, PersistentWorldObject() {
             location.yaw = data.yaw
 
             val spawned = if (data.packetBased) {
-                base.interactable.spawnPacket(location, AudienceList(mutableListOf(), AudienceList.Mode.WHITELIST), false)
+                base.interactable.spawnPacket(location, WhitelistAudience(mutableListOf()), false)
             } else {
                 base.interactable.spawn(location, false)
             }

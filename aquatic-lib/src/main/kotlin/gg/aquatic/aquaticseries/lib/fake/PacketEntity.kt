@@ -1,8 +1,9 @@
 package gg.aquatic.aquaticseries.lib.fake
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.audience.AquaticAudience
+import gg.aquatic.aquaticseries.lib.audience.WhitelistAudience
 import gg.aquatic.aquaticseries.lib.fake.event.PacketEntityInteractEvent
-import gg.aquatic.aquaticseries.lib.util.AudienceList
 import gg.aquatic.aquaticseries.lib.util.AbstractAudience
 import org.bukkit.Bukkit
 import org.bukkit.Location
@@ -12,7 +13,7 @@ import java.util.function.Consumer
 class PacketEntity(
     override val location: Location,
     val entityId: Int,
-    override val audience: AudienceList,
+    override val audience: AquaticAudience,
     val onInteract: Consumer<PacketEntityInteractEvent>
 ): AbstractPacketObject() {
 
@@ -21,10 +22,7 @@ class PacketEntity(
     }
 
     override fun sendDespawnPacket(vararg players: Player) {
-        for (player in players) {
-            AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.despawnEntity(listOf(entityId), AudienceList(mutableListOf(player.uniqueId),AudienceList.Mode.WHITELIST))
-        }
-
+        AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.despawnEntity(listOf(entityId), WhitelistAudience(players.map { it.uniqueId }.toMutableList()))
     }
 
     override fun sendSpawnPacket(vararg players: Player) {
@@ -35,7 +33,7 @@ class PacketEntity(
 
 
     override fun spawn() {
-        for (uuid in audience.appliedTo) {
+        for (uuid in audience.uuids) {
             val player = Bukkit.getPlayer(uuid) ?: continue
             sendSpawnPacket(player)
         }
@@ -43,7 +41,7 @@ class PacketEntity(
     }
 
     override fun despawn() {
-        for (uuid in audience.appliedTo) {
+        for (uuid in audience.uuids) {
             val player = Bukkit.getPlayer(uuid) ?: continue
             sendDespawnPacket(player)
         }

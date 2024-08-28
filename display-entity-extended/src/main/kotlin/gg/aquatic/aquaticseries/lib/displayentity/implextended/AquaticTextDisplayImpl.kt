@@ -3,9 +3,9 @@ package gg.aquatic.aquaticseries.lib.displayentity.implextended
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.adapt.displayentity.AquaticDisplay
 import gg.aquatic.aquaticseries.lib.adapt.displayentity.AquaticTextDisplay
+import gg.aquatic.aquaticseries.lib.audience.AquaticAudience
 import gg.aquatic.aquaticseries.lib.fake.FakeObjectHandler
 import gg.aquatic.aquaticseries.lib.fake.PacketEntity
-import gg.aquatic.aquaticseries.lib.util.AudienceList
 import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.entity.Display
@@ -16,7 +16,7 @@ import org.bukkit.util.Transformation
 class AquaticTextDisplayImpl(
     packetBased: Boolean,
     location: Location,
-    audience: AudienceList): AquaticTextDisplay() {
+    audience: AquaticAudience): AquaticTextDisplay() {
 
     var packetEntity: PacketEntity? = null
     var entity: TextDisplay? = null

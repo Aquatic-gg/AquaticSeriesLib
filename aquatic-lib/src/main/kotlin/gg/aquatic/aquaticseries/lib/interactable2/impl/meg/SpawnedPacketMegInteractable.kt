@@ -3,11 +3,12 @@ package gg.aquatic.aquaticseries.lib.interactable2.impl.meg
 import com.ticxo.modelengine.api.ModelEngineAPI
 import com.ticxo.modelengine.api.model.ActiveModel
 import com.ticxo.modelengine.api.model.ModeledEntity
+import gg.aquatic.aquaticseries.lib.audience.AquaticAudience
+import gg.aquatic.aquaticseries.lib.audience.BlacklistAudience
 import gg.aquatic.aquaticseries.lib.block.impl.VanillaBlock
 import gg.aquatic.aquaticseries.lib.fake.FakeObjectHandler
 import gg.aquatic.aquaticseries.lib.fake.PacketBlock
 import gg.aquatic.aquaticseries.lib.interactable2.AbstractSpawnedPacketInteractable
-import gg.aquatic.aquaticseries.lib.util.AudienceList
 import gg.aquatic.aquaticseries.lib.interactable2.InteractableInteractEvent
 import gg.aquatic.aquaticseries.lib.interactable2.base.SpawnedInteractableBase
 import gg.aquatic.aquaticseries.lib.worldobject.WorldObjectHandler
@@ -18,7 +19,7 @@ import org.bukkit.entity.Player
 import kotlin.jvm.optionals.getOrNull
 
 class SpawnedPacketMegInteractable(
-    override val audience: AudienceList,
+    override val audience: AquaticAudience,
     override val location: Location,
     override val base: MegInteractable<*>,
     override val spawnedInteractableBase: SpawnedInteractableBase<*>
@@ -54,16 +55,19 @@ class SpawnedPacketMegInteractable(
         spawnBlocks()
         spawnModel()
 
-        if (audience.mode == AudienceList.Mode.WHITELIST) {
-            for (uuid in audience.whitelist) {
-                val player = Bukkit.getPlayer(uuid) ?: continue
-                dummy.setForceViewing(player, true)
-            }
-        } else {
-            for (uuid in audience.whitelist) {
-                val player = Bukkit.getPlayer(uuid) ?: continue
-                dummy.setForceHidden(player, true)
-            }
+        updateAudienceView()
+    }
+
+    fun updateAudienceView() {
+        Bukkit.getOnlinePlayers().forEach { player ->
+            dummy.data.tracked.removeForcedHidden(player)
+        }
+        Bukkit.getOnlinePlayers().forEach { player ->
+            dummy.data.tracked.removeForcedPairing(player)
+        }
+        dummy.data.tracked.trackedPlayer.clear()
+        for (uuid in audience.uuids) {
+            dummy.setForceViewing(Bukkit.getPlayer(uuid) ?: continue, true)
         }
     }
 
@@ -73,9 +77,7 @@ class SpawnedPacketMegInteractable(
             if (char != ' ') {
                 val block = VanillaBlock(Material.AIR.createBlockData())
                 val blockData = block.blockData
-                val packetBlock = PacketBlock(loc, blockData, AudienceList(mutableListOf(),
-                    AudienceList.Mode.BLACKLIST)
-                ) {}
+                val packetBlock = PacketBlock(loc, blockData, BlacklistAudience(mutableListOf())) {}
                 packetBlock.spawn()
                 blocks += loc to packetBlock
             }

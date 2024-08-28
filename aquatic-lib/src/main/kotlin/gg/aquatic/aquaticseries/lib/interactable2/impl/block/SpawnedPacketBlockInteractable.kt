@@ -1,9 +1,9 @@
 package gg.aquatic.aquaticseries.lib.interactable2.impl.block
 
+import gg.aquatic.aquaticseries.lib.audience.AquaticAudience
 import gg.aquatic.aquaticseries.lib.fake.FakeObjectHandler
 import gg.aquatic.aquaticseries.lib.fake.PacketBlock
 import gg.aquatic.aquaticseries.lib.interactable2.AbstractSpawnedPacketInteractable
-import gg.aquatic.aquaticseries.lib.util.AudienceList
 import gg.aquatic.aquaticseries.lib.interactable2.InteractableInteractEvent
 import gg.aquatic.aquaticseries.lib.interactable2.base.SpawnedInteractableBase
 import gg.aquatic.aquaticseries.lib.worldobject.WorldObjectHandler
@@ -11,7 +11,7 @@ import org.bukkit.Location
 import org.bukkit.entity.Player
 
 class SpawnedPacketBlockInteractable(
-    override val audience: AudienceList,
+    override val audience: AquaticAudience,
     override val location: Location,
     override val base: BlockInteractable<*>,
     override val spawnedInteractableBase: SpawnedInteractableBase<*>
