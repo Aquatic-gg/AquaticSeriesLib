@@ -1,5 +1,6 @@
 package gg.aquatic.aquaticseries.lib.interactable2
 
+import gg.aquatic.aquaticseries.lib.util.AudienceList
 import org.bukkit.entity.Player
 
 abstract class AbstractSpawnedPacketInteractable<T : AbstractInteractable<*>> : SpawnedInteractable<T> {

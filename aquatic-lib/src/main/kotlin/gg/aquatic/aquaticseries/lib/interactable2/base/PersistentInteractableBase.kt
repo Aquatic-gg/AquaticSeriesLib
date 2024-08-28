@@ -5,7 +5,7 @@ import com.jeff_media.customblockdata.CustomBlockData
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.interactable2.AbstractInteractable
 import gg.aquatic.aquaticseries.lib.interactable2.AbstractSpawnedPacketInteractable
-import gg.aquatic.aquaticseries.lib.interactable2.AudienceList
+import gg.aquatic.aquaticseries.lib.util.AudienceList
 import gg.aquatic.aquaticseries.lib.interactable2.InteractableData
 import gg.aquatic.aquaticseries.lib.worldobject.WorldObjectSerializer
 import gg.aquatic.aquaticseries.lib.worldobject.`object`.PersistentWorldObject

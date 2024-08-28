@@ -20,6 +20,7 @@ repositories {
     maven("https://jitpack.io")
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    maven("https://oss.sonatype.org/content/repositories/snapshots/")
 }
 
 dependencies {
@@ -29,6 +30,7 @@ dependencies {
     compileOnly("com.github.LoneDev6:API-ItemsAdder:3.6.2-beta-r3-b")
     compileOnly ("com.ticxo.modelengine:ModelEngine:R4.0.6")
     compileOnly("me.clip:placeholderapi:2.11.2")
+    implementation("org.joml:joml:1.10.8")
     //implementation("net.kyori:adventure-api:4.17.0")
 }
 
@@ -77,6 +79,7 @@ subprojects {
         maven("https://repo.oraxen.com/releases")
         maven("https://jitpack.io")
         maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+        maven("https://oss.sonatype.org/content/repositories/snapshots/")
     }
 
     dependencies {
@@ -89,6 +92,7 @@ subprojects {
         compileOnly("redis.clients:jedis:5.0.0")
         compileOnly("com.github.MilkBowl:VaultAPI:1.7")
         compileOnly("me.clip:placeholderapi:2.11.2")
+        implementation("org.joml:joml:1.10.8")
         //implementation("net.kyori:adventure-api:4.17.0")
     }
 

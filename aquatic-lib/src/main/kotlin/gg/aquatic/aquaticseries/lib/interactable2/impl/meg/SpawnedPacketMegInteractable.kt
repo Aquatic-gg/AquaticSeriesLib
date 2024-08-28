@@ -7,7 +7,7 @@ import gg.aquatic.aquaticseries.lib.block.impl.VanillaBlock
 import gg.aquatic.aquaticseries.lib.fake.FakeObjectHandler
 import gg.aquatic.aquaticseries.lib.fake.PacketBlock
 import gg.aquatic.aquaticseries.lib.interactable2.AbstractSpawnedPacketInteractable
-import gg.aquatic.aquaticseries.lib.interactable2.AudienceList
+import gg.aquatic.aquaticseries.lib.util.AudienceList
 import gg.aquatic.aquaticseries.lib.interactable2.InteractableInteractEvent
 import gg.aquatic.aquaticseries.lib.interactable2.base.SpawnedInteractableBase
 import gg.aquatic.aquaticseries.lib.worldobject.WorldObjectHandler
@@ -73,7 +73,9 @@ class SpawnedPacketMegInteractable(
             if (char != ' ') {
                 val block = VanillaBlock(Material.AIR.createBlockData())
                 val blockData = block.blockData
-                val packetBlock = PacketBlock(loc, blockData, AudienceList(mutableListOf(),AudienceList.Mode.BLACKLIST)) {}
+                val packetBlock = PacketBlock(loc, blockData, AudienceList(mutableListOf(),
+                    AudienceList.Mode.BLACKLIST)
+                ) {}
                 packetBlock.spawn()
                 blocks += loc to packetBlock
             }

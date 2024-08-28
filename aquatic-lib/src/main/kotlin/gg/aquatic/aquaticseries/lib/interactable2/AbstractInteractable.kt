@@ -4,6 +4,7 @@ import gg.aquatic.aquaticseries.lib.interactable2.base.InteractableBase
 import gg.aquatic.aquaticseries.lib.interactable2.base.PersistentInteractableBase
 import gg.aquatic.aquaticseries.lib.interactable2.base.SpawnedInteractableBase
 import gg.aquatic.aquaticseries.lib.interactable2.base.TempInteractableBase
+import gg.aquatic.aquaticseries.lib.util.AudienceList
 import gg.aquatic.aquaticseries.lib.worldobject.WorldObjectHandler
 import gg.aquatic.aquaticseries.lib.worldobject.WorldObjectSerializer
 import gg.aquatic.aquaticseries.lib.worldobject.`object`.SpawnedWorldObject

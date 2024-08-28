@@ -7,7 +7,7 @@ import gg.aquatic.aquaticseries.lib.block.impl.VanillaBlock
 import gg.aquatic.aquaticseries.lib.fake.FakeObjectHandler
 import gg.aquatic.aquaticseries.lib.fake.PacketBlock
 import gg.aquatic.aquaticseries.lib.interactable2.AbstractSpawnedInteractable
-import gg.aquatic.aquaticseries.lib.interactable2.AudienceList
+import gg.aquatic.aquaticseries.lib.util.AudienceList
 import gg.aquatic.aquaticseries.lib.interactable2.InteractableInteractEvent
 import gg.aquatic.aquaticseries.lib.interactable2.base.SpawnedInteractableBase
 import gg.aquatic.aquaticseries.lib.worldobject.WorldObjectHandler

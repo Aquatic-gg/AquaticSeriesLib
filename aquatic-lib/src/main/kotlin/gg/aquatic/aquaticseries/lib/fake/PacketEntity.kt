@@ -2,7 +2,7 @@ package gg.aquatic.aquaticseries.lib.fake
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.fake.event.PacketEntityInteractEvent
-import gg.aquatic.aquaticseries.lib.interactable2.AudienceList
+import gg.aquatic.aquaticseries.lib.util.AudienceList
 import gg.aquatic.aquaticseries.lib.util.AbstractAudience
 import org.bukkit.Bukkit
 import org.bukkit.Location
@@ -22,7 +22,7 @@ class PacketEntity(
 
     override fun sendDespawnPacket(vararg players: Player) {
         for (player in players) {
-            AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.despawnEntity(listOf(entityId), AbstractAudience.SinglePlayerAudience(player))
+            AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.despawnEntity(listOf(entityId), AudienceList(mutableListOf(player.uniqueId),AudienceList.Mode.WHITELIST))
         }
 
     }

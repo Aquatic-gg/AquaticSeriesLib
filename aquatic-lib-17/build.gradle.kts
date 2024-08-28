@@ -19,6 +19,8 @@ repositories {
 dependencies {
     implementation(project(":aquatic-lib"))
     implementation(project(":core"))
+    implementation(project(":display-entity"))
+    implementation(project(":display-entity-extended"))
     compileOnly("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
     implementation("gg.aquatic.aquaticseries.nms:NMS_v1_17_1:$nmsVersion") {
         exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")

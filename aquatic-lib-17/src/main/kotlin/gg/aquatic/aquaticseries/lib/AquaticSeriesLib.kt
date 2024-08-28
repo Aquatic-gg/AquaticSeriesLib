@@ -1,5 +1,8 @@
 package gg.aquatic.aquaticseries.lib
 
+import gg.aquatic.aquaticseries.lib.adapt.displayentity.IDisplayEntityAdapter
+import gg.aquatic.aquaticseries.lib.displayentity.DisplayEntityAdapter
+import gg.aquatic.aquaticseries.lib.displayentity.DisplayEntityExtendedAdapter
 import gg.aquatic.aquaticseries.lib.feature.Features
 import gg.aquatic.aquaticseries.lib.feature.IFeature
 import gg.aquatic.aquaticseries.lib.nms.NMSAdapter
@@ -15,8 +18,9 @@ import org.bukkit.plugin.java.JavaPlugin
 class AquaticSeriesLib private constructor(
     plugin: JavaPlugin,
     nmsAdapter: NMSAdapter?,
+    displayAdapter: IDisplayEntityAdapter?,
     features: HashMap<Features, IFeature>
-) : AbstractAquaticSeriesLib(plugin, nmsAdapter, features) {
+) : AbstractAquaticSeriesLib(plugin, nmsAdapter, displayAdapter, features) {
 
     companion object {
         private var _INSTANCE: AquaticSeriesLib? = null
@@ -32,8 +36,26 @@ class AquaticSeriesLib private constructor(
             val instance = _INSTANCE
             if (instance != null) return instance
             val adapter = chooseNMSAdapter(plugin)
-            _INSTANCE = AquaticSeriesLib(plugin, adapter, HashMap(features.associateBy { it.type }))
+            val displayAdapter = chooseDisplayAdapter(plugin)
+            _INSTANCE = AquaticSeriesLib(plugin, adapter, displayAdapter, HashMap(features.associateBy { it.type }))
             return _INSTANCE!!
+        }
+
+        private fun chooseDisplayAdapter(plugin: JavaPlugin): IDisplayEntityAdapter? {
+            when (plugin.server.bukkitVersion) {
+                "1.17.1-R0.1-SNAPSHOT", "1.18.2-R0.1-SNAPSHOT" -> {
+                    return null
+                }
+
+                "1.19.4-R0.1-SNAPSHOT" -> {
+                    return DisplayEntityAdapter
+                }
+
+                "1.20.4-R0.1-SNAPSHOT", "1.20.5-R0.1-SNAPSHOT", "1.20.6-R0.1-SNAPSHOT", "1.21-R0.1-SNAPSHOT", "1.21.1-R0.1-SNAPSHOT" -> {
+                    return DisplayEntityExtendedAdapter
+                }
+            }
+            return null
         }
 
         private fun chooseNMSAdapter(plugin: JavaPlugin): NMSAdapter? {

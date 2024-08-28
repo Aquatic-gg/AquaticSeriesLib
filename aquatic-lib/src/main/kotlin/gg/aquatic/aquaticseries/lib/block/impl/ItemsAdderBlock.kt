@@ -3,10 +3,9 @@ package gg.aquatic.aquaticseries.lib.block.impl
 import dev.lone.itemsadder.api.CustomBlock
 import gg.aquatic.aquaticseries.lib.block.AquaticBlock
 import gg.aquatic.aquaticseries.lib.fake.PacketBlock
-import gg.aquatic.aquaticseries.lib.interactable2.AudienceList
+import gg.aquatic.aquaticseries.lib.util.AudienceList
 import org.bukkit.Location
 import org.bukkit.block.data.BlockData
-import org.bukkit.entity.Player
 
 class ItemsAdderBlock(
     val iaId: String

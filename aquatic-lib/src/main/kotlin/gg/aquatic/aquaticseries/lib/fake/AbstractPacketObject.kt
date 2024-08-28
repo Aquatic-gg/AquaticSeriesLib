@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.fake
 
-import gg.aquatic.aquaticseries.lib.interactable2.AudienceList
+import gg.aquatic.aquaticseries.lib.util.AudienceList
 import org.bukkit.Location
 import org.bukkit.entity.Player
 
