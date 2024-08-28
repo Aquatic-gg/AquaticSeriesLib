@@ -37,28 +37,14 @@ class SpawnedPacketBlockInteractable(
     }
 
     override fun show(player: Player) {
-        if (audience.mode == AudienceList.Mode.WHITELIST) {
-            if (audience.whitelist.contains(player.uniqueId)) return
-            audience.whitelist += player.uniqueId
-
-        } else if (audience.mode == AudienceList.Mode.BLACKLIST) {
-            if (!audience.whitelist.contains(player.uniqueId)) return
-            audience.whitelist -= player.uniqueId
-        }
+        if (handleAudienceShow(player)) return
         for (value in blocks.values) {
             value.sendSpawnPacket(player)
         }
     }
 
     override fun hide(player: Player) {
-        if (audience.mode == AudienceList.Mode.WHITELIST) {
-            if (!audience.whitelist.contains(player.uniqueId)) return
-            audience.whitelist -= player.uniqueId
-
-        } else if (audience.mode == AudienceList.Mode.BLACKLIST) {
-            if (audience.whitelist.contains(player.uniqueId)) return
-            audience.whitelist += player.uniqueId
-        }
+        if (handleAudienceHide(player)) return
         for (value in blocks.values) {
             value.sendDespawnPacket(player)
         }
