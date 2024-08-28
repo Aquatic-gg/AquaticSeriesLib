@@ -2,7 +2,6 @@ package gg.aquatic.aquaticseries.lib
 
 import com.google.gson.Gson
 import gg.aquatic.aquaticseries.lib.adapt.AquaticLibAdapter
-import gg.aquatic.aquaticseries.lib.displayentity.IDisplayEntityAdapter
 import gg.aquatic.aquaticseries.lib.feature.Features
 import gg.aquatic.aquaticseries.lib.feature.IFeature
 import gg.aquatic.aquaticseries.lib.format.Format
@@ -14,7 +13,7 @@ import gg.aquatic.aquaticseries.paper.PaperAdapter
 import gg.aquatic.aquaticseries.spigot.SpigotAdapter
 import org.bukkit.plugin.java.JavaPlugin
 
-abstract class AbstractAquaticSeriesLib(val plugin: JavaPlugin, val nmsAdapter: NMSAdapter?, val displayAdapter: IDisplayEntityAdapter?, val features: HashMap<Features,IFeature>) {
+abstract class AbstractAquaticSeriesLib(val plugin: JavaPlugin, val nmsAdapter: NMSAdapter?, val features: HashMap<Features,IFeature>) {
 
     val interactableHandler: InteractableHandler?
         get() {

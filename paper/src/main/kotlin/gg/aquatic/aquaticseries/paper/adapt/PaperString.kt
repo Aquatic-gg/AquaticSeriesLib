@@ -51,7 +51,7 @@ class PaperString(
             return PaperAdapter.minimessage
         }
 
-    private fun convert(): Component {
+    fun convert(): Component {
         return PaperAdapter.minimessage.deserialize(ChatColor.stripColor(string))
     }
 }

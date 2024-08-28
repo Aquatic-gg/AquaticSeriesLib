@@ -53,6 +53,7 @@ class AquaticHologram(
 
     fun updateAudienceView() {
         if (!spawned) return
+        /*
         for (player in location.world!!.players) {
             for (line in lines) {
                 line.hide(
@@ -60,9 +61,10 @@ class AquaticHologram(
                 )
             }
         }
+         */
         for (player in location.world!!.players.filter { audience.canBeApplied(it) }) {
             for (line in lines) {
-                line.hide(
+                line.show(
                     player
                 )
             }

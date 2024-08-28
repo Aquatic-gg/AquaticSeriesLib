@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT")
     implementation(project(":core"))
     implementation(project(":paper"))
     implementation(project(":spigot"))
@@ -28,7 +28,7 @@ tasks {
 
     compileJava {
         options.encoding = Charsets.UTF_8.name()
-        options.release.set(21)
+        options.release.set(17)
     }
 
     javadoc {

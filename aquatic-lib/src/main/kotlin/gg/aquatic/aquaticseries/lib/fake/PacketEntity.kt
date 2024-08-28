@@ -4,7 +4,6 @@ import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.audience.AquaticAudience
 import gg.aquatic.aquaticseries.lib.audience.WhitelistAudience
 import gg.aquatic.aquaticseries.lib.fake.event.PacketEntityInteractEvent
-import gg.aquatic.aquaticseries.lib.util.AbstractAudience
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.Player

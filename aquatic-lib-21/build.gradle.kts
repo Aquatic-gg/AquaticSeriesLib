@@ -5,7 +5,7 @@ plugins {
 val maven_username: String by rootProject.extra
 val maven_password: String by rootProject.extra
 
-val nmsVersion = "1.0.20"
+val nmsVersion = "1.0.24"
 
 group = "gg.aquatic.aquaticseries"
 
@@ -20,8 +20,6 @@ repositories {
 dependencies {
     implementation(project(":aquatic-lib"))
     implementation(project(":core"))
-    implementation(project(":display-entity"))
-    implementation(project(":display-entity-extended"))
     compileOnly("org.spigotmc:spigot-api:1.20.5-R0.1-SNAPSHOT")
     implementation("gg.aquatic.aquaticseries.nms:NMS_v1_21_1:1.0.1") {
         exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
