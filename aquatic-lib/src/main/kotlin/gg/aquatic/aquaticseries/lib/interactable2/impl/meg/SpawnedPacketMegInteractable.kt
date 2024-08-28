@@ -11,6 +11,7 @@ import gg.aquatic.aquaticseries.lib.interactable2.AudienceList
 import gg.aquatic.aquaticseries.lib.interactable2.InteractableInteractEvent
 import gg.aquatic.aquaticseries.lib.interactable2.base.SpawnedInteractableBase
 import gg.aquatic.aquaticseries.lib.worldobject.WorldObjectHandler
+import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -27,14 +28,7 @@ class SpawnedPacketMegInteractable(
 
     val blocks = HashMap<Location, PacketBlock>()
     override fun show(player: Player) {
-        if (audience.mode == AudienceList.Mode.WHITELIST) {
-            if (audience.whitelist.contains(player.uniqueId)) return
-            audience.whitelist += player.uniqueId
-
-        } else if (audience.mode == AudienceList.Mode.BLACKLIST) {
-            if (!audience.whitelist.contains(player.uniqueId)) return
-            audience.whitelist -= player.uniqueId
-        }
+        if (handleAudienceShow(player)) return
         for (value in blocks.values) {
             value.sendSpawnPacket(player)
         }
@@ -43,14 +37,7 @@ class SpawnedPacketMegInteractable(
     }
 
     override fun hide(player: Player) {
-        if (audience.mode == AudienceList.Mode.WHITELIST) {
-            if (!audience.whitelist.contains(player.uniqueId)) return
-            audience.whitelist -= player.uniqueId
-
-        } else if (audience.mode == AudienceList.Mode.BLACKLIST) {
-            if (audience.whitelist.contains(player.uniqueId)) return
-            audience.whitelist += player.uniqueId
-        }
+        if (handleAudienceHide(player)) return
         for (value in blocks.values) {
             value.sendDespawnPacket(player)
         }
@@ -66,6 +53,18 @@ class SpawnedPacketMegInteractable(
     init {
         spawnBlocks()
         spawnModel()
+
+        if (audience.mode == AudienceList.Mode.WHITELIST) {
+            for (uuid in audience.whitelist) {
+                val player = Bukkit.getPlayer(uuid) ?: continue
+                dummy.setForceViewing(player, true)
+            }
+        } else {
+            for (uuid in audience.whitelist) {
+                val player = Bukkit.getPlayer(uuid) ?: continue
+                dummy.setForceHidden(player, true)
+            }
+        }
     }
 
 

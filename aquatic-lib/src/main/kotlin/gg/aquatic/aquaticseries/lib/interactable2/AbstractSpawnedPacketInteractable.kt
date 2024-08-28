@@ -8,4 +8,27 @@ abstract class AbstractSpawnedPacketInteractable<T : AbstractInteractable<*>> : 
     abstract fun show(player: Player)
     abstract fun hide(player: Player)
 
+    protected fun handleAudienceShow(player: Player): Boolean {
+        if (audience.mode == AudienceList.Mode.WHITELIST) {
+            if (audience.whitelist.contains(player.uniqueId)) return true
+            audience.whitelist += player.uniqueId
+
+        } else if (audience.mode == AudienceList.Mode.BLACKLIST) {
+            if (!audience.whitelist.contains(player.uniqueId)) return true
+            audience.whitelist -= player.uniqueId
+        }
+        return false
+    }
+
+    protected fun handleAudienceHide(player: Player): Boolean {
+        if (audience.mode == AudienceList.Mode.WHITELIST) {
+            if (!audience.whitelist.contains(player.uniqueId)) return true
+            audience.whitelist -= player.uniqueId
+
+        } else if (audience.mode == AudienceList.Mode.BLACKLIST) {
+            if (audience.whitelist.contains(player.uniqueId)) return true
+            audience.whitelist += player.uniqueId
+        }
+        return false
+    }
 }
