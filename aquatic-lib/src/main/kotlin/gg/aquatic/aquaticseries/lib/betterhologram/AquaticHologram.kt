@@ -15,6 +15,7 @@ class AquaticHologram(
     val placeholders: Placeholders,
     var anchor: Anchor,
     val location: Location,
+    val viewRange: Double,
 ) {
 
     val seenBy: MutableSet<UUID> = mutableSetOf()
@@ -74,8 +75,9 @@ class AquaticHologram(
             tick = 0
             val remaining = mutableSetOf(*playersInRange.toTypedArray())
             val world = location.world ?: return
+            val range = viewRange*viewRange
             for (player in world.players) {
-                if (player.location.distanceSquared(location) <= 10*10) {
+                if (player.location.distanceSquared(location) <= range) {
                     remaining.remove(player.uniqueId)
                     if (playersInRange.contains(player.uniqueId)) continue
                     playersInRange.add(player.uniqueId)
