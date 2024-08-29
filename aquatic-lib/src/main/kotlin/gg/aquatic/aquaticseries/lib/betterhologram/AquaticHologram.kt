@@ -12,7 +12,6 @@ class AquaticHologram(
     var filter: (Player) -> Boolean,
     val failHologram: AquaticHologram?,
     val lines: MutableList<Line>,
-    val placeholders: Placeholders,
     var anchor: Anchor,
     val location: Location,
     val viewRange: Double,
@@ -56,7 +55,7 @@ class AquaticHologram(
                     }
                 }
 
-                line.showOrUpdate(player, canSee.placeholders, canSee.location, offset)
+                line.showOrUpdate(player, canSee.location, offset)
             }
         }
         tick()
@@ -166,8 +165,8 @@ class AquaticHologram(
 
         protected abstract fun removeCacheExtra(uuid: UUID)
 
-        fun showOrUpdate(player: Player, placeholders: Placeholders, location: Location, offset: Vector) {
-            show(player, placeholders, location, offset)
+        fun showOrUpdate(player: Player, location: Location, offset: Vector) {
+            show(player, location, offset)
         }
 
         fun hideAll(player: Player) {
@@ -183,12 +182,12 @@ class AquaticHologram(
             }
         }
 
-        private fun show(player: Player, placeholders: Placeholders, location: Location, offset: Vector) {
+        private fun show(player: Player, location: Location, offset: Vector) {
             if (!seenBy.contains(player.uniqueId)) {
                 seenBy[player.uniqueId] = offset
-                handleShow(player, placeholders, location, offset)
+                handleShow(player, location, offset)
             } else {
-                handleUpdate(player, placeholders, location, offset)
+                handleUpdate(player, location, offset)
             }
         }
 
@@ -197,14 +196,12 @@ class AquaticHologram(
         protected abstract fun handleHide(player: Player)
         protected abstract fun handleShow(
             player: Player,
-            placeholders: Placeholders,
             location: Location,
             offset: Vector
         )
 
         protected abstract fun handleUpdate(
             player: Player,
-            placeholders: Placeholders,
             location: Location,
             offset: Vector
         )

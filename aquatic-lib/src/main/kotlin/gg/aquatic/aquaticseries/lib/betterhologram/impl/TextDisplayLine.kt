@@ -2,12 +2,10 @@ package gg.aquatic.aquaticseries.lib.betterhologram.impl
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
-import gg.aquatic.aquaticseries.lib.audience.FilterAudience
 import gg.aquatic.aquaticseries.lib.audience.WhitelistAudience
 import gg.aquatic.aquaticseries.lib.betterhologram.AquaticHologram
 import gg.aquatic.aquaticseries.lib.nms.NMSAdapter
 import gg.aquatic.aquaticseries.lib.toAquatic
-import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import org.bukkit.Location
 import org.bukkit.entity.Display
 import org.bukkit.entity.Player
@@ -23,6 +21,7 @@ class TextDisplayLine(
     override val filter: (Player) -> Boolean,
     override val failLine: AquaticHologram.Line?,
     override val keyFrames: TreeMap<Int, TextDisplayKeyframe>,
+    val textUpdater: (Player, String) -> String,
 ) : AquaticHologram.Line() {
 
     val nmsAdapter: NMSAdapter
@@ -69,11 +68,11 @@ class TextDisplayLine(
         nmsAdapter.despawnEntity(listOf(entityId!!),WhitelistAudience(mutableListOf(player.uniqueId)))
     }
 
-    override fun handleShow(player: Player, placeholders: Placeholders, location: Location, offset: Vector) {
+    override fun handleShow(player: Player, location: Location, offset: Vector) {
         if (entityId == null) {
             entityId = createEntity(location)
         }
-        val state = createState(player, placeholders, offset.y)
+        val state = createState(player, offset.y)
         states[player.uniqueId] = state
         nmsAdapter.resendEntitySpawnPacket(player,entityId!!)
         nmsAdapter.updateEntity(entityId!!, { e->
@@ -88,11 +87,11 @@ class TextDisplayLine(
         }, WhitelistAudience(mutableListOf(player.uniqueId)))
     }
 
-    override fun handleUpdate(player: Player, placeholders: Placeholders, location: Location, offset: Vector) {
-        val state = createState(player, placeholders, offset.y)
+    override fun handleUpdate(player: Player, location: Location, offset: Vector) {
+        val state = createState(player, offset.y)
         val previousState = states[player.uniqueId]
         if (previousState == null) {
-            handleShow(player, placeholders, location, offset)
+            handleShow(player, location, offset)
             return
         }
         if (
@@ -114,9 +113,9 @@ class TextDisplayLine(
         }, WhitelistAudience(mutableListOf(player.uniqueId)))
     }
 
-    private fun createState(player: Player, placeholders: Placeholders, height: Double): TextDisplayState {
+    private fun createState(player: Player, height: Double): TextDisplayState {
         val state = TextDisplayState(
-            placeholders.replace(currentKeyframe.text.string),
+            textUpdater(player,currentKeyframe.text.string),
             currentKeyframe.height+height
         )
         return state
