@@ -33,7 +33,7 @@ class AquaticHologram(
     val seenBy: MutableSet<UUID> = mutableSetOf()
     val playersInRange: MutableSet<UUID> = mutableSetOf()
 
-    private var tick = 0
+    private var tick = 4
 
     fun update() {
         _location.world ?: return
