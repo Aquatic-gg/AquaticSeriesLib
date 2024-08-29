@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.block
 
-import gg.aquatic.aquaticseries.lib.util.Utils
+import gg.aquatic.aquaticseries.lib.util.toBlockCardinal
 import org.bukkit.Location
 import org.bukkit.block.data.BlockData
 import org.bukkit.util.Vector
@@ -30,7 +30,7 @@ class AquaticMultiBlock(
         location: Location,
         operation: (Char, Location) -> Unit
     ) {
-        val face = Utils.cardinalDirection(location.yaw)
+        val face = location.yaw.toBlockCardinal()
         for (layer in shape.layers) {
             val y = layer.key
             val l = layer.value
