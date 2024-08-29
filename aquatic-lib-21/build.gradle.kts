@@ -5,7 +5,7 @@ plugins {
 val maven_username: String by rootProject.extra
 val maven_password: String by rootProject.extra
 
-val nmsVersion = "1.0.24"
+val nmsVersion = "1.0.25"
 
 group = "gg.aquatic.aquaticseries"
 
@@ -31,6 +31,9 @@ dependencies {
         exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
     }
     implementation("gg.aquatic.aquaticseries.nms:NMS_v1_19_4:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_20_1:$nmsVersion") {
         exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
     }
     implementation("gg.aquatic.aquaticseries.nms:NMS_v1_20_4:$nmsVersion") {

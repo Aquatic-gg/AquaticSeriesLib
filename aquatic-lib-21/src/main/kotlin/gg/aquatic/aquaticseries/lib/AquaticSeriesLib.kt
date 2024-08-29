@@ -7,6 +7,7 @@ import gg.aquatic.aquaticseries.lib.nms.NMSAdapter
 import gg.aquatic.aquaticseries.nms.v1_17_1.NMS_1_17_1
 import gg.aquatic.aquaticseries.nms.v1_18_2.NMS_1_18_2
 import gg.aquatic.aquaticseries.nms.v1_19_4.NMS_1_19_4
+import gg.aquatic.aquaticseries.nms.v1_20_1.NMS_1_20_1
 import gg.aquatic.aquaticseries.nms.v1_20_4.NMS_1_20_4
 import gg.aquatic.aquaticseries.nms.v1_20_6.menu.NMS_1_20_6
 import gg.aquatic.aquaticseries.nms.v1_21.NMS_1_21
@@ -49,6 +50,10 @@ class AquaticSeriesLib private constructor(
 
                 "1.19.4-R0.1-SNAPSHOT" -> {
                     return NMS_1_19_4()
+                }
+
+                "1.20.1-R0.1-SNAPSHOT" -> {
+                    return NMS_1_20_1()
                 }
 
                 "1.20.4-R0.1-SNAPSHOT" -> {
