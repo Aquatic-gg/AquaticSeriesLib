@@ -6,6 +6,7 @@ import gg.aquatic.aquaticseries.lib.audience.FilterAudience
 import gg.aquatic.aquaticseries.lib.audience.WhitelistAudience
 import gg.aquatic.aquaticseries.lib.betterhologram.AquaticHologram
 import gg.aquatic.aquaticseries.lib.nms.NMSAdapter
+import gg.aquatic.aquaticseries.lib.toAquatic
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import org.bukkit.Location
 import org.bukkit.entity.Display
@@ -83,7 +84,7 @@ class TextDisplayLine(
                 Vector3f(1f, 1f, 1f),
                 Quaternionf()
             )
-            e.text = state.text
+            AbstractAquaticSeriesLib.INSTANCE.adapter.setDisplayText(e,state.text.toAquatic())
         }, WhitelistAudience(mutableListOf(player.uniqueId)))
     }
 
@@ -109,7 +110,7 @@ class TextDisplayLine(
                 Vector3f(1f, 1f, 1f),
                 Quaternionf()
             )
-            e.text = state.text
+            AbstractAquaticSeriesLib.INSTANCE.adapter.setDisplayText(e,state.text.toAquatic())
         }, WhitelistAudience(mutableListOf(player.uniqueId)))
     }
 

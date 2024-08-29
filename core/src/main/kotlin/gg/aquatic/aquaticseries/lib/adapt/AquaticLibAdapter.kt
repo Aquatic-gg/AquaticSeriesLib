@@ -14,5 +14,7 @@ abstract class AquaticLibAdapter {
 
     abstract fun adaptString(string: String): AquaticString
     abstract fun getEntityName(entity: Entity): AquaticString
+    abstract fun setDisplayText(entity: Entity, text: AquaticString)
+    abstract fun getDisplayText(entity: Entity): AquaticString?
 
 }

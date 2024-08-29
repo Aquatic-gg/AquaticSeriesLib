@@ -23,7 +23,7 @@ class AquaticHologram(
     private var tick = 0
 
     fun update() {
-        val world = location.world ?: return
+        location.world ?: return
         tickRange()
         for (player in playersInRange.mapNotNull { Bukkit.getPlayer(it) }) {
             val canSee = canBeSeenBy(player) ?: continue

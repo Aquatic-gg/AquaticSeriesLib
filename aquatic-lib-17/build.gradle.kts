@@ -78,8 +78,14 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
         include(project(":core"))
         include(project(":aquatic-lib"))
         include(dependency("com.jeff-media:custom-block-data:2.2.2"))
-        include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_20_4"))
         include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_17_1"))
+        include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_18_2"))
+        include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_19_4"))
+        include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_20_1"))
+        include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_20_4"))
+        include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_20_6"))
+        include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_21"))
+        include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_21_1"))
     }
 }
 

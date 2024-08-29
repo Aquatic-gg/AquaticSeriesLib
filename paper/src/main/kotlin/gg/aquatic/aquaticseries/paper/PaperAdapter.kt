@@ -6,6 +6,7 @@ import gg.aquatic.aquaticseries.paper.adapt.*
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.entity.Entity
+import org.bukkit.entity.TextDisplay
 import org.bukkit.plugin.java.JavaPlugin
 
 class PaperAdapter(override val plugin: JavaPlugin) : AquaticLibAdapter() {
@@ -30,5 +31,17 @@ class PaperAdapter(override val plugin: JavaPlugin) : AquaticLibAdapter() {
 
     override fun getEntityName(entity: Entity): AquaticString {
         return PaperString( minimessage.serialize(entity.customName() ?: return PaperString("")))
+    }
+
+    override fun setDisplayText(entity: Entity, text: AquaticString) {
+        if (text !is PaperString) return
+        if (entity !is TextDisplay) return
+
+        entity.customName(minimessage.deserialize(text.string))
+    }
+
+    override fun getDisplayText(entity: Entity): AquaticString? {
+        if (entity !is TextDisplay) return null
+        return PaperString(minimessage.serialize(entity.customName() ?: return null))
     }
 }
