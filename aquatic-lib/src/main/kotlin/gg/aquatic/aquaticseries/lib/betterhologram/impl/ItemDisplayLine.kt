@@ -1,16 +1,16 @@
 package gg.aquatic.aquaticseries.lib.betterhologram.impl
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
-import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.audience.WhitelistAudience
 import gg.aquatic.aquaticseries.lib.betterhologram.AquaticHologram
 import gg.aquatic.aquaticseries.lib.nms.NMSAdapter
-import gg.aquatic.aquaticseries.lib.toAquatic
 import org.bukkit.Location
-import org.bukkit.entity.Display
 import org.bukkit.entity.Display.Billboard
+import org.bukkit.entity.ItemDisplay
+import org.bukkit.entity.ItemDisplay.ItemDisplayTransform
 import org.bukkit.entity.Player
 import org.bukkit.entity.TextDisplay
+import org.bukkit.inventory.ItemStack
 import org.bukkit.util.Transformation
 import org.bukkit.util.Vector
 import org.joml.Quaternionf
@@ -18,11 +18,10 @@ import org.joml.Vector3f
 import java.util.*
 import kotlin.collections.HashMap
 
-class TextDisplayLine(
+class ItemDisplayLine(
     override val filter: (Player) -> Boolean,
     override val failLine: AquaticHologram.Line?,
-    override val keyFrames: TreeMap<Int, TextDisplayKeyframe>,
-    val textUpdater: (Player, String) -> String,
+    override val keyFrames: TreeMap<Int, ItemDisplayKeyframe>,
 ) : AquaticHologram.Line() {
 
     val nmsAdapter: NMSAdapter
@@ -30,14 +29,14 @@ class TextDisplayLine(
             return AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!
         }
 
-    var currentKeyframe: TextDisplayKeyframe = keyFrames.firstEntry().value
-    val states = HashMap<UUID, TextDisplayState>()
+    var currentKeyframe: ItemDisplayKeyframe = keyFrames.firstEntry().value
+    val states = HashMap<UUID, ItemDisplayState>()
 
     var entityId: Int? = null
     private fun createEntity(location: Location): Int {
         return nmsAdapter.spawnEntity(location, "text_display", WhitelistAudience(mutableListOf())) {
             it as TextDisplay
-            it.billboard = Display.Billboard.CENTER
+            it.billboard = Billboard.CENTER
         }
     }
 
@@ -49,7 +48,7 @@ class TextDisplayLine(
         if (tick > keyFrames.lastKey()) {
             tick = 0
         }
-        val keyframe: TextDisplayKeyframe? = keyFrames.higherEntry(tick)?.value
+        val keyframe: ItemDisplayKeyframe? = keyFrames.higherEntry(tick)?.value
         if (keyframe != null) {
             currentKeyframe = keyframe
         }
@@ -73,14 +72,14 @@ class TextDisplayLine(
         if (entityId == null) {
             entityId = createEntity(location)
         }
-        val state = createState(player, offset.y)
+        val state = createState(offset.y)
         states[player.uniqueId] = state
         nmsAdapter.resendEntitySpawnPacket(player, entityId!!)
         updateEntity(player, offset, state)
     }
 
     override fun handleUpdate(player: Player, location: Location, offset: Vector) {
-        val state = createState(player, offset.y)
+        val state = createState(offset.y)
         val previousState = states[player.uniqueId]
         if (previousState == null) {
             handleShow(player, location, offset)
@@ -93,52 +92,57 @@ class TextDisplayLine(
         updateEntity(player, offset, state)
     }
 
-    private fun updateEntity(player: Player, offset: Vector, state: TextDisplayState) {
+    private fun updateEntity(player: Player, offset: Vector, state: ItemDisplayState) {
         nmsAdapter.updateEntity(entityId!!, { e ->
-            e as TextDisplay
+            e as ItemDisplay
             e.transformation = Transformation(
                 Vector3f(offset.x.toFloat(), offset.y.toFloat(), offset.z.toFloat()),
                 Quaternionf(),
                 Vector3f(state.scale, state.scale, state.scale),
                 Quaternionf()
             )
-            AbstractAquaticSeriesLib.INSTANCE.adapter.setDisplayText(e, state.text.toAquatic())
+            e.itemStack = currentKeyframe.item
+            e.itemDisplayTransform = currentKeyframe.itemDisplayTransform
             e.billboard = state.billboard
         }, WhitelistAudience(mutableListOf(player.uniqueId)))
     }
 
-    private fun createState(player: Player, height: Double): TextDisplayState {
-        val state = TextDisplayState(
-            textUpdater(player, currentKeyframe.text.string),
+    private fun createState(height: Double): ItemDisplayState {
+        val state = ItemDisplayState(
+            currentKeyframe.item,
             currentKeyframe.height + height,
             currentKeyframe.scale,
             currentKeyframe.billboard,
+            currentKeyframe.itemDisplayTransform,
         )
         return state
     }
 
-    class TextDisplayKeyframe(
+    class ItemDisplayKeyframe(
         override val time: Int,
-        val text: AquaticString,
+        val item: ItemStack,
         val height: Double = 0.3,
         val scale: Float = 1.0f,
         val billboard: Billboard = Billboard.CENTER,
+        val itemDisplayTransform: ItemDisplayTransform
     ) : AquaticHologram.LineKeyframe() {
 
     }
 
-    class TextDisplayState(
-        val text: String,
+    class ItemDisplayState(
+        val item: ItemStack,
         val height: Double,
         val scale: Float,
         val billboard: Billboard,
+        val itemDisplayTransform: ItemDisplayTransform
     ) {
 
-        fun isSame(other: TextDisplayState): Boolean {
-            return text == other.text &&
+        fun isSame(other: ItemDisplayState): Boolean {
+            return item.isSimilar(other.item) &&
                     height == other.height &&
                     scale == other.scale &&
-                    billboard == other.billboard
+                    billboard == other.billboard &&
+                    itemDisplayTransform == other.itemDisplayTransform
         }
 
     }
