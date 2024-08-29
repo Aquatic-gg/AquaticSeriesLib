@@ -7,9 +7,10 @@ import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
 import java.util.*
+import java.util.function.Function
 
 class EmptyLine(
-    override val filter: (Player) -> Boolean,
+    override val filter: Function<Player,Boolean>,
     override val failLine: AquaticHologram.Line?,
     override val height: Double,
 ) : AquaticHologram.Line() {

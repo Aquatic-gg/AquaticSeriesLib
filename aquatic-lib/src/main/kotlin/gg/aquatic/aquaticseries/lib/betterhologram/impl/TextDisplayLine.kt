@@ -16,10 +16,11 @@ import org.bukkit.util.Vector
 import org.joml.Quaternionf
 import org.joml.Vector3f
 import java.util.*
+import java.util.function.Function
 import kotlin.collections.HashMap
 
 class TextDisplayLine(
-    override val filter: (Player) -> Boolean,
+    override val filter: Function<Player, Boolean>,
     override val failLine: AquaticHologram.Line?,
     override val keyFrames: TreeMap<Int, TextDisplayKeyframe>,
     val textUpdater: (Player, String) -> String,

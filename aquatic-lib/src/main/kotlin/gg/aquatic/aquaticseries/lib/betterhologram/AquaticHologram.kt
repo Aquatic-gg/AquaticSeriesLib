@@ -7,9 +7,10 @@ import org.bukkit.entity.Player
 import org.bukkit.util.Vector
 import java.util.TreeMap
 import java.util.UUID
+import java.util.function.Function
 
 class AquaticHologram(
-    var filter: (Player) -> Boolean,
+    var filter: Function<Player,Boolean>,
     val failHologram: AquaticHologram?,
     val lines: MutableList<Line>,
     var anchor: Anchor,
@@ -141,7 +142,7 @@ class AquaticHologram(
     }
 
     private fun canBeSeenBy(player: Player): AquaticHologram? {
-        if (filter(player)) {
+        if (filter.apply(player)) {
             failHologram?.hide(player)
             return this
         }
@@ -164,7 +165,7 @@ class AquaticHologram(
 
     abstract class Line {
 
-        abstract val filter: (Player) -> Boolean
+        abstract val filter: Function<Player,Boolean>
         abstract val failLine: Line?
         abstract val keyFrames: TreeMap<Int, out LineKeyframe>
 
@@ -174,7 +175,7 @@ class AquaticHologram(
         abstract fun tick()
 
         fun canBeSeenBy(player: Player): Line? {
-            if (filter(player)) {
+            if (filter.apply(player)) {
                 failLine?.hide(player)
                 return this
             }
