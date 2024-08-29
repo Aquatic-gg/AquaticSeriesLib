@@ -17,6 +17,8 @@ class AquaticHologram(
     val viewRange: Double,
 ) {
 
+    var despawned = false
+        private set
     private var _location: Location = location.clone()
 
     fun move(location: Location) {
@@ -123,6 +125,19 @@ class AquaticHologram(
             line.removeFromCacheAll(uuid)
         }
         failHologram?.removeFromCacheAll(uuid)
+    }
+
+    private fun despawn() {
+        for (line in lines) {
+            for (player in Bukkit.getOnlinePlayers()) {
+                line.hideAll(player)
+
+                failHologram?.hideAll(player)
+                removeFromCacheAll(player.uniqueId)
+            }
+        }
+        despawned = true
+        failHologram?.despawn()
     }
 
     private fun canBeSeenBy(player: Player): AquaticHologram? {
