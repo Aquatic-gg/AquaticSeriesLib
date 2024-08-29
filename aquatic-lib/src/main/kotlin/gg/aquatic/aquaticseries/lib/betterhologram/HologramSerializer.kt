@@ -30,8 +30,8 @@ object HologramSerializer {
     fun loadLine(section: ConfigurationSection): AquaticHologram.Line? {
         val type = section.getString("type") ?: return null
         when (type.lowercase()) {
-            "text" -> return loadTextLine(section)
-            "item" -> return loadItemLine(section)
+            "text_display" -> return loadTextLine(section)
+            "item_display" -> return loadItemLine(section)
             "armorstand" -> return loadArmorstandLine(section)
             "empty" -> return loadEmptyLine(section)
         }
