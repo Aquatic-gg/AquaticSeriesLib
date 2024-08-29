@@ -7,7 +7,6 @@ import gg.aquatic.aquaticseries.lib.betterhologram.AquaticHologram
 import gg.aquatic.aquaticseries.lib.nms.NMSAdapter
 import gg.aquatic.aquaticseries.lib.toAquatic
 import org.bukkit.Location
-import org.bukkit.entity.Display
 import org.bukkit.entity.Display.Billboard
 import org.bukkit.entity.Player
 import org.bukkit.entity.TextDisplay
@@ -39,7 +38,7 @@ class TextDisplayLine(
     private fun createEntity(location: Location): Int {
         return nmsAdapter.spawnEntity(location, "text_display", WhitelistAudience(mutableListOf())) {
             it as TextDisplay
-            it.billboard = Display.Billboard.CENTER
+            it.billboard = Billboard.CENTER
         }
     }
 
