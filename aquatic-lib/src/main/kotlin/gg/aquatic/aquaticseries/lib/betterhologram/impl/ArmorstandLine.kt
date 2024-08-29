@@ -39,7 +39,6 @@ class ArmorstandLine(
             it.isVisible = false
             it.isCustomNameVisible = true
             it.isMarker = true
-            it.isSmall = true
             it.isSilent = true
             it.isInvulnerable = true
         }
