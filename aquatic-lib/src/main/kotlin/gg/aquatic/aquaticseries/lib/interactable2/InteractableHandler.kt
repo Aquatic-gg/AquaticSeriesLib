@@ -28,18 +28,16 @@ object InteractableHandler: IFeature {
         fun onInteract(event: PlayerInteractEvent) {
             val block = event.clickedBlock ?: return
 
-            val objects = WorldObjectHandler.getSpawnedObject(block.location).values
-            for (spawnedWorldObject in objects) {
-                if (spawnedWorldObject !is SpawnedInteractableBase<*>) continue
-                for (value in spawnedWorldObject.appliedInteractables.values) {
-                    if (event.hand == EquipmentSlot.OFF_HAND) return
-                    val intEvent = InteractableInteractEvent(
-                        event.player, event.action, event.clickedBlock?.location, value
-                    )
-                    value.onInteract(intEvent)
-                    if (intEvent.cancelled) {
-                        event.isCancelled = true
-                    }
+            val spawnedWorldObject = WorldObjectHandler.getSpawnedObject(block.location) ?: return
+            if (spawnedWorldObject !is SpawnedInteractableBase<*>) return
+            for (value in spawnedWorldObject.appliedInteractables.values) {
+                if (event.hand == EquipmentSlot.OFF_HAND) return
+                val intEvent = InteractableInteractEvent(
+                    event.player, event.action, event.clickedBlock?.location, value
+                )
+                value.onInteract(intEvent)
+                if (intEvent.cancelled) {
+                    event.isCancelled = true
                 }
             }
         }
@@ -47,17 +45,15 @@ object InteractableHandler: IFeature {
         @EventHandler
         fun onBlockBreak(event: BlockBreakEvent) {
             val block = event.block
-            val objects = WorldObjectHandler.getSpawnedObject(block.location).values
-            for (spawnedWorldObject in objects) {
-                if (spawnedWorldObject !is SpawnedInteractableBase<*>) continue
-                for (value in spawnedWorldObject.appliedInteractables.values) {
-                    val intEvent = InteractableInteractEvent(
-                        event.player, Action.LEFT_CLICK_BLOCK, event.block.location, value
-                    )
-                    value.onInteract(intEvent)
-                    if (intEvent.cancelled) {
-                        event.isCancelled = true
-                    }
+            val spawnedWorldObject = WorldObjectHandler.getSpawnedObject(block.location)
+            if (spawnedWorldObject !is SpawnedInteractableBase<*>) return
+            for (value in spawnedWorldObject.appliedInteractables.values) {
+                val intEvent = InteractableInteractEvent(
+                    event.player, Action.LEFT_CLICK_BLOCK, event.block.location, value
+                )
+                value.onInteract(intEvent)
+                if (intEvent.cancelled) {
+                    event.isCancelled = true
                 }
             }
         }

@@ -5,6 +5,6 @@ import java.util.UUID
 
 class LocationChunkObject: ChunkObject {
 
-    val cache = HashMap<String,MutableMap<Class<LocationObject>,LocationObject>>()
+    val cache = HashMap<String,MutableMap<Class<out LocationObject>,LocationObject>>()
 
 }

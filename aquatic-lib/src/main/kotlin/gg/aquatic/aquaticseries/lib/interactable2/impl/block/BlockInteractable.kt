@@ -24,11 +24,9 @@ class BlockInteractable<B>(
                 if (loc.block.type != Material.AIR) {
                     toReturn = false
                 }
-                for (value in WorldObjectHandler.getSpawnedObject(location).values) {
-                    if (value is InteractableBase) {
-                        toReturn = false
-                        break
-                    }
+                val value = WorldObjectHandler.getSpawnedObject(loc)
+                if (value is InteractableBase) {
+                    toReturn = false
                 }
             }
         }
