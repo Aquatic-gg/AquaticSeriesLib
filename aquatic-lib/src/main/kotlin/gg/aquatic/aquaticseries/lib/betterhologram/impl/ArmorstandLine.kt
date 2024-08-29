@@ -11,6 +11,7 @@ import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
 import java.util.*
+import java.util.function.BiFunction
 import java.util.function.Function
 import kotlin.collections.HashMap
 
@@ -18,7 +19,7 @@ class ArmorstandLine(
     override val filter: Function<Player,Boolean>,
     override val failLine: AquaticHologram.Line?,
     override val keyFrames: TreeMap<Int, ArmorstandKeyframe>,
-    val textUpdater: (Player, String) -> String,
+    var textUpdater: BiFunction<Player, String, String>
 ) : AquaticHologram.Line() {
 
     val nmsAdapter: NMSAdapter
@@ -108,7 +109,7 @@ class ArmorstandLine(
 
     private fun createState(player: Player, height: Double): ArmorstandState {
         val state = ArmorstandState(
-            textUpdater(player, currentKeyframe.text.string),
+            textUpdater.apply(player, currentKeyframe.text.string),
             currentKeyframe.height + height,
         )
         return state

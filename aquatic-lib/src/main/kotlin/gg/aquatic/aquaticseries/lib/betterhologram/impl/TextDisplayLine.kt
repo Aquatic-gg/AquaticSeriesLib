@@ -16,6 +16,7 @@ import org.bukkit.util.Vector
 import org.joml.Quaternionf
 import org.joml.Vector3f
 import java.util.*
+import java.util.function.BiFunction
 import java.util.function.Function
 import kotlin.collections.HashMap
 
@@ -23,7 +24,7 @@ class TextDisplayLine(
     override val filter: Function<Player, Boolean>,
     override val failLine: AquaticHologram.Line?,
     override val keyFrames: TreeMap<Int, TextDisplayKeyframe>,
-    val textUpdater: (Player, String) -> String,
+    var textUpdater: BiFunction<Player, String, String>,
 ) : AquaticHologram.Line() {
 
     val nmsAdapter: NMSAdapter
@@ -115,7 +116,7 @@ class TextDisplayLine(
 
     private fun createState(player: Player, height: Double): TextDisplayState {
         val state = TextDisplayState(
-            textUpdater(player, currentKeyframe.text.string),
+            textUpdater.apply(player, currentKeyframe.text.string),
             currentKeyframe.height + height,
             currentKeyframe.scale,
             currentKeyframe.billboard,
