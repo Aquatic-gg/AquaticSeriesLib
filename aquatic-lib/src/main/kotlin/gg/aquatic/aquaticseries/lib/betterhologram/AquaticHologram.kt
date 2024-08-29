@@ -25,7 +25,7 @@ class AquaticHologram(
     fun update() {
         val world = location.world ?: return
         tickRange()
-        for (player in world.players.filter { p -> p.location.distanceSquared(location) < 50 }) {
+        for (player in playersInRange.mapNotNull { Bukkit.getPlayer(it) }) {
             val canSee = canBeSeenBy(player) ?: continue
             val lines = canSee.lines.mapNotNull { it.canBeSeenBy(player) }
 
@@ -35,7 +35,7 @@ class AquaticHologram(
 
             val totalHeight = lines.sumOf { it.height }
             var currentHeight = 0.0
-            for (line in lines.reversed()) {
+            for ((i,line) in lines.reversed().withIndex()) {
                 val offset = when (canSee.anchor) {
                     Anchor.BOTTOM -> {
                         val vector = Vector(0.0, currentHeight, 0.0)
@@ -45,7 +45,8 @@ class AquaticHologram(
 
                     Anchor.MIDDLE -> {
                         currentHeight += line.height
-                        Vector(0.0, (currentHeight - (totalHeight / 2.0) / 2.0), 0.0)
+                        val yOffset = (currentHeight - (totalHeight / 2.0))
+                        Vector(0.0, yOffset , 0.0)
                     }
 
                     Anchor.TOP -> {
@@ -74,7 +75,7 @@ class AquaticHologram(
             val remaining = mutableSetOf(*playersInRange.toTypedArray())
             val world = location.world ?: return
             for (player in world.players) {
-                if (player.location.distanceSquared(location) < 150) {
+                if (player.location.distanceSquared(location) <= 10*10) {
                     remaining.remove(player.uniqueId)
                     if (playersInRange.contains(player.uniqueId)) continue
                     playersInRange.add(player.uniqueId)
@@ -88,6 +89,7 @@ class AquaticHologram(
             }
             for (uuid in remaining) {
                 val player = Bukkit.getPlayer(uuid)
+                playersInRange.remove(uuid)
                 if (player == null) {
                     removeFromCacheAll(uuid)
                     continue
@@ -102,6 +104,7 @@ class AquaticHologram(
             line.hideAll(player)
         }
         failHologram?.hideAll(player)
+        removeFromCacheAll(player.uniqueId)
     }
 
     private fun removeFromCacheAll(uuid: UUID) {

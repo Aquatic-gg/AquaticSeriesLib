@@ -8,6 +8,7 @@ import gg.aquatic.aquaticseries.lib.betterhologram.AquaticHologram
 import gg.aquatic.aquaticseries.lib.nms.NMSAdapter
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import org.bukkit.Location
+import org.bukkit.entity.Display
 import org.bukkit.entity.Player
 import org.bukkit.entity.TextDisplay
 import org.bukkit.util.Transformation
@@ -33,7 +34,10 @@ class TextDisplayLine(
 
     var entityId: Int? = null
     private fun createEntity(location: Location): Int {
-        return nmsAdapter.spawnEntity(location, "text_display", FilterAudience(filter)) { }
+        return nmsAdapter.spawnEntity(location, "text_display", WhitelistAudience(mutableListOf())) {
+            it as TextDisplay
+            it.billboard = Display.Billboard.CENTER
+        }
     }
 
     override fun tick() {
@@ -70,6 +74,7 @@ class TextDisplayLine(
         }
         val state = createState(player, placeholders, offset.y)
         states[player.uniqueId] = state
+        nmsAdapter.resendEntitySpawnPacket(player,entityId!!)
         nmsAdapter.updateEntity(entityId!!, { e->
             e as TextDisplay
             e.transformation = Transformation(
