@@ -3,6 +3,7 @@ package gg.aquatic.aquaticseries.lib.interactable2.impl.meg
 import com.ticxo.modelengine.api.ModelEngineAPI
 import com.ticxo.modelengine.api.model.ActiveModel
 import com.ticxo.modelengine.api.model.ModeledEntity
+import com.ticxo.modelengine.api.model.bone.BoneBehaviorTypes
 import gg.aquatic.aquaticseries.lib.audience.BlacklistAudience
 import gg.aquatic.aquaticseries.lib.block.impl.VanillaBlock
 import gg.aquatic.aquaticseries.lib.fake.FakeObjectHandler
@@ -13,6 +14,7 @@ import gg.aquatic.aquaticseries.lib.interactable2.base.SpawnedInteractableBase
 import gg.aquatic.aquaticseries.lib.worldobject.WorldObjectHandler
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.entity.Player
 import kotlin.jvm.optionals.getOrNull
 
 class SpawnedMegInteractable(
@@ -28,6 +30,16 @@ class SpawnedMegInteractable(
         }
 
     override val dummy = MegInteractableDummy(this)
+
+    override fun setSkin(player: Player) {
+        activeModel?.apply {
+            for (value in bones.values) {
+                value.getBoneBehavior(BoneBehaviorTypes.PLAYER_LIMB).ifPresent {
+                    setSkin(player)
+                }
+            }
+        }
+    }
 
     init {
         spawnBlocks()

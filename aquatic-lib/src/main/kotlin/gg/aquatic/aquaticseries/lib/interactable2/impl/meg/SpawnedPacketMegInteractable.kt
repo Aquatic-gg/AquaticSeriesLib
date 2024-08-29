@@ -3,6 +3,7 @@ package gg.aquatic.aquaticseries.lib.interactable2.impl.meg
 import com.ticxo.modelengine.api.ModelEngineAPI
 import com.ticxo.modelengine.api.model.ActiveModel
 import com.ticxo.modelengine.api.model.ModeledEntity
+import com.ticxo.modelengine.api.model.bone.BoneBehaviorTypes
 import gg.aquatic.aquaticseries.lib.audience.AquaticAudience
 import gg.aquatic.aquaticseries.lib.audience.BlacklistAudience
 import gg.aquatic.aquaticseries.lib.block.impl.VanillaBlock
@@ -26,6 +27,15 @@ class SpawnedPacketMegInteractable(
 ) : AbstractSpawnedPacketInteractable<MegInteractable<*>>(), ISpawnedMegInteractable {
 
     override val dummy = MegInteractableDummy(this)
+    override fun setSkin(player: Player) {
+        activeModel?.apply {
+            for (value in bones.values) {
+                value.getBoneBehavior(BoneBehaviorTypes.PLAYER_LIMB).ifPresent {
+                    setSkin(player)
+                }
+            }
+        }
+    }
 
     val blocks = HashMap<Location, PacketBlock>()
     override fun show(player: Player) {
