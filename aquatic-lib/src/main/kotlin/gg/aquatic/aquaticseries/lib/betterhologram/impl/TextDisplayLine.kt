@@ -42,6 +42,7 @@ class TextDisplayLine(
     }
 
     override fun tick() {
+        failLine?.tick()
         if (keyFrames.size <= 1) {
             return
         }
@@ -93,6 +94,10 @@ class TextDisplayLine(
         updateEntity(player, offset, state)
     }
 
+    override fun handleMove(location: Location) {
+        nmsAdapter.teleportEntity(entityId!!, location, WhitelistAudience(seenBy.keys.toMutableList()))
+    }
+
     private fun updateEntity(player: Player, offset: Vector, state: TextDisplayState) {
         nmsAdapter.updateEntity(entityId!!, { e ->
             e as TextDisplay
@@ -118,7 +123,6 @@ class TextDisplayLine(
     }
 
     class TextDisplayKeyframe(
-        override val time: Int,
         val text: AquaticString,
         val height: Double = 0.3,
         val scale: Float = 1.0f,

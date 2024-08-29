@@ -45,6 +45,7 @@ class ArmorstandLine(
     }
 
     override fun tick() {
+        failLine?.tick()
         if (keyFrames.size <= 1) {
             return
         }
@@ -114,7 +115,6 @@ class ArmorstandLine(
     }
 
     class ArmorstandKeyframe(
-        override val time: Int,
         val text: AquaticString,
         val height: Double = 0.3,
     ) : AquaticHologram.LineKeyframe() {
@@ -130,6 +130,9 @@ class ArmorstandLine(
             return text == other.text &&
                     height == other.height
         }
+    }
 
+    override fun handleMove(location: Location) {
+        this.location = location
     }
 }

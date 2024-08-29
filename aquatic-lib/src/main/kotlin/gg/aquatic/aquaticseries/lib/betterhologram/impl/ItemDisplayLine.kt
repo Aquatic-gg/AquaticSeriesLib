@@ -41,6 +41,7 @@ class ItemDisplayLine(
     }
 
     override fun tick() {
+        failLine?.tick()
         if (keyFrames.size <= 1) {
             return
         }
@@ -119,7 +120,6 @@ class ItemDisplayLine(
     }
 
     class ItemDisplayKeyframe(
-        override val time: Int,
         val item: ItemStack,
         val height: Double = 0.3,
         val scale: Float = 1.0f,
@@ -127,6 +127,10 @@ class ItemDisplayLine(
         val itemDisplayTransform: ItemDisplayTransform
     ) : AquaticHologram.LineKeyframe() {
 
+    }
+
+    override fun handleMove(location: Location) {
+        nmsAdapter.teleportEntity(entityId!!, location, WhitelistAudience(seenBy.keys.toMutableList()))
     }
 
     class ItemDisplayState(

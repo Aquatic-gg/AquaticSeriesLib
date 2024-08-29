@@ -13,9 +13,19 @@ class AquaticHologram(
     val failHologram: AquaticHologram?,
     val lines: MutableList<Line>,
     var anchor: Anchor,
-    val location: Location,
+    location: Location,
     val viewRange: Double,
 ) {
+
+    private var _location: Location = location.clone()
+
+    fun move(location: Location) {
+        _location = location.clone()
+        for (line in lines) {
+            line.move(location)
+        }
+        failHologram?.move(location)
+    }
 
     val seenBy: MutableSet<UUID> = mutableSetOf()
     val playersInRange: MutableSet<UUID> = mutableSetOf()
@@ -23,7 +33,7 @@ class AquaticHologram(
     private var tick = 0
 
     fun update() {
-        location.world ?: return
+        _location.world ?: return
         tickRange()
         for (player in playersInRange.mapNotNull { Bukkit.getPlayer(it) }) {
             val canSee = canBeSeenBy(player) ?: continue
@@ -55,7 +65,7 @@ class AquaticHologram(
                     }
                 }
 
-                line.showOrUpdate(player, canSee.location, offset)
+                line.showOrUpdate(player, canSee._location, offset)
             }
         }
         tick()
@@ -73,10 +83,10 @@ class AquaticHologram(
         if (tick >= 4) {
             tick = 0
             val remaining = mutableSetOf(*playersInRange.toTypedArray())
-            val world = location.world ?: return
+            val world = _location.world ?: return
             val range = viewRange*viewRange
             for (player in world.players) {
-                if (player.location.distanceSquared(location) <= range) {
+                if (player.location.distanceSquared(_location) <= range) {
                     remaining.remove(player.uniqueId)
                     if (playersInRange.contains(player.uniqueId)) continue
                     playersInRange.add(player.uniqueId)
@@ -205,10 +215,16 @@ class AquaticHologram(
             location: Location,
             offset: Vector
         )
+
+        fun move(location: Location) {
+            handleMove(location)
+            failLine?.move(location)
+        }
+
+        protected abstract fun handleMove(location: Location)
     }
 
     abstract class LineKeyframe {
-        abstract val time: Int
     }
 
     enum class Anchor {
