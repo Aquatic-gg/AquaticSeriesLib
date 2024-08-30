@@ -1,6 +1,7 @@
 package gg.aquatic.aquaticseries.lib
 
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
+import gg.aquatic.aquaticseries.lib.util.itemencode.ItemEncoder
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import org.bukkit.block.CreatureSpawner
 import org.bukkit.entity.EntityType
@@ -8,6 +9,14 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.BlockStateMeta
 import org.bukkit.inventory.meta.ItemMeta
+
+fun ItemStack.encode(): String {
+    return ItemEncoder.encode(this)
+}
+
+fun String.decodeToItemStack(): ItemStack {
+    return ItemEncoder.decode(this)
+}
 
 fun ItemStack.displayName(string: AquaticString) {
     AbstractAquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.displayName(string, this)
