@@ -23,7 +23,8 @@ class SpigotAdapter(override val plugin: JavaPlugin) : AquaticLibAdapter() {
 
     override fun setDisplayText(entity: Entity, text: AquaticString) {
         if (entity !is TextDisplay) return
-        entity.text = text.string
+        if (text !is SpigotString) return
+        entity.text = text.formatted
     }
 
     override fun getDisplayText(entity: Entity): AquaticString? {

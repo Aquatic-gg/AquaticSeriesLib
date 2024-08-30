@@ -131,10 +131,7 @@ class AquaticHologram(
     fun despawn() {
         for (line in lines) {
             for (player in Bukkit.getOnlinePlayers()) {
-                line.hideAll(player)
-
-                failHologram?.hideAll(player)
-                removeFromCacheAll(player.uniqueId)
+                hideAll(player)
             }
         }
         despawned = true
