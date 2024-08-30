@@ -130,6 +130,10 @@ class ItemDisplayLine(
 
     }
 
+    override fun clone(): ItemDisplayLine {
+        return ItemDisplayLine(filter, failLine?.clone() , TreeMap(keyFrames))
+    }
+
     override fun handleMove(location: Location) {
         nmsAdapter.teleportEntity(entityId!!, location, WhitelistAudience(seenBy.keys.toMutableList()))
     }

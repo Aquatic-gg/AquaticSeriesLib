@@ -44,6 +44,10 @@ class EmptyLine(
 
     }
 
+    override fun clone(): EmptyLine {
+        return EmptyLine(filter, failLine?.clone(), height)
+    }
+
     override fun handleMove(location: Location) {
     }
 }

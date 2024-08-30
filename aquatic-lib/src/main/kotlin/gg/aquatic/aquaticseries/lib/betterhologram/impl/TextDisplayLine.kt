@@ -99,6 +99,10 @@ class TextDisplayLine(
         nmsAdapter.teleportEntity(entityId!!, location, WhitelistAudience(seenBy.keys.toMutableList()))
     }
 
+    override fun clone(): TextDisplayLine {
+        return TextDisplayLine(filter, failLine?.clone() , TreeMap(keyFrames), textUpdater)
+    }
+
     private fun updateEntity(player: Player, offset: Vector, state: TextDisplayState) {
         nmsAdapter.updateEntity(entityId!!, { e ->
             e as TextDisplay

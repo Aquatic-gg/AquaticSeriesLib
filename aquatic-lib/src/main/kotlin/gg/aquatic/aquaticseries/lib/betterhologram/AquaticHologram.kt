@@ -163,7 +163,7 @@ class AquaticHologram(
         }
     }
 
-    abstract class Line {
+    abstract class Line: Cloneable {
 
         abstract val filter: Function<Player,Boolean>
         abstract val failLine: Line?
@@ -238,6 +238,8 @@ class AquaticHologram(
         }
 
         protected abstract fun handleMove(location: Location)
+
+        public abstract override fun clone(): Line
     }
 
     abstract class LineKeyframe {

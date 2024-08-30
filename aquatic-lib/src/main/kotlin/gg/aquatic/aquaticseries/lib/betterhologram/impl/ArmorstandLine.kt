@@ -74,6 +74,10 @@ class ArmorstandLine(
         nmsAdapter.despawnEntity(listOf(entityId!!), WhitelistAudience(mutableListOf(player.uniqueId)))
     }
 
+    override fun clone(): ArmorstandLine {
+        return ArmorstandLine(filter, failLine?.clone(), TreeMap(keyFrames), textUpdater)
+    }
+
     override fun handleShow(player: Player, location: Location, offset: Vector) {
         if (entityId == null) {
             entityId = createEntity(location)
