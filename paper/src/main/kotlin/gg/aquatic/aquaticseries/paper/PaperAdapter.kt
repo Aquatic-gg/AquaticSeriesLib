@@ -34,10 +34,8 @@ class PaperAdapter(override val plugin: JavaPlugin) : AquaticLibAdapter() {
     }
 
     override fun setDisplayText(entity: Entity, text: AquaticString) {
-        if (text !is PaperString) return
         if (entity !is TextDisplay) return
-
-        entity.customName(minimessage.deserialize(text.string))
+        entity.text(minimessage.deserialize(text.string))
     }
 
     override fun getDisplayText(entity: Entity): AquaticString? {

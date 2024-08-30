@@ -34,7 +34,6 @@ class CuboidVector(
                 }
             }
         }
-
         return blockVectors
     }
 }
