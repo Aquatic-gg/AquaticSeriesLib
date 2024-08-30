@@ -35,8 +35,8 @@ class ItemDisplayLine(
 
     var entityId: Int? = null
     private fun createEntity(location: Location): Int {
-        return nmsAdapter.spawnEntity(location, "text_display", WhitelistAudience(mutableListOf())) {
-            it as TextDisplay
+        return nmsAdapter.spawnEntity(location, "item_display", WhitelistAudience(mutableListOf())) {
+            it as ItemDisplay
             it.billboard = Billboard.CENTER
         }
     }

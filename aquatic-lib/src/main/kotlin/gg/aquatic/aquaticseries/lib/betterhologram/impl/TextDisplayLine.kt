@@ -39,6 +39,7 @@ class TextDisplayLine(
         return nmsAdapter.spawnEntity(location, "text_display", WhitelistAudience(mutableListOf())) {
             it as TextDisplay
             it.billboard = Billboard.CENTER
+            it.lineWidth = 1000
         }
     }
 
