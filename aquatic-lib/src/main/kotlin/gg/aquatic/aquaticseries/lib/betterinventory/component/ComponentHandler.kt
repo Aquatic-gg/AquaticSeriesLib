@@ -167,6 +167,7 @@ class ComponentHandler(
             if (viewer !is Player) continue
             for (value in components.values) {
                 value.update(inventory, viewer)
+                value.tick(inventory, viewer)
             }
         }
     }

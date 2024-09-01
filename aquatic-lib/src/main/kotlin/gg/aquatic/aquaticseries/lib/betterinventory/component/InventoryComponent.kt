@@ -18,6 +18,7 @@ abstract class InventoryComponent {
     //private val seenBy: HashMap<UUID, List<Int>> = HashMap()
 
     abstract fun tick()
+    abstract fun tick(inventory: AquaticInventory, player: Player)
     abstract val itemStack: ItemStack?
 
     protected var currentComponent: InventoryComponent? = null
