@@ -6,7 +6,6 @@ import gg.aquatic.aquaticseries.lib.betterinventory2.component.InventoryComponen
 import gg.aquatic.aquaticseries.lib.displayName
 import gg.aquatic.aquaticseries.lib.lore
 import gg.aquatic.aquaticseries.lib.toAquatic
-import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -278,9 +277,6 @@ class AquaticInventory(
     private fun setItem(player: Player, itemStack: ItemStack, slot: Int) {
         val size = inventory.size
         content[slot] = itemStack
-
-        Bukkit.broadcastMessage("Setting item to $slot - type: ${itemStack.type}")
-
         if (slot >= size) {
             AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.setContainerItem(player, itemStack, slot)
         } else {

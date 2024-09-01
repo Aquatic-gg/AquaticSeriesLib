@@ -39,7 +39,6 @@ abstract class InventoryComponent {
             }
         }
         if (areMet) {
-            Bukkit.broadcastMessage("Conditions are met")
             return this
         }
         if (failItem == null) return component
