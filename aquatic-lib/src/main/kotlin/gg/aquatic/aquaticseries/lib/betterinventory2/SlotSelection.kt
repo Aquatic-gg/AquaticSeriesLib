@@ -1,4 +1,4 @@
-package gg.aquatic.aquaticseries.lib.betterinventory
+package gg.aquatic.aquaticseries.lib.betterinventory2
 
 import kotlin.math.ceil
 

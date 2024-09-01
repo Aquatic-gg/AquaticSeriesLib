@@ -52,6 +52,33 @@ class AquaticInventory(
         }
     }
 
+    fun open(player: Player) {
+        player.openInventory(inventory)
+        updateComponents(player)
+    }
+
+    fun addComponent(component: InventoryComponent) {
+        components[component.id] = component
+    }
+
+    fun removeComponent(component: InventoryComponent) {
+        for (viewer in inventory.viewers) {
+            if (viewer !is Player) continue
+            val stateHandler = stateHandlers[viewer.uniqueId] ?: continue
+            val state = stateHandler.states[component.id] ?: continue
+            val comp = state.component ?: continue
+            val slots = comp.slotSelection.slots
+            for (slot in slots) {
+                stateHandler.slotToStates[slot]?.remove(comp.id)
+                val renderedId = stateHandler.rendered[slot] ?: continue
+                if (renderedId == component.id) {
+                    stateHandler.rendered.remove(slot)
+                }
+            }
+        }
+        components.remove(component.id)
+    }
+
     val components = HashMap<String, InventoryComponent>()
     val stateHandlers = mutableMapOf<UUID, StateHandler>()
 

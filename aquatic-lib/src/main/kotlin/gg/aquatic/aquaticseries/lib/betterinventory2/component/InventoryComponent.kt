@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.betterinventory2.component
 
-import gg.aquatic.aquaticseries.lib.betterinventory.SlotSelection
+import gg.aquatic.aquaticseries.lib.betterinventory2.SlotSelection
 import gg.aquatic.aquaticseries.lib.betterinventory2.AquaticInventory
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
