@@ -7,6 +7,7 @@ import gg.aquatic.aquaticseries.lib.feature.IFeature
 import gg.aquatic.aquaticseries.lib.interactable2.base.SpawnedInteractableBase
 import gg.aquatic.aquaticseries.lib.interactable2.impl.meg.MegInteractableDummy
 import gg.aquatic.aquaticseries.lib.worldobject.WorldObjectHandler
+import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
@@ -20,6 +21,26 @@ object InteractableHandler: IFeature {
 
     override fun initialize(lib: AbstractAquaticSeriesLib) {
         lib.plugin.server.pluginManager.registerEvents(Listeners(),lib.plugin)
+        if (Bukkit.getPluginManager().getPlugin("ModelEngine") != null) {
+            lib.plugin.server.pluginManager.registerEvents(MegListeners(),lib.plugin)
+        }
+    }
+
+    class MegListeners: Listener {
+
+        @EventHandler
+        fun onMegInteract(event: BaseEntityInteractEvent) {
+            val dummy = event.baseEntity as? MegInteractableDummy ?: return
+            val interactable = dummy.interactable
+
+            if (event.action == BaseEntityInteractEvent.Action.INTERACT_ON) return
+            if (event.slot == EquipmentSlot.OFF_HAND) return
+
+            val intEvent = InteractableInteractEvent(
+                event.player, if (event.action == BaseEntityInteractEvent.Action.ATTACK) Action.LEFT_CLICK_AIR else Action.RIGHT_CLICK_AIR, dummy.location, interactable
+            )
+            interactable.onInteract(intEvent)
+        }
     }
 
     class Listeners: Listener {
@@ -56,20 +77,6 @@ object InteractableHandler: IFeature {
                     event.isCancelled = true
                 }
             }
-        }
-
-        @EventHandler
-        fun onMegInteract(event: BaseEntityInteractEvent) {
-            val dummy = event.baseEntity as? MegInteractableDummy ?: return
-            val interactable = dummy.interactable
-
-            if (event.action == BaseEntityInteractEvent.Action.INTERACT_ON) return
-            if (event.slot == EquipmentSlot.OFF_HAND) return
-
-            val intEvent = InteractableInteractEvent(
-                event.player, if (event.action == BaseEntityInteractEvent.Action.ATTACK) Action.LEFT_CLICK_AIR else Action.RIGHT_CLICK_AIR, dummy.location, interactable
-            )
-            interactable.onInteract(intEvent)
         }
     }
 }

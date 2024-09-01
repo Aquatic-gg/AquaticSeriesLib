@@ -9,6 +9,7 @@ import gg.aquatic.aquaticseries.lib.item.CustomItem
 import gg.aquatic.aquaticseries.lib.requirement.ConfiguredRequirement
 import gg.aquatic.aquaticseries.lib.requirement.player.PlayerRequirementSerializer
 import gg.aquatic.aquaticseries.lib.toAquatic
+import org.bukkit.Bukkit
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Display.Billboard
 import org.bukkit.entity.ItemDisplay.ItemDisplayTransform
@@ -86,10 +87,16 @@ object HologramSerializer {
             keyframes += 0 to (loadItemKeyframe(section) ?: return null)
         } else {
             val frames = section.getConfigurationSection("frames")!!
+            val keys = frames.getKeys(false)
+            Bukkit.getConsoleSender().sendMessage("Keys size: ${keys.size}")
             frames.getKeys(false).forEach {
+                Bukkit.getConsoleSender().sendMessage("Loading frame $it")
                 val loaded = loadItemKeyframe(frames.getConfigurationSection(it)!!)
                 if (loaded != null) {
+                    Bukkit.getConsoleSender().sendMessage("Loaded item keyframe at $it")
                     keyframes[it.toInt()] = loaded
+                } else {
+                    Bukkit.getConsoleSender().sendMessage("Keyframe at $it is null")
                 }
             }
         }

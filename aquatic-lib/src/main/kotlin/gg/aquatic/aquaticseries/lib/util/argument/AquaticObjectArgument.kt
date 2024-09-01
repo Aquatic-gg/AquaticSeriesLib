@@ -18,15 +18,13 @@ abstract class AquaticObjectArgument<T>(
         ): Map<String, Any?> {
             val args: MutableMap<String, Any?> = java.util.HashMap()
 
-            for (arg in arguments) {
-                if (section.contains(arg.id)) {
-                    args[arg.id] = if (arg.defaultValue is List<*>) section.getList(arg.id) else section.get(arg.id)
-                    continue
-                } else if (arg.required) {
+            for (argument in arguments) {
+                val loaded = argument.load(section)
+                if (loaded == null && argument.required) {
                     Bukkit.getConsoleSender()
-                        .sendMessage(ColorUtils.format("&cARGUMENT &4" + arg.id + " &cIS MISSING, PLEASE UPDATE YOUR CONFIGURATION!"))
+                        .sendMessage(ColorUtils.format("&cARGUMENT &4" + argument.id + " &cIS MISSING, PLEASE UPDATE YOUR CONFIGURATION!"))
                 }
-                args[arg.id] = arg.defaultValue
+                args += argument.id to argument.load(section)
             }
             return args
         }
