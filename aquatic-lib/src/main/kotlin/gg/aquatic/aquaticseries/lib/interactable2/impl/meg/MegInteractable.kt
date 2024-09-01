@@ -33,20 +33,22 @@ class MegInteractable<B>(
         return toReturn
     }
 
-    override fun spawn(location: Location, register: Boolean): AbstractSpawnedInteractable<*> {
+    override fun spawn(location: Location, register: Boolean, canInteract: Boolean): AbstractSpawnedInteractable<*> {
         val spawnedBase = base.create(location)
         val spawnedInteractable = SpawnedMegInteractable(location, this, spawnedBase as SpawnedInteractableBase<*>)
-        return spawn(spawnedBase, spawnedInteractable, register)
+        spawnedInteractable.canInteract = canInteract
+        return spawn(spawnedBase, spawnedInteractable, register, canInteract)
     }
 
     override fun spawnPacket(
         location: Location,
         audienceList: AquaticAudience,
-        register: Boolean
+        register: Boolean, canInteract: Boolean
     ): AbstractSpawnedPacketInteractable<*> {
         val spawnedBase = base.create(location)
         val spawnedInteractable =
             SpawnedPacketMegInteractable(audienceList, location, this, spawnedBase as SpawnedInteractableBase<*>)
-        return spawn(spawnedBase, spawnedInteractable, register)
+        spawnedInteractable.canInteract = canInteract
+        return spawn(spawnedBase, spawnedInteractable, register, canInteract)
     }
 }

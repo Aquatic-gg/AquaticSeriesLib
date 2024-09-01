@@ -67,9 +67,9 @@ class PersistentInteractableBase : InteractableBase, PersistentWorldObject() {
             location.yaw = data.yaw
 
             val spawned = if (data.packetBased) {
-                base.interactable.spawnPacket(location, WhitelistAudience(mutableListOf()), false)
+                base.interactable.spawnPacket(location, WhitelistAudience(mutableListOf()), false, true)
             } else {
-                base.interactable.spawn(location, false)
+                base.interactable.spawn(location, false, true)
             }
             return spawned.spawnedInteractableBase as SpawnedWorldObject<PersistentInteractableBase>
         }

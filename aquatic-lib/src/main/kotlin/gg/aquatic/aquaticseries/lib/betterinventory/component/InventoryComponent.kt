@@ -52,8 +52,9 @@ abstract class InventoryComponent {
                         currentComponent = fI
                     }
                 }
+            } else {
+                currentComponent = null
             }
-            currentComponent = null
         } else {
             currentComponent = this
         }

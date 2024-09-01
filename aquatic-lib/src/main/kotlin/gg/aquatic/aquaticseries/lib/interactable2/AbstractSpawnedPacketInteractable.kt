@@ -7,6 +7,7 @@ import org.bukkit.entity.Player
 
 abstract class AbstractSpawnedPacketInteractable<T : AbstractInteractable<*>> : SpawnedInteractable<T> {
 
+    var canInteract: Boolean = true
     abstract val audience: AquaticAudience
     abstract fun show(player: Player)
     abstract fun hide(player: Player)

@@ -15,7 +15,6 @@ import java.util.function.BiConsumer
 abstract class AbstractInteractable<B>(
     val base: B
 ) where B : WorldObject, B: InteractableBase {
-
     abstract val onInteract: BiConsumer<SpawnedInteractable<*>,InteractableInteractEvent>
 
     fun register() {
@@ -29,7 +28,8 @@ abstract class AbstractInteractable<B>(
     protected fun <T : SpawnedInteractable<*>> spawn(
         spawnedBase: SpawnedInteractableBase<*>,
         spawnedInteractable: T,
-        register: Boolean
+        register: Boolean,
+        canInteract: Boolean
     ): T {
         spawnedBase.appliedInteractables += id to spawnedInteractable
         val wo = spawnedBase.worldObject
@@ -38,7 +38,9 @@ abstract class AbstractInteractable<B>(
         }
         registerChildren(spawnedInteractable, spawnedBase)
 
-        WorldObjectHandler.registerSpawnedObject(spawnedBase)
+        if (canInteract) {
+            WorldObjectHandler.registerSpawnedObject(spawnedBase)
+        }
         return spawnedInteractable
     }
 
@@ -75,7 +77,7 @@ abstract class AbstractInteractable<B>(
 
     abstract val id: String
 
-    abstract fun spawn(location: Location, register: Boolean): AbstractSpawnedInteractable<*>
-    abstract fun spawnPacket(location: Location, audience: AquaticAudience, register: Boolean): AbstractSpawnedPacketInteractable<*>
+    abstract fun spawn(location: Location, register: Boolean, canInteract: Boolean): AbstractSpawnedInteractable<*>
+    abstract fun spawnPacket(location: Location, audience: AquaticAudience, register: Boolean, canInteract: Boolean): AbstractSpawnedPacketInteractable<*>
 
 }

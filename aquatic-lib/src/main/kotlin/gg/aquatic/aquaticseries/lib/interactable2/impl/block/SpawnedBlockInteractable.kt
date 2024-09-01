@@ -37,7 +37,9 @@ class SpawnedBlockInteractable(
             associatedLocation.block.type = Material.AIR
         }
         associatedLocations.clear()
-        WorldObjectHandler.removeSpawnedObject(spawnedInteractableBase)
+        if (canInteract) {
+            WorldObjectHandler.removeSpawnedObject(spawnedInteractableBase)
+        }
     }
 
     override fun onInteract(event: InteractableInteractEvent) {

@@ -61,7 +61,9 @@ class SpawnedPacketBlockInteractable(
             FakeObjectHandler.registry.unregisterBlock(value.location)
         }
         blocks.clear()
-        WorldObjectHandler.removeSpawnedObject(spawnedInteractableBase)
+        if (canInteract) {
+            WorldObjectHandler.removeSpawnedObject(spawnedInteractableBase)
+        }
     }
 
     override fun onInteract(event: InteractableInteractEvent) {

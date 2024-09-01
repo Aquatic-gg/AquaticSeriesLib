@@ -90,7 +90,9 @@ class SpawnedMegInteractable(
 
         dummy.isRemoved = true
         modeledEntity?.destroy()
-        WorldObjectHandler.removeSpawnedObject(spawnedInteractableBase)
+        if (canInteract) {
+            WorldObjectHandler.removeSpawnedObject(spawnedInteractableBase)
+        }
     }
 
     override fun onInteract(event: InteractableInteractEvent) {
