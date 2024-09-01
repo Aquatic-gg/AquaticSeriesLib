@@ -1,7 +1,6 @@
-package gg.aquatic.aquaticseries.lib.betterinventory
+package gg.aquatic.aquaticseries.lib.betterinventory2
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
-import gg.aquatic.aquaticseries.lib.betterinventory.inventory.AquaticInventory
 import gg.aquatic.aquaticseries.lib.feature.Features
 import gg.aquatic.aquaticseries.lib.feature.IFeature
 import gg.aquatic.aquaticseries.lib.nms.listener.AbstractPacketListener
@@ -21,7 +20,7 @@ import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 
-object InventoryHandler: IFeature {
+object InventoryHandler : IFeature {
     override val type: Features = Features.INVENTORIES
 
     override fun initialize(lib: AbstractAquaticSeriesLib) {
@@ -33,23 +32,23 @@ object InventoryHandler: IFeature {
                 for (onlinePlayer in Bukkit.getOnlinePlayers()) {
                     val holder = onlinePlayer.openInventory.topInventory.holder ?: continue
                     if (holder !is AquaticInventory) continue
-                    holder.tick()
+                    holder.update()
                 }
             }
         }.runTaskTimer(lib.plugin, 1, 1)
     }
 
-    class Listeners: Listener {
+    class Listeners : Listener {
         @EventHandler
         fun onInvClick(event: InventoryClickEvent) {
             val inv = event.inventory
             val holder = inv.holder ?: return
 
             if (holder is AquaticInventory) {
-                holder.onInteract(event)
+                holder.onClick(event)
 
                 if (event.isCancelled && event.rawSlot >= holder.inventory.size) {
-                    holder.componentHandler.redrawSlots(event.rawSlot)
+                    holder.updateItem(event.whoClicked as Player, event.rawSlot)
                 }
             }
         }
@@ -59,7 +58,7 @@ object InventoryHandler: IFeature {
             val inv: Inventory = event.inventory
             val holder: InventoryHolder = inv.holder ?: return
             if (holder is AquaticInventory) {
-                holder.onInteract.accept(event,holder)
+                holder.onInteract.accept(event, holder)
             }
         }
 
@@ -69,16 +68,16 @@ object InventoryHandler: IFeature {
             val holder: InventoryHolder = inv.holder ?: return
             if (holder is AquaticInventory) {
                 holder.onClose.accept(event.player as Player, holder)
-                object: BukkitRunnable() {
+                object : BukkitRunnable() {
                     override fun run() {
                         (event.player as Player).updateInventory()
                     }
-                }.runTaskLater(AbstractAquaticSeriesLib.INSTANCE.plugin,8)
+                }.runTaskLater(AbstractAquaticSeriesLib.INSTANCE.plugin, 8)
             }
         }
     }
 
-    object PacketListeners: AbstractPacketListener() {
+    object PacketListeners : AbstractPacketListener() {
 
         override fun onClientboundContainerSetContentPacket(event: PacketEvent<WrappedClientboundContainerSetContentPacket>) {
             val openedInventory = event.player.openInventory.topInventory

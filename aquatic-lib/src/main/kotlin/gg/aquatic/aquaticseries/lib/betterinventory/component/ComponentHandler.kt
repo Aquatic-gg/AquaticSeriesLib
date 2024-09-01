@@ -2,8 +2,10 @@ package gg.aquatic.aquaticseries.lib.betterinventory.component
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.betterinventory.inventory.AquaticInventory
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
 
 class ComponentHandler(
@@ -14,6 +16,8 @@ class ComponentHandler(
     private val components = HashMap<String, InventoryComponent>()
     private val renderedComponents = HashMap<Int, String>()
     //private val slotToComponent = HashMap<Int, ArrayList<String>>()
+
+
 
     fun addComponent(component: InventoryComponent) {
         components[component.id] = component
@@ -32,6 +36,11 @@ class ComponentHandler(
         redrawSlots(
             *component.slotSelection.slots.toIntArray()
         )
+    }
+
+    fun clearComponents() {
+        this.components.clear()
+        this.renderedComponents.clear()
     }
 
     fun redrawComponent(component: InventoryComponent) {
@@ -81,6 +90,7 @@ class ComponentHandler(
             val item = component.itemStack ?: continue
             allSlots -= slot
             setItem(item, slot)
+            component.isUpdated = false
             renderedComponents[slot] = component.id
         }
 
@@ -89,7 +99,18 @@ class ComponentHandler(
         }
     }
 
+    fun onInteract(event: InventoryClickEvent) {
+        val componentId = renderedComponents[event.rawSlot] ?: return
+        val component = components[componentId] ?: return
+
+        component.onInteract(event)
+    }
+
     fun redrawComponents() {
+        for (i in 0..<90) {
+            inventory.content[i] = null
+        }
+
         val toRender = HashMap<Int, InventoryComponent>()
         for ((id, component) in components) {
             val slots = component.slotSelection
@@ -149,6 +170,8 @@ class ComponentHandler(
         val size = inventory.inventory.size
         inventory.content[slot] = itemStack
 
+        Bukkit.broadcastMessage("Setting item to $slot")
+
         if (slot >= size) {
             for (viewer in inventory.inventory.viewers) {
                 if (viewer !is Player) continue
@@ -160,15 +183,15 @@ class ComponentHandler(
     }
 
     fun tick() {
-        for (value in components.values) {
-            value.tick()
-        }
         for (viewer in inventory.inventory.viewers) {
             if (viewer !is Player) continue
             for (value in components.values) {
                 value.update(inventory, viewer)
                 value.tick(inventory, viewer)
             }
+        }
+        for (value in components.values) {
+            value.tick()
         }
     }
 }

@@ -17,7 +17,7 @@ class InventoryButton(
     override val priority: Int,
     val _slotSelection: SlotSelection,
     val item: ItemStack,
-    val onClick: Consumer<InventoryClickEvent>,
+    override val onClick: Consumer<InventoryClickEvent>,
     val textUpdater: BiFunction<Player, String, String>,
     override val viewConditions: HashMap<Function<Player, Boolean>, InventoryComponent?>,
     override val failItem: InventoryComponent?,
@@ -46,41 +46,63 @@ class InventoryButton(
         val iS = component.itemStack
         if (iS == null) {
             updatedItem = null
-            inventory.componentHandler.redrawComponent(this)
+            //inventory.componentHandler.redrawComponent(this)
             return
         }
         val itemMeta = iS.itemMeta
         if (itemMeta == null) {
             updatedItem = iS
-            inventory.componentHandler.redrawComponent(this)
+            //inventory.componentHandler.redrawComponent(this)
             return
         }
 
+        var updated = false
         val previousName = AbstractAquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.getAquaticDisplayName(itemMeta)
         if (previousName != null) {
-            itemMeta.displayName(textUpdater.apply(player,previousName.string).toAquatic())
+            val updatedName = textUpdater.apply(player,previousName.string).toAquatic()
+            if (previousName.string != updatedName.string) {
+                itemMeta.displayName(textUpdater.apply(player,previousName.string).toAquatic())
+                updated = true
+            }
         }
 
         val previousLore = AbstractAquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.getAquaticLore(itemMeta)
         val newLore = ArrayList<AquaticString>()
         for (aquaticString in previousLore) {
-            newLore += textUpdater.apply(player,aquaticString.string).toAquatic()
+            val updatedLore = textUpdater.apply(player,aquaticString.string).toAquatic()
+            if (updatedLore.string != aquaticString.string) {
+                updated = true
+                newLore += updatedLore
+            } else {
+                newLore += aquaticString
+            }
+        }
+        if (!updated && updatedItem != null) {
+            return
         }
         itemMeta.lore(newLore)
 
         iS.itemMeta = itemMeta
         updatedItem = iS
-
         inventory.componentHandler.redrawComponent(this)
     }
 
     override val itemStack: ItemStack?
         get() {
             if (currentComponent == this) {
-                return item
+                return updatedItem
             }
             return currentComponent?.itemStack
         }
+
+    override fun onInteract(event: InventoryClickEvent) {
+        val onClick = if (currentComponent == this) {
+            this.onClick
+        } else {
+            currentComponent?.onClick ?: return
+        }
+        onClick.accept(event)
+    }
 
     override val slotSelection: SlotSelection
         get() {

@@ -22,9 +22,15 @@ class AquaticInventory(
 ) : InventoryHolder {
 
     val componentHandler = ComponentHandler(this)
-    val content = ArrayList<ItemStack?>()
+    val content = ArrayList<ItemStack?>(90)
 
     private val inventory: Inventory = createInventory()
+
+    init {
+        for (i in 0..<90) {
+            content += null
+        }
+    }
 
     private fun createInventory(): Inventory {
         return if (inventoryType != null) AbstractAquaticSeriesLib.INSTANCE.adapter.inventoryAdapter.create(
@@ -51,6 +57,7 @@ class AquaticInventory(
 
     fun open(player: Player) {
         player.openInventory(inventory)
+        tick()
         componentHandler.redrawComponents()
         onOpen.accept(player, this)
     }
@@ -65,6 +72,6 @@ class AquaticInventory(
     }
 
     fun onInteract(event: InventoryClickEvent) {
-
+        componentHandler.onInteract(event)
     }
 }

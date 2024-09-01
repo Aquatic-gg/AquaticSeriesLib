@@ -3,7 +3,9 @@ package gg.aquatic.aquaticseries.lib.betterinventory.component
 import gg.aquatic.aquaticseries.lib.betterinventory.SlotSelection
 import gg.aquatic.aquaticseries.lib.betterinventory.inventory.AquaticInventory
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
+import java.util.function.Consumer
 import java.util.function.Function
 
 abstract class InventoryComponent {
@@ -14,12 +16,16 @@ abstract class InventoryComponent {
 
     abstract val viewConditions: HashMap<Function<Player, Boolean>, InventoryComponent?>
     abstract val failItem: InventoryComponent?
+    abstract val onClick: Consumer<InventoryClickEvent>?
+
+    var isUpdated = false
 
     //private val seenBy: HashMap<UUID, List<Int>> = HashMap()
 
     abstract fun tick()
     abstract fun tick(inventory: AquaticInventory, player: Player)
     abstract val itemStack: ItemStack?
+    abstract fun onInteract(event: InventoryClickEvent)
 
     protected var currentComponent: InventoryComponent? = null
 
