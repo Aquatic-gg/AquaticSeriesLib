@@ -158,7 +158,7 @@ abstract class CustomItem(
             val flags: MutableList<ItemFlag> = ArrayList()
             if (section.contains("flags")) {
                 for (flag in section.getStringList("flags")) {
-                    val itemFlag = ItemFlag.valueOf(flag.uppercase(Locale.getDefault()))
+                    val itemFlag = ItemFlag.valueOf(flag.uppercase())
                     flags.add(itemFlag)
                 }
             }
