@@ -269,6 +269,15 @@ class AquaticInventory(
         }
     }
 
+    fun sendTitleUpdate(newTitle: AquaticString) {
+        for (viewer in inventory.viewers) {
+            if (viewer !is Player) continue
+            AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.sendTitleUpdate(
+                viewer, newTitle
+            )
+        }
+    }
+
     fun updateItem(player: Player, slot: Int) {
         val stateHandler = stateHandlers[player.uniqueId] ?: return
         val stateId = stateHandler.rendered[slot] ?: return
