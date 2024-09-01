@@ -24,7 +24,9 @@ abstract class InventoryComponent {
     abstract val textUpdater: BiFunction<Player, String, String>
     abstract val item: ItemStack
 
-    fun getComponent(player: Player, inventory: AquaticInventory): InventoryComponent? {
+    abstract fun tick()
+
+    open fun getComponent(player: Player, inventory: AquaticInventory): InventoryComponent? {
         var component: InventoryComponent? = null
         var areMet = true
         for (condition in viewConditions.keys) {

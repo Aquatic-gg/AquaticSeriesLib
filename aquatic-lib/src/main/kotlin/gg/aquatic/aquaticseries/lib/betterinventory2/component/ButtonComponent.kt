@@ -19,4 +19,8 @@ class ButtonComponent(
     override val textUpdater: BiFunction<Player, String, String>,
     override val item: ItemStack
 ) : InventoryComponent() {
+    override fun tick() {
+        failItem?.tick()
+        viewConditions.values.forEach { it?.tick() }
+    }
 }

@@ -87,6 +87,9 @@ class AquaticInventory(
     val stateHandlers = mutableMapOf<UUID, StateHandler>()
 
     fun update() {
+        for (value in components.values) {
+            value.tick()
+        }
         for (viewer in inventory.viewers) {
             if (viewer !is Player) {
                 continue
