@@ -61,6 +61,11 @@ class AquaticInventory(
         components[component.id] = component
     }
 
+    fun clearComponents() {
+        stateHandlers.clear()
+        components.clear()
+    }
+
     fun removeComponent(component: InventoryComponent) {
         for (viewer in inventory.viewers) {
             if (viewer !is Player) continue
