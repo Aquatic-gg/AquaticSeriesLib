@@ -13,18 +13,25 @@ class ComponentHandler(
 
     private val components = HashMap<String, InventoryComponent>()
     private val renderedComponents = HashMap<Int, String>()
-    private val slotToComponent = HashMap<Int, List<String>>()
+    //private val slotToComponent = HashMap<Int, ArrayList<String>>()
 
     fun addComponent(component: InventoryComponent) {
+        components[component.id] = component
     }
 
 
     fun removeComponent(id: String) {
-
+        val component = components.remove(id) ?: return
+        redrawSlots(
+            *component.slotSelection.slots.toIntArray()
+        )
     }
 
     fun removeComponent(component: InventoryComponent) {
-
+        components.remove(component.id)
+        redrawSlots(
+            *component.slotSelection.slots.toIntArray()
+        )
     }
 
     fun redrawComponent(component: InventoryComponent) {
@@ -35,6 +42,15 @@ class ComponentHandler(
     fun redrawSlots(vararg slots: Int) {
         val allSlots = mutableListOf<Int>()
         getAssociatedSlots(allSlots, slots.toList())
+        val slotToComponent = HashMap<Int, ArrayList<String>>()
+        for (component in components) {
+            for (slot in component.value.slotSelection.slots) {
+                val list = slotToComponent.getOrPut(slot) { ArrayList() }
+                if (!list.contains(component.component1())) {
+                    list.add(component.component1())
+                }
+            }
+        }
         val associatedComponents = mutableListOf<InventoryComponent>()
         for (slot in allSlots) {
             val componentIds = slotToComponent[slot] ?: continue
@@ -75,7 +91,7 @@ class ComponentHandler(
 
     fun redrawComponents() {
         val toRender = HashMap<Int, InventoryComponent>()
-        for ((id,component) in components) {
+        for ((id, component) in components) {
             val slots = component.slotSelection
             val priority = component.priority
 
@@ -101,6 +117,15 @@ class ComponentHandler(
 
     private fun getAssociatedSlots(currentSlots: MutableList<Int>, toLookup: List<Int>) {
         val newLookup = mutableListOf<Int>()
+        val slotToComponent = HashMap<Int, ArrayList<String>>()
+        for (component in components) {
+            for (slot in component.value.slotSelection.slots) {
+                val list = slotToComponent.getOrPut(slot) { ArrayList() }
+                if (!list.contains(component.component1())) {
+                    list.add(component.component1())
+                }
+            }
+        }
         for (i in toLookup) {
             val components = slotToComponent[i] ?: continue
             for (componentId in components) {
@@ -131,6 +156,18 @@ class ComponentHandler(
             }
         } else {
             inventory.inventory.setItem(slot, itemStack)
+        }
+    }
+
+    fun tick() {
+        for (value in components.values) {
+            value.tick()
+        }
+        for (viewer in inventory.inventory.viewers) {
+            if (viewer !is Player) continue
+            for (value in components.values) {
+                value.update(inventory, viewer)
+            }
         }
     }
 }
