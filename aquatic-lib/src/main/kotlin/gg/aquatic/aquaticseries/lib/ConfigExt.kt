@@ -8,15 +8,17 @@ import java.util.*
 fun FileConfiguration.getSectionList(path: String): List<ConfigurationSection> {
     if (!this.isList(path)) return ArrayList<ConfigurationSection>()
 
-    val list: MutableList<ConfigurationSection> = LinkedList<ConfigurationSection>()
+    val list = mutableListOf<ConfigurationSection>()
+    if (!this.isList(path)) return list
 
-    for (obj in this.getList(path) ?: return list) {
-        if (obj is Map<*, *>) {
-            val mc = MemoryConfiguration()
-            mc.addDefaults(obj as Map<String, Any>)
+    val objectList = this.getList(path) ?: return list
 
-            list.add(mc)
+    for (obj in objectList) {
+        val section = when (obj) {
+            is Map<*, *> -> createConfigurationSectionFromMap(obj)
+            else -> null
         }
+        section?.let { list.add(it) }
     }
     return list
 }
