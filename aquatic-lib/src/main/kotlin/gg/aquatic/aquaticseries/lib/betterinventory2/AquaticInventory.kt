@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack
 import java.util.UUID
 import java.util.function.BiConsumer
 
-class AquaticInventory(
+open class AquaticInventory(
     val title: AquaticString,
     val size: Int,
     val inventoryType: InventoryType?,
