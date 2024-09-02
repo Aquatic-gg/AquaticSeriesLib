@@ -25,7 +25,14 @@ object InventorySerializer {
                 null
             }
         }
-        val buttons = section.getSectionList("buttons").mapNotNull { loadButton(it, it.name) }
+        val buttons = ArrayList<ButtonSettings>()
+        val buttonsSection = section.getConfigurationSection("buttons")
+        if (buttonsSection != null) {
+            for (key in buttonsSection.getKeys(false)) {
+                val button = loadButton(buttonsSection.getConfigurationSection(key) ?: continue, key) ?: continue
+                buttons += button
+            }
+        }
         val onOpen = PlayerActionSerializer.fromSections(section.getSectionList("on-open"))
         val onClose = PlayerActionSerializer.fromSections(section.getSectionList("on-close"))
         return InventorySettings(
