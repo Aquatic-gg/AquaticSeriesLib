@@ -8,6 +8,7 @@ import gg.aquatic.aquaticseries.lib.block.impl.OraxenBlock
 import gg.aquatic.aquaticseries.lib.block.impl.VanillaBlock
 import org.bukkit.Material
 import org.bukkit.block.BlockFace
+import org.bukkit.block.ShulkerBox
 import org.bukkit.block.data.Bisected
 import org.bukkit.block.data.Directional
 import org.bukkit.block.data.MultipleFacing
@@ -85,7 +86,12 @@ object AquaticBlockSerializer {
                 val type = Slab.Type.valueOf(section.getString("slab-type", "BOTTOM")!!.uppercase())
                 blockData.type = type
             }
-            VanillaBlock(blockData)
+
+            val extra = if (section.contains("extra")) {
+                section.getInt("extra")
+            } else null
+
+            VanillaBlock(blockData, extra)
         }
     }
 
