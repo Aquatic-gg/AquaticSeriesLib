@@ -1,5 +1,6 @@
 package gg.aquatic.aquaticseries.lib.betterinventory2.serialize
 
+import gg.aquatic.aquaticseries.lib.betterinventory2.component.AnimatedButtonComponent
 import gg.aquatic.aquaticseries.lib.betterinventory2.component.InventoryComponent
 import org.bukkit.entity.Player
 import java.util.TreeMap
@@ -12,6 +13,19 @@ class AnimatedButtonSettings(id: String, priority: Int,
     val frames: TreeMap<Int, ButtonSettings>
 ) : ButtonSettings(id, priority, viewConditions, failItem, onClick, updateEvery) {
     override fun create(textUpdater: BiFunction<Player, String, String>): InventoryComponent {
-        TODO("Not yet implemented")
+        val mappedConditions = HashMap(viewConditions.mapValues { it.value?.create(textUpdater) })
+        val generatedFrames = TreeMap(frames.mapValues { it.value.create(textUpdater) })
+        return AnimatedButtonComponent(
+            id,
+            priority,
+            mappedConditions,
+            failItem?.create(textUpdater),
+            { e ->
+                onClick.handleClick(e)
+            },
+            updateEvery,
+            textUpdater,
+            generatedFrames
+        )
     }
 }
