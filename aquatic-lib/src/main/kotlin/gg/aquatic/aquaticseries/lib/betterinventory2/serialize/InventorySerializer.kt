@@ -100,7 +100,7 @@ object InventorySerializer {
         val map = HashMap<ClickSettings.MenuClickActionType, MutableList<ConfiguredAction<Player>>>()
         for (section in sections) {
             val actions = PlayerActionSerializer.fromSections(section.getSectionList("actions"))
-            for (menuClickActionType in section.getStringList("on")
+            for (menuClickActionType in section.getStringList("types")
                 .mapNotNull { ClickSettings.MenuClickActionType.valueOf(it.uppercase()) }) {
                 val list = map.getOrPut(menuClickActionType) { ArrayList() }
                 list.addAll(actions)
