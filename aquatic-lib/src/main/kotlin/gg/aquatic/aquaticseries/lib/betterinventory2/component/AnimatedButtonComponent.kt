@@ -16,7 +16,7 @@ class AnimatedButtonComponent(
     //override val slotSelection: SlotSelection,
     override val viewConditions: HashMap<Function<Player, Boolean>, InventoryComponent?>,
     override val failItem: InventoryComponent?,
-    override val onClick: Consumer<InventoryClickEvent>?,
+    override var onClick: Consumer<InventoryClickEvent>?,
     override val updateEvery: Int,
     override val textUpdater: BiFunction<Player, String, String>,
     val frames: TreeMap<Int, InventoryComponent>

@@ -2,7 +2,6 @@ package gg.aquatic.aquaticseries.lib.betterinventory2.component
 
 import gg.aquatic.aquaticseries.lib.betterinventory2.SlotSelection
 import gg.aquatic.aquaticseries.lib.betterinventory2.AquaticInventory
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
@@ -18,7 +17,7 @@ abstract class InventoryComponent {
 
     abstract val viewConditions: HashMap<Function<Player, Boolean>, InventoryComponent?>
     abstract val failItem: InventoryComponent?
-    abstract val onClick: Consumer<InventoryClickEvent>?
+    abstract var onClick: Consumer<InventoryClickEvent>?
 
     abstract val updateEvery: Int
     abstract val textUpdater: BiFunction<Player, String, String>
