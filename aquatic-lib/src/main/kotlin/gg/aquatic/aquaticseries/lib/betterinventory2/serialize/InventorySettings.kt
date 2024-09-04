@@ -24,12 +24,12 @@ class InventorySettings(
             inventoryType,
             { player, event ->
                 for (configuredAction in onOpen) {
-                    configuredAction.run(player, Placeholders())
+                    configuredAction.run(player, textUpdater)
                 }
             },
             { player, event ->
                 for (configuredAction in onClose) {
-                    configuredAction.run(player, Placeholders())
+                    configuredAction.run(player, textUpdater)
                 }
             },
             { player, event ->

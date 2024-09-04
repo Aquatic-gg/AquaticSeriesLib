@@ -10,16 +10,17 @@ import gg.aquatic.aquaticseries.lib.util.argument.impl.PrimitiveObjectArgument
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
+import java.util.function.BiFunction
 
 class BossbarAction : AbstractAction<Player>() {
-    override fun run(player: Player, args: Map<String, Any?>, placeholders: Placeholders) {
+    override fun run(player: Player, args: Map<String, Any?>, textUpdater: BiFunction<Player, String, String>) {
         val message = args["message"] as String
         val progress = args["progress"] as Double
         val color = AquaticBossBar.Color.valueOf((args["color"] as String).uppercase())
         val style = AquaticBossBar.Style.valueOf((args["style"] as String).uppercase())
         val duration = args["duration"] as Int
 
-        val bossBar = AbstractAquaticSeriesLib.INSTANCE.adapter.bossBarAdapter.create(message.toAquatic().replace(placeholders), color, style, progress)
+        val bossBar = AbstractAquaticSeriesLib.INSTANCE.adapter.bossBarAdapter.create(message.toAquatic().replace(textUpdater, player), color, style, progress)
         bossBar.addPlayer(player)
         object : BukkitRunnable() {
             override fun run() {

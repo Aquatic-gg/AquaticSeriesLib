@@ -8,9 +8,10 @@ import gg.aquatic.aquaticseries.lib.util.argument.AquaticObjectArgument
 import gg.aquatic.aquaticseries.lib.util.argument.impl.PrimitiveObjectArgument
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import org.bukkit.entity.Player
+import java.util.function.BiFunction
 
 class TitleAction : AbstractAction<Player>() {
-    override fun run(player: Player, args: Map<String, Any?>, placeholders: Placeholders) {
+    override fun run(player: Player, args: Map<String, Any?>, textUpdater: BiFunction<Player, String, String>) {
         val title = args["title"] as String
         val subtitle = args["subtitle"] as String
         val fadeIn = args["fadeIn"] as Int
@@ -19,8 +20,8 @@ class TitleAction : AbstractAction<Player>() {
 
         AbstractAquaticSeriesLib.INSTANCE.adapter.titleAdapter.send(
             player,
-            title.toAquatic().replace(placeholders),
-            subtitle.toAquatic().replace(placeholders),
+            title.toAquatic().replace(textUpdater, player),
+            subtitle.toAquatic().replace(textUpdater, player),
             fadeIn,
             stay,
             fadeOut

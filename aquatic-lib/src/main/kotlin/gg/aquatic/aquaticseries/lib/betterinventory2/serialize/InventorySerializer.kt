@@ -123,7 +123,7 @@ object InventorySerializer {
                 list.addAll(actions)
             }
         }
-        return ClickSettings(map)
+        return ClickSettings(map) { u, t -> t }
 
     }
 }

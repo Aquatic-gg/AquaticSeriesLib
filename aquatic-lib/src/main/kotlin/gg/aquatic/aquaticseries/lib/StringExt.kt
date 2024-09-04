@@ -6,6 +6,8 @@ import gg.aquatic.aquaticseries.paper.adapt.PaperString
 import gg.aquatic.aquaticseries.spigot.adapt.SpigotString
 import me.clip.placeholderapi.PlaceholderAPI
 import org.bukkit.entity.Player
+import java.util.function.BiFunction
+import java.util.function.Function
 
 fun String.toAquatic(): AquaticString {
     return AbstractAquaticSeriesLib.INSTANCE.adapter.adaptString(this)
@@ -31,6 +33,10 @@ fun AquaticString.replace(placeholders: Placeholders): AquaticString {
         return SpigotString(replaced)
     }
     return PaperString(replaced)
+}
+
+fun AquaticString.replace(textUpdater: BiFunction<Player, String, String>, player: Player): AquaticString {
+    return textUpdater.apply(player, string).toAquatic()
 }
 
 fun Placeholders.replace(input: AquaticString): AquaticString {

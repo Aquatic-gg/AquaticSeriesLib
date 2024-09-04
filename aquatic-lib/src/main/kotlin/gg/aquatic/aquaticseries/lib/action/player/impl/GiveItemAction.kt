@@ -8,9 +8,10 @@ import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import gg.aquatic.aquaticseries.lib.util.toCustomItem
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import java.util.function.BiFunction
 
 class GiveItemAction: AbstractAction<Player>() {
-    override fun run(binder: Player, args: Map<String, Any?>, placeholders: Placeholders) {
+    override fun run(binder: Player, args: Map<String, Any?>, textUpdater: BiFunction<Player, String, String>) {
         val customItem = args["item"] as? CustomItem ?: return
         customItem.giveItem(binder)
     }
