@@ -39,6 +39,10 @@ fun ConfigurationSection.getSectionList(path: String): List<ConfigurationSection
     return list
 }
 
+fun ConfigurationSection.getOrCreateSection(path: String): ConfigurationSection {
+    return this.getConfigurationSection(path) ?: this.createSection(path)
+}
+
 private fun createConfigurationSectionFromMap(map: Map<*, *>): ConfigurationSection {
     val mc = MemoryConfiguration()
     for ((key, value) in map) {

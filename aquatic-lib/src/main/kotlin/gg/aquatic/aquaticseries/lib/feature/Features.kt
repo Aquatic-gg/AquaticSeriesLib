@@ -7,6 +7,7 @@ enum class Features {
     NETWORKING,
     FAKEOBJECTS,
     PACKET_LISTENER,
-    WORLD_OBJECTS
+    WORLD_OBJECTS,
+    PLAYER_INPUT
 
 }
