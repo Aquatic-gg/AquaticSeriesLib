@@ -1,13 +1,13 @@
 package gg.aquatic.aquaticseries.lib.betterinventory2.serialize
 
-import gg.aquatic.aquaticseries.lib.action.ConfiguredAction
+import gg.aquatic.aquaticseries.lib.betterinventory2.action.ConfiguredActionsWithConditions
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
 import java.util.function.BiFunction
 
 class ClickSettings(
-    val clicks: HashMap<MenuClickActionType,MutableList<ConfiguredAction<Player>>>,
+    val clicks: HashMap<MenuClickActionType,MutableList<ConfiguredActionsWithConditions>>,
     var textUpdater: BiFunction<Player, String, String>
 ) {
 
@@ -15,7 +15,7 @@ class ClickSettings(
         val type = mapInvAction(event) ?: return
         val actions = clicks[type] ?: return
         for (action in actions) {
-            action.run(event.whoClicked as Player, textUpdater)
+            action.tryRun(event.whoClicked as Player, textUpdater)
         }
     }
 

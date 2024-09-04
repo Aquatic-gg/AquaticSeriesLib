@@ -3,6 +3,9 @@ package gg.aquatic.aquaticseries.lib.betterinventory2.serialize
 import gg.aquatic.aquaticseries.lib.action.ConfiguredAction
 import gg.aquatic.aquaticseries.lib.action.player.PlayerActionSerializer
 import gg.aquatic.aquaticseries.lib.betterinventory2.SlotSelection
+import gg.aquatic.aquaticseries.lib.betterinventory2.action.ConfiguredActionWithConditions
+import gg.aquatic.aquaticseries.lib.betterinventory2.action.ConfiguredActionsWithConditions
+import gg.aquatic.aquaticseries.lib.betterinventory2.action.ConfiguredConditionWithFailActions
 import gg.aquatic.aquaticseries.lib.getSectionList
 import gg.aquatic.aquaticseries.lib.item.CustomItem
 import gg.aquatic.aquaticseries.lib.requirement.player.PlayerRequirementSerializer
@@ -114,16 +117,54 @@ object InventorySerializer {
     }
 
     private fun loadClickSettings(sections: List<ConfigurationSection>): ClickSettings {
-        val map = HashMap<ClickSettings.MenuClickActionType, MutableList<ConfiguredAction<Player>>>()
+        val map = HashMap<ClickSettings.MenuClickActionType, MutableList<ConfiguredActionsWithConditions>>()
         for (section in sections) {
-            val actions = PlayerActionSerializer.fromSections(section.getSectionList("actions"))
+            val actions = loadActionsWithConditions(section) ?: continue
             for (menuClickActionType in section.getStringList("types")
                 .mapNotNull { ClickSettings.MenuClickActionType.valueOf(it.uppercase()) }) {
                 val list = map.getOrPut(menuClickActionType) { ArrayList() }
-                list.addAll(actions)
+                list.add(actions)
             }
         }
         return ClickSettings(map) { u, t -> t }
+    }
 
+    private fun loadActionsWithConditions(section: ConfigurationSection): ConfiguredActionsWithConditions? {
+        val actions = ArrayList<ConfiguredActionWithConditions>()
+        for (actionSection in section.getSectionList("actions")) {
+            actions += loadActionWithCondition(actionSection) ?: continue
+        }
+        val conditions = ArrayList<ConfiguredConditionWithFailActions>()
+        for (conditionSection in section.getSectionList("conditions")) {
+            conditions += loadConditionWithFailActions(conditionSection) ?: continue
+        }
+
+        if (actions.isEmpty() && conditions.isEmpty()) return null
+
+        val failActions = if (section.isConfigurationSection("fail") && conditions.isNotEmpty()) {
+            loadActionsWithConditions(section.getConfigurationSection("fail")!!)
+        } else null
+
+        return ConfiguredActionsWithConditions(actions, conditions, failActions)
+    }
+
+    private fun loadActionWithCondition(section: ConfigurationSection): ConfiguredActionWithConditions? {
+        val action = PlayerActionSerializer.fromSection(section) ?: return null
+        val conditions = ArrayList<ConfiguredConditionWithFailActions>()
+        for (configurationSection in section.getSectionList("conditions")) {
+            conditions += loadConditionWithFailActions(configurationSection) ?: continue
+        }
+        val failActions = if (section.isConfigurationSection("fail") && conditions.isNotEmpty()) {
+            loadActionsWithConditions(section.getConfigurationSection("fail")!!)
+        } else null
+        return ConfiguredActionWithConditions(action,conditions,failActions)
+    }
+
+    private fun loadConditionWithFailActions(section: ConfigurationSection): ConfiguredConditionWithFailActions? {
+        val condition = PlayerRequirementSerializer.fromSection(section) ?: return null
+        val failActions = if (section.isConfigurationSection("fail")) {
+            loadActionsWithConditions(section.getConfigurationSection("fail")!!)
+        } else null
+        return ConfiguredConditionWithFailActions(condition, failActions)
     }
 }

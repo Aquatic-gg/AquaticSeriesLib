@@ -21,7 +21,7 @@ class Crate(val config: Config) : SerializableYml {
     }
 
     val visual = Editable<CrateVisual>(MEGVisual(),visualEdit)
-    val actions = MapEdit<String,String>(HashMap())
+    //val actions = MapEdit<String,String>(HashMap())
 
     override fun save(section: ConfigurationSection) {
         visual.value.save(section.createSection("visual"))
