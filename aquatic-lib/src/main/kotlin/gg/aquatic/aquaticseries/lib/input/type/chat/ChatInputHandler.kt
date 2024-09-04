@@ -1,7 +1,6 @@
 package gg.aquatic.aquaticseries.lib.input.type.chat
 
 import gg.aquatic.aquaticseries.lib.input.IHandler
-import gg.aquatic.aquaticseries.lib.input.TextInput
 import org.bukkit.entity.Player
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import java.util.UUID
