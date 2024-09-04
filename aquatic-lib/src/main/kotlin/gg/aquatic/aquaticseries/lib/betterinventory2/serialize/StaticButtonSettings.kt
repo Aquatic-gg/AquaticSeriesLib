@@ -5,9 +5,7 @@ import gg.aquatic.aquaticseries.lib.betterinventory2.component.ButtonComponent
 import gg.aquatic.aquaticseries.lib.betterinventory2.component.InventoryComponent
 import gg.aquatic.aquaticseries.lib.item.CustomItem
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.InventoryClickEvent
 import java.util.function.BiFunction
-import java.util.function.Consumer
 import java.util.function.Function
 
 class StaticButtonSettings(
