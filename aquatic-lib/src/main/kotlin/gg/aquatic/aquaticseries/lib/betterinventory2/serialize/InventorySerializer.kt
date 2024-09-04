@@ -45,6 +45,23 @@ object InventorySerializer {
         )
     }
 
+    fun loadSlotSelection(list: List<String>): SlotSelection {
+        val slots = ArrayList<Int>()
+        for (slot in list) {
+            if (slot.contains("-")) {
+                val range = slot.split("-")
+                val start = range[0].toInt()
+                val end = range[1].toInt()
+                for (i in start..end) {
+                    slots += i
+                }
+            } else {
+                slots += slot.toInt()
+            }
+        }
+        return SlotSelection.of(slots)
+    }
+
     fun loadButton(section: ConfigurationSection, id: String): ButtonSettings? {
         val priority = section.getInt("priority", 0)
         val failItemSection = section.getConfigurationSection("fail-item")
@@ -84,14 +101,14 @@ object InventorySerializer {
             )
         } else {
             val item = CustomItem.loadFromYaml(section) ?: return null
-            val slots = section.getIntegerList("slots")
-            if (slots.isEmpty()) {
-                slots += section.getInt("slot")
+            val slots = loadSlotSelection(section.getStringList("slots"))
+            if (slots.slots.isEmpty()) {
+                slots.slots += section.getInt("slot")
             }
             return StaticButtonSettings(
                 id, priority, conditions, failItem, clickSettings, updateEvery,
                 item,
-                SlotSelection.of(slots)
+                slots
             )
         }
     }
