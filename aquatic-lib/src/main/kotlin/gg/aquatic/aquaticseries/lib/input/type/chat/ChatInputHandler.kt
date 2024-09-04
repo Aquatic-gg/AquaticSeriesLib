@@ -28,6 +28,13 @@ object ChatInputHandler: IHandler {
         }
         event.isCancelled = true
         val input = awaiting[event.player.uniqueId]!!
+
+        if (event.message.lowercase() == "cancel") {
+            input.future.complete(TextInputResponse(TextInputResponse.Response.CANCEL, event.message, null))
+            awaiting.remove(event.player.uniqueId)
+            return
+        }
+
         for (validator in input.validators) {
             if (!validator.validator.apply(event.message)) {
                 validator.errorMessage.send(event.player)
@@ -35,6 +42,7 @@ object ChatInputHandler: IHandler {
             }
         }
         input.future.complete(TextInputResponse(TextInputResponse.Response.SUCCESS, event.message, null))
+        awaiting.remove(event.player.uniqueId)
     }
 
 }
