@@ -1,7 +1,9 @@
 package gg.aquatic.aquaticseries.lib.editor
 
 import gg.aquatic.aquaticseries.lib.Config
+import gg.aquatic.aquaticseries.lib.betterinventory2.AquaticInventory
 import gg.aquatic.aquaticseries.lib.editor.editable.Editable
+import gg.aquatic.aquaticseries.lib.toAquatic
 import org.bukkit.configuration.ConfigurationSection
 
 class IngameEditor(val item: SerializableYml, val config: Config, val section: ConfigurationSection) {
