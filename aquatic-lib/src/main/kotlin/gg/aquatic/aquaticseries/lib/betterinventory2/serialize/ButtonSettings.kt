@@ -16,5 +16,5 @@ abstract class ButtonSettings(
     var updateEvery: Int,
 ) {
 
-    abstract fun create(textUpdater: BiFunction<Player, String, String>): InventoryComponent
+    abstract fun create(textUpdater: BiFunction<Player, String, String>, callback: Consumer<InventoryClickEvent>): InventoryComponent
 }

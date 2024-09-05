@@ -17,7 +17,7 @@ class InventorySettings(
     val onClose: List<ConfiguredAction<Player>>
 ) {
     fun create(textUpdater: BiFunction<Player, String, String>): AquaticInventory {
-        val createdButtons = buttons.map { it.create(textUpdater) }
+        val createdButtons = buttons.map { it.create(textUpdater) {} }
         val inv = AquaticInventory(
             title,
             size,

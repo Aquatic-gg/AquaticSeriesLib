@@ -5,7 +5,9 @@ import gg.aquatic.aquaticseries.lib.betterinventory2.component.ButtonComponent
 import gg.aquatic.aquaticseries.lib.betterinventory2.component.InventoryComponent
 import gg.aquatic.aquaticseries.lib.item.CustomItem
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryClickEvent
 import java.util.function.BiFunction
+import java.util.function.Consumer
 import java.util.function.Function
 
 class StaticButtonSettings(
@@ -16,16 +18,17 @@ class StaticButtonSettings(
     val slotSelection: SlotSelection
 ) : ButtonSettings(id, priority, viewConditions, failItem, onClick, updateEvery) {
 
-    override fun create(textUpdater: BiFunction<Player, String, String>): InventoryComponent {
-        val mappedConditions = HashMap(viewConditions.mapValues { it.value?.create(textUpdater) })
+    override fun create(textUpdater: BiFunction<Player, String, String>, callback: Consumer<InventoryClickEvent>): InventoryComponent {
+        val mappedConditions = HashMap(viewConditions.mapValues { it.value?.create(textUpdater, callback) })
         return ButtonComponent(
             id,
             priority,
             slotSelection,
             mappedConditions,
-            failItem?.create(textUpdater),
+            failItem?.create(textUpdater, callback),
             { e ->
                 onClick.handleClick(e)
+                callback.accept(e)
             },
             updateEvery,
             textUpdater,
