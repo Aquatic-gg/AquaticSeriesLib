@@ -13,7 +13,6 @@ class ConfiguredActionsWithConditions(
         var failed = false
         for (condition in conditions) {
             if (!condition.tryCheck(player, textUpdater)) {
-                condition.failActions?.tryRun(player, textUpdater)
                 failed = true
                 break
             }
