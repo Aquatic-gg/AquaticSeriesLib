@@ -1,6 +1,5 @@
 package gg.aquatic.aquaticseries.lib.betterinventory2.serialize
 
-import gg.aquatic.aquaticseries.lib.action.ConfiguredAction
 import gg.aquatic.aquaticseries.lib.action.player.PlayerActionSerializer
 import gg.aquatic.aquaticseries.lib.betterinventory2.SlotSelection
 import gg.aquatic.aquaticseries.lib.betterinventory2.action.ConfiguredActionWithConditions
@@ -10,7 +9,6 @@ import gg.aquatic.aquaticseries.lib.getSectionList
 import gg.aquatic.aquaticseries.lib.item.CustomItem
 import gg.aquatic.aquaticseries.lib.requirement.player.PlayerRequirementSerializer
 import gg.aquatic.aquaticseries.lib.toAquatic
-import org.bukkit.Bukkit
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
@@ -85,8 +83,6 @@ object InventorySerializer {
                 condition.check(t)
             } to conditionFailItem
         }
-
-        Bukkit.getConsoleSender().sendMessage("Loading actions for button $id")
         val clickSettings = loadClickSettings(section.getSectionList("click-actions"))
 
         val updateEvery = section.getInt("update-every", 10)
@@ -121,40 +117,27 @@ object InventorySerializer {
     fun loadClickSettings(sections: List<ConfigurationSection>): ClickSettings {
         val map = HashMap<ClickSettings.MenuClickActionType, MutableList<ConfiguredActionsWithConditions>>()
         for (section in sections) {
-            Bukkit.getConsoleSender().sendMessage("Loading action for button")
             val actions = loadActionsWithConditions(section) ?: continue
-            Bukkit.getConsoleSender().sendMessage("Action is not null")
             for (menuClickActionType in section.getStringList("types")
                 .mapNotNull { ClickSettings.MenuClickActionType.valueOf(it.uppercase()) }) {
                 val list = map.getOrPut(menuClickActionType) { ArrayList() }
                 list.add(actions)
             }
         }
-        Bukkit.getConsoleSender().sendMessage("Loaded actions for ${map.size} types")
         return ClickSettings(map) { u, t -> t }
     }
 
     fun loadActionsWithConditions(section: ConfigurationSection): ConfiguredActionsWithConditions? {
         val actions = ArrayList<ConfiguredActionWithConditions>()
         val actionSections = section.getSectionList("actions")
-        Bukkit.getConsoleSender().sendMessage("Action sections: ${actionSections.size}")
-
-        for (key in section.getKeys(false)) {
-            Bukkit.getConsoleSender().sendMessage("Key: $key")
-        }
 
         for (actionSection in actionSections) {
-            Bukkit.getConsoleSender().sendMessage("Loading action")
             actions += loadActionWithCondition(actionSection) ?: continue
-            Bukkit.getConsoleSender().sendMessage("Loaded action")
         }
         val conditions = ArrayList<ConfiguredConditionWithFailActions>()
         for (conditionSection in section.getSectionList("conditions")) {
             conditions += loadConditionWithFailActions(conditionSection) ?: continue
         }
-
-        Bukkit.getConsoleSender().sendMessage("Loaded ${actions.size} actions")
-        Bukkit.getConsoleSender().sendMessage("Loaded ${actions.size} conditions")
 
         if (actions.isEmpty() && conditions.isEmpty()) return null
 
@@ -166,11 +149,7 @@ object InventorySerializer {
     }
 
     fun loadActionWithCondition(section: ConfigurationSection): ConfiguredActionWithConditions? {
-        val action = PlayerActionSerializer.fromSection(section)
-        if (action == null) {
-            Bukkit.getConsoleSender().sendMessage("Loaded action is null!")
-            return null
-        }
+        val action = PlayerActionSerializer.fromSection(section) ?: return null
         val conditions = ArrayList<ConfiguredConditionWithFailActions>()
         for (configurationSection in section.getSectionList("conditions")) {
             conditions += loadConditionWithFailActions(configurationSection) ?: continue
