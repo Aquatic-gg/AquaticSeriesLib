@@ -116,7 +116,7 @@ object InventorySerializer {
         }
     }
 
-    private fun loadClickSettings(sections: List<ConfigurationSection>): ClickSettings {
+    fun loadClickSettings(sections: List<ConfigurationSection>): ClickSettings {
         val map = HashMap<ClickSettings.MenuClickActionType, MutableList<ConfiguredActionsWithConditions>>()
         for (section in sections) {
             val actions = loadActionsWithConditions(section) ?: continue
@@ -129,7 +129,7 @@ object InventorySerializer {
         return ClickSettings(map) { u, t -> t }
     }
 
-    private fun loadActionsWithConditions(section: ConfigurationSection): ConfiguredActionsWithConditions? {
+    fun loadActionsWithConditions(section: ConfigurationSection): ConfiguredActionsWithConditions? {
         val actions = ArrayList<ConfiguredActionWithConditions>()
         for (actionSection in section.getSectionList("actions")) {
             actions += loadActionWithCondition(actionSection) ?: continue
@@ -148,7 +148,7 @@ object InventorySerializer {
         return ConfiguredActionsWithConditions(actions, conditions, failActions)
     }
 
-    private fun loadActionWithCondition(section: ConfigurationSection): ConfiguredActionWithConditions? {
+    fun loadActionWithCondition(section: ConfigurationSection): ConfiguredActionWithConditions? {
         val action = PlayerActionSerializer.fromSection(section) ?: return null
         val conditions = ArrayList<ConfiguredConditionWithFailActions>()
         for (configurationSection in section.getSectionList("conditions")) {
@@ -160,7 +160,7 @@ object InventorySerializer {
         return ConfiguredActionWithConditions(action,conditions,failActions)
     }
 
-    private fun loadConditionWithFailActions(section: ConfigurationSection): ConfiguredConditionWithFailActions? {
+    fun loadConditionWithFailActions(section: ConfigurationSection): ConfiguredConditionWithFailActions? {
         val condition = PlayerRequirementSerializer.fromSection(section) ?: return null
         val failActions = if (section.isConfigurationSection("fail")) {
             loadActionsWithConditions(section.getConfigurationSection("fail")!!)
