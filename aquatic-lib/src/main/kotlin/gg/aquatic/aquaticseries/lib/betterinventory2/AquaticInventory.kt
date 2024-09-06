@@ -26,6 +26,7 @@ open class AquaticInventory(
     val onInteract: BiConsumer<InventoryInteractEvent, AquaticInventory>
 ): InventoryHolder {
 
+    var id: String? = null
 
     val content = ArrayList<ItemStack?>(90)
     private val inventory: Inventory = createInventory()
