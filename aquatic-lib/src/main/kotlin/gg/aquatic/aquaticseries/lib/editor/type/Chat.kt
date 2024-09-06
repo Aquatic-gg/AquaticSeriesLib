@@ -15,6 +15,7 @@ class Chat(
     vararg val validators: TextValidator
 ): Edit<String> {
     override fun handle(editable: Editable<String>, player: Player): CompletableFuture<String> {
+        player.sendMessage("Please, type in the value into chat. To cancel the editing process, type \"cancel\"!")
         return ChatInputHandler.create(player, *validators).thenApply {
             if (it.response != TextInputResponse.Response.SUCCESS) {
                 editable.value

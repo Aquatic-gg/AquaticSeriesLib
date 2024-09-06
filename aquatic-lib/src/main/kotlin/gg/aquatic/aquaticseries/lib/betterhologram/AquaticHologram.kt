@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.betterhologram
 
-import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
+import gg.aquatic.aquaticseries.lib.util.runAsync
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.Player
@@ -37,41 +37,43 @@ class AquaticHologram(
 
     fun update() {
         _location.world ?: return
-        tickRange()
-        for (player in playersInRange.mapNotNull { Bukkit.getPlayer(it) }) {
-            val canSee = canBeSeenBy(player) ?: continue
-            val lines = canSee.lines.mapNotNull { it.canBeSeenBy(player) }
+        runAsync {
+            tickRange()
+            for (player in playersInRange.mapNotNull { Bukkit.getPlayer(it) }) {
+                val canSee = canBeSeenBy(player) ?: continue
+                val lines = canSee.lines.mapNotNull { it.canBeSeenBy(player) }
 
-            if (!canSee.seenBy.contains(player.uniqueId)) {
-                canSee.seenBy.add(player.uniqueId)
-            }
-
-            val totalHeight = lines.sumOf { it.height }
-            var currentHeight = 0.0
-            for ((i,line) in lines.reversed().withIndex()) {
-                val offset = when (canSee.anchor) {
-                    Anchor.BOTTOM -> {
-                        val vector = Vector(0.0, currentHeight, 0.0)
-                        currentHeight += line.height
-                        vector
-                    }
-
-                    Anchor.MIDDLE -> {
-                        currentHeight += line.height
-                        val yOffset = (currentHeight - (totalHeight / 2.0))
-                        Vector(0.0, yOffset , 0.0)
-                    }
-
-                    Anchor.TOP -> {
-                        currentHeight += line.height
-                        Vector(0.0, totalHeight - currentHeight, 0.0)
-                    }
+                if (!canSee.seenBy.contains(player.uniqueId)) {
+                    canSee.seenBy.add(player.uniqueId)
                 }
 
-                line.showOrUpdate(player, canSee._location, offset)
+                val totalHeight = lines.sumOf { it.height }
+                var currentHeight = 0.0
+                for ((i,line) in lines.reversed().withIndex()) {
+                    val offset = when (canSee.anchor) {
+                        Anchor.BOTTOM -> {
+                            val vector = Vector(0.0, currentHeight, 0.0)
+                            currentHeight += line.height
+                            vector
+                        }
+
+                        Anchor.MIDDLE -> {
+                            currentHeight += line.height
+                            val yOffset = (currentHeight - (totalHeight / 2.0))
+                            Vector(0.0, yOffset , 0.0)
+                        }
+
+                        Anchor.TOP -> {
+                            currentHeight += line.height
+                            Vector(0.0, totalHeight - currentHeight, 0.0)
+                        }
+                    }
+
+                    line.showOrUpdate(player, canSee._location, offset)
+                }
             }
+            tick()
         }
-        tick()
     }
 
     private fun tick() {

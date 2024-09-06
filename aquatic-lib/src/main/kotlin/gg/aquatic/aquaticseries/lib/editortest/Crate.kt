@@ -3,6 +3,7 @@ package gg.aquatic.aquaticseries.lib.editortest
 import gg.aquatic.aquaticseries.lib.Config
 import gg.aquatic.aquaticseries.lib.editor.editable.Editable
 import gg.aquatic.aquaticseries.lib.editor.SerializableYml
+import gg.aquatic.aquaticseries.lib.editor.type.Chat
 import gg.aquatic.aquaticseries.lib.editor.type.MultiChoice
 import gg.aquatic.aquaticseries.lib.editortest.visual.BlockVisual
 import gg.aquatic.aquaticseries.lib.editortest.visual.CrateVisual
@@ -18,9 +19,11 @@ class Crate(val config: Config) : SerializableYml {
             MultiChoice.Choice("ModelEngine", ItemStack(Material.IRON_HORSE_ARMOR)) { MEGVisual() },
             MultiChoice.Choice("Block", ItemStack(Material.CHEST)) { BlockVisual() }
         ))
+        val idEdit = Chat("ID", ItemStack(Material.NAME_TAG))
     }
 
     val visual = Editable<CrateVisual>(MEGVisual(),visualEdit)
+    val testId = Editable<String>("example", idEdit)
     //val actions = MapEdit<String,String>(HashMap())
 
     override fun save(section: ConfigurationSection) {
