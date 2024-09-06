@@ -8,6 +8,7 @@ import gg.aquatic.aquaticseries.lib.toAquatic
 import gg.aquatic.aquaticseries.lib.util.argument.AquaticObjectArgument
 import gg.aquatic.aquaticseries.lib.util.argument.impl.PrimitiveObjectArgument
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
+import gg.aquatic.aquaticseries.lib.util.runLaterSync
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import java.util.function.BiFunction
@@ -22,11 +23,8 @@ class BossbarAction : AbstractAction<Player>() {
 
         val bossBar = AbstractAquaticSeriesLib.INSTANCE.adapter.bossBarAdapter.create(message.toAquatic().replace(textUpdater, player), color, style, progress)
         bossBar.addPlayer(player)
-        object : BukkitRunnable() {
-            override fun run() {
-                bossBar.removePlayer(player)
-            }
-        }.runTaskLater(AbstractAquaticSeriesLib.INSTANCE.plugin,duration.toLong())
+        runLaterSync(duration.toLong()) {bossBar.removePlayer(player)
+        }
     }
 
     override fun arguments(): List<AquaticObjectArgument<*>> {

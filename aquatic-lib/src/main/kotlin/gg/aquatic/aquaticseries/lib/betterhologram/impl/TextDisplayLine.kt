@@ -6,6 +6,8 @@ import gg.aquatic.aquaticseries.lib.audience.WhitelistAudience
 import gg.aquatic.aquaticseries.lib.betterhologram.AquaticHologram
 import gg.aquatic.aquaticseries.lib.nms.NMSAdapter
 import gg.aquatic.aquaticseries.lib.toAquatic
+import gg.aquatic.aquaticseries.lib.util.calculateYawAndPitch
+import gg.aquatic.aquaticseries.lib.util.runSync
 import org.bukkit.Location
 import org.bukkit.entity.Display.Billboard
 import org.bukkit.entity.Player
@@ -38,7 +40,6 @@ class TextDisplayLine(
     private fun createEntity(location: Location): Int {
         return nmsAdapter.spawnEntity(location, "text_display", WhitelistAudience(mutableListOf())) {
             it as TextDisplay
-            it.billboard = Billboard.CENTER
             it.lineWidth = 1000
         }
     }
@@ -72,28 +73,35 @@ class TextDisplayLine(
         nmsAdapter.despawnEntity(listOf(entityId!!), WhitelistAudience(mutableListOf(player.uniqueId)))
     }
 
-    override fun handleShow(player: Player, location: Location, offset: Vector) {
+    override fun handleShow(player: Player, location: Location, offset: Vector, billboard: AquaticHologram.Billboard) {
         if (entityId == null) {
             entityId = createEntity(location)
         }
         val state = createState(player, offset.y)
         states[player.uniqueId] = state
         nmsAdapter.resendEntitySpawnPacket(player, entityId!!)
-        updateEntity(player, offset, state)
+        updateEntity(player, offset, state, billboard)
     }
 
-    override fun handleUpdate(player: Player, location: Location, offset: Vector) {
+    override fun handleUpdate(
+        player: Player,
+        location: Location,
+        offset: Vector,
+        billboard: AquaticHologram.Billboard
+    ) {
         val state = createState(player, offset.y)
         val previousState = states[player.uniqueId]
         if (previousState == null) {
-            handleShow(player, location, offset)
+            handleShow(player, location, offset, billboard)
             return
         }
-        if (previousState.isSame(state)) {
-            return
+        if (billboard != AquaticHologram.Billboard.LOOK_AT_PLAYER) {
+            if (previousState.isSame(state)) {
+                return
+            }
         }
         states[player.uniqueId] = state
-        updateEntity(player, offset, state)
+        updateEntity(player, offset, state, billboard)
     }
 
     override fun handleMove(location: Location) {
@@ -101,21 +109,64 @@ class TextDisplayLine(
     }
 
     override fun clone(): TextDisplayLine {
-        return TextDisplayLine(filter, failLine?.clone() , TreeMap(keyFrames), textUpdater)
+        return TextDisplayLine(filter, failLine?.clone(), TreeMap(keyFrames), textUpdater)
     }
 
-    private fun updateEntity(player: Player, offset: Vector, state: TextDisplayState) {
+    private fun updateEntity(
+        player: Player,
+        offset: Vector,
+        state: TextDisplayState,
+        billboard: AquaticHologram.Billboard
+    ) {
+        var location: Location? = null
+
         nmsAdapter.updateEntity(entityId!!, { e ->
             e as TextDisplay
+            location = e.location.clone()
             e.transformation = Transformation(
                 Vector3f(offset.x.toFloat(), offset.y.toFloat(), offset.z.toFloat()),
                 Quaternionf(),
                 Vector3f(state.scale, state.scale, state.scale),
                 Quaternionf()
             )
+            when (billboard) {
+                AquaticHologram.Billboard.CENTER -> {
+                    e.billboard = Billboard.CENTER
+                }
+
+                AquaticHologram.Billboard.FIXED -> {
+                    e.billboard = Billboard.FIXED
+                }
+
+                AquaticHologram.Billboard.LOOK_AT_PLAYER -> {
+                    e.billboard = Billboard.FIXED
+                }
+            }
             AbstractAquaticSeriesLib.INSTANCE.adapter.setDisplayText(e, state.text.toAquatic())
-            e.billboard = state.billboard
         }, WhitelistAudience(mutableListOf(player.uniqueId)))
+
+        if (billboard == AquaticHologram.Billboard.LOOK_AT_PLAYER && location != null) {
+            val (yaw, pitch) = location!!.calculateYawAndPitch(player.eyeLocation)
+            location!!.yaw = yaw
+            location!!.pitch = pitch
+
+            nmsAdapter.updateEntity(entityId!!, { e ->
+                e as TextDisplay
+                try {
+                    e.teleportDuration = 2
+                } catch (e: Exception) {
+
+                }
+            }, WhitelistAudience(mutableListOf(player.uniqueId)))
+
+            runSync {
+                nmsAdapter.teleportEntity(
+                    entityId!!,
+                    location!!,
+                    WhitelistAudience(mutableListOf(player.uniqueId))
+                )
+            }
+        }
     }
 
     private fun createState(player: Player, height: Double): TextDisplayState {

@@ -5,6 +5,7 @@ import gg.aquatic.aquaticseries.lib.network.*
 import gg.aquatic.aquaticseries.lib.network.event.ServerNetworkDisconnectEvent
 import gg.aquatic.aquaticseries.lib.network.redis.packet.*
 import gg.aquatic.aquaticseries.lib.util.call
+import gg.aquatic.aquaticseries.lib.util.runSync
 import org.bukkit.scheduler.BukkitRunnable
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.JedisPool
@@ -15,16 +16,28 @@ import java.util.function.Consumer
 class RedisHandler(
     val networkPacketListener: NetworkPacketListener,
     val settings: RedisNetworkSettings, override val serverName: String
-): NetworkAdapter() {
+) : NetworkAdapter() {
 
     private lateinit var jedisPool: JedisPool
 
     init {
         setup()
 
-        networkPacketListener.registerPacket(RedisServerConnectPacket::class.java, RedisServerConnectPacketHandler, RedisServerConnectPacketHandler.serializersModule)
-        networkPacketListener.registerPacket(RedisServerDisconnectPacket::class.java, RedisServerDisconnectPacketHandler, RedisServerDisconnectPacketHandler.serializersModule)
-        networkPacketListener.registerPacket(RedisServerPingPacket::class.java, RedisServerPingPacketHandler, RedisServerPingPacketHandler.serializersModule)
+        networkPacketListener.registerPacket(
+            RedisServerConnectPacket::class.java,
+            RedisServerConnectPacketHandler,
+            RedisServerConnectPacketHandler.serializersModule
+        )
+        networkPacketListener.registerPacket(
+            RedisServerDisconnectPacket::class.java,
+            RedisServerDisconnectPacketHandler,
+            RedisServerDisconnectPacketHandler.serializersModule
+        )
+        networkPacketListener.registerPacket(
+            RedisServerPingPacket::class.java,
+            RedisServerPingPacketHandler,
+            RedisServerPingPacketHandler.serializersModule
+        )
     }
 
     val connectedServers = mutableListOf<String>()
@@ -39,20 +52,18 @@ class RedisHandler(
             settings.password
         )
 
-        object : BukkitRunnable() {
-            override fun run() {
-                Thread {
-                    execute {
-                        it.subscribe(RedisListener(this@RedisHandler), settings.channel)
-                    }
-                }.start()
-
-                future.complete(null)
-                settings.servers.forEach { server ->
-                    send(RedisServerConnectPacket(server)).thenAccept {}
+        runSync {
+            Thread {
+                execute {
+                    it.subscribe(RedisListener(this@RedisHandler), settings.channel)
                 }
+            }.start()
+
+            future.complete(null)
+            settings.servers.forEach { server ->
+                send(RedisServerConnectPacket(server)).thenAccept {}
             }
-        }.runTask(AbstractAquaticSeriesLib.INSTANCE.plugin)
+        }
 
         object : BukkitRunnable() {
             override fun run() {
@@ -115,9 +126,12 @@ class RedisHandler(
             serverName
         )
 
-        publishAsync(settings.channel,networkPacketListener.deserializePacket(signedPacket) ?: return CompletableFuture.completedFuture(
-            NetworkResponse(NetworkResponse.Status.ERROR, null)
-        ))
+        publishAsync(
+            settings.channel,
+            networkPacketListener.deserializePacket(signedPacket) ?: return CompletableFuture.completedFuture(
+                NetworkResponse(NetworkResponse.Status.ERROR, null)
+            )
+        )
         requests[NetworkRequest(packet)] = future
 
         return future

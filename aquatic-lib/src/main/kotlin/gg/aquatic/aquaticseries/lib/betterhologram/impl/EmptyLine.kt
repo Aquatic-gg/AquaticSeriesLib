@@ -33,10 +33,10 @@ class EmptyLine(
     override fun handleHide(player: Player) {
     }
 
-    override fun handleShow(player: Player, location: Location, offset: Vector) {
+    override fun handleShow(player: Player, location: Location, offset: Vector, billboard: AquaticHologram.Billboard) {
     }
 
-    override fun handleUpdate(player: Player, location: Location, offset: Vector) {
+    override fun handleUpdate(player: Player, location: Location, offset: Vector, billboard: AquaticHologram.Billboard) {
     }
 
     class EmptyKeyframe(

@@ -9,6 +9,7 @@ import gg.aquatic.aquaticseries.lib.feature.Features
 import gg.aquatic.aquaticseries.lib.feature.IFeature
 import gg.aquatic.aquaticseries.lib.register
 import gg.aquatic.aquaticseries.lib.util.call
+import gg.aquatic.aquaticseries.lib.util.runLaterSync
 import org.bukkit.Location
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -89,15 +90,13 @@ object FakeObjectHandler: IFeature {
             }
 
             if (fakeObjects.isNotEmpty()) {
-                object : BukkitRunnable() {
-                    override fun run() {
-                        for (fakeObject in fakeObjects) {
-                            if (!fakeObject.spawned) continue
-                            if (!fakeObject.audience.canBeApplied(player)) continue
-                            fakeObject.sendSpawnPacket(player)
-                        }
+                runLaterSync(10) {
+                    for (fakeObject in fakeObjects) {
+                        if (!fakeObject.spawned) continue
+                        if (!fakeObject.audience.canBeApplied(player)) continue
+                        fakeObject.sendSpawnPacket(player)
                     }
-                }.runTaskLater(AbstractAquaticSeriesLib.INSTANCE.plugin,10)
+                }
             }
         }
 

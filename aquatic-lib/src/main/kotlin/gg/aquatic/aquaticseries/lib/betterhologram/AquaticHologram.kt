@@ -14,9 +14,18 @@ class AquaticHologram(
     val failHologram: AquaticHologram?,
     val lines: MutableList<Line>,
     var anchor: Anchor,
+    var billboard: Billboard,
     location: Location,
     val viewRange: Double,
 ) {
+
+    private val initLocation = location.clone()
+    val location: Location
+        get() = initLocation.clone()
+
+    init {
+        HologramHandler.registerHologram(this)
+    }
 
     var despawned = false
         private set
@@ -37,43 +46,42 @@ class AquaticHologram(
 
     fun update() {
         _location.world ?: return
-        runAsync {
-            tickRange()
-            for (player in playersInRange.mapNotNull { Bukkit.getPlayer(it) }) {
-                val canSee = canBeSeenBy(player) ?: continue
-                val lines = canSee.lines.mapNotNull { it.canBeSeenBy(player) }
+        tickRange()
+        for (player in playersInRange.mapNotNull { Bukkit.getPlayer(it) }) {
+            val canSee = canBeSeenBy(player) ?: continue
+            val lines = canSee.lines.mapNotNull { it.canBeSeenBy(player) }
 
-                if (!canSee.seenBy.contains(player.uniqueId)) {
-                    canSee.seenBy.add(player.uniqueId)
-                }
+            if (!canSee.seenBy.contains(player.uniqueId)) {
+                canSee.seenBy.add(player.uniqueId)
+            }
 
-                val totalHeight = lines.sumOf { it.height }
-                var currentHeight = 0.0
-                for ((i,line) in lines.reversed().withIndex()) {
-                    val offset = when (canSee.anchor) {
-                        Anchor.BOTTOM -> {
-                            val vector = Vector(0.0, currentHeight, 0.0)
-                            currentHeight += line.height
-                            vector
-                        }
-
-                        Anchor.MIDDLE -> {
-                            currentHeight += line.height
-                            val yOffset = (currentHeight - (totalHeight / 2.0))
-                            Vector(0.0, yOffset , 0.0)
-                        }
-
-                        Anchor.TOP -> {
-                            currentHeight += line.height
-                            Vector(0.0, totalHeight - currentHeight, 0.0)
-                        }
+            val totalHeight = lines.sumOf { it.height }
+            var currentHeight = 0.0
+            for ((i,line) in lines.reversed().withIndex()) {
+                val offset = when (canSee.anchor) {
+                    Anchor.BOTTOM -> {
+                        val vector = Vector(0.0, currentHeight, 0.0)
+                        currentHeight += line.height
+                        vector
                     }
 
-                    line.showOrUpdate(player, canSee._location, offset)
+                    Anchor.MIDDLE -> {
+                        currentHeight += line.height
+                        val yOffset = (currentHeight - (totalHeight / 2.0))
+                        Vector(0.0, yOffset , 0.0)
+                    }
+
+                    Anchor.TOP -> {
+                        currentHeight += line.height
+                        Vector(0.0, totalHeight - currentHeight, 0.0)
+                    }
                 }
+
+                if (despawned) return
+                line.showOrUpdate(player, canSee._location, offset, billboard)
             }
-            tick()
         }
+        tick()
     }
 
     private fun tick() {
@@ -138,6 +146,8 @@ class AquaticHologram(
         }
         despawned = true
         failHologram?.despawn()
+
+        HologramHandler.unregisterHologram(this)
     }
 
     private fun canBeSeenBy(player: Player): AquaticHologram? {
@@ -190,8 +200,8 @@ class AquaticHologram(
 
         protected abstract fun removeCacheExtra(uuid: UUID)
 
-        fun showOrUpdate(player: Player, location: Location, offset: Vector) {
-            show(player, location, offset)
+        fun showOrUpdate(player: Player, location: Location, offset: Vector, billboard: Billboard) {
+            show(player, location, offset, billboard)
         }
 
         fun hideAll(player: Player) {
@@ -207,12 +217,12 @@ class AquaticHologram(
             }
         }
 
-        private fun show(player: Player, location: Location, offset: Vector) {
+        private fun show(player: Player, location: Location, offset: Vector, billboard: Billboard) {
             if (!seenBy.contains(player.uniqueId)) {
                 seenBy[player.uniqueId] = offset
-                handleShow(player, location, offset)
+                handleShow(player, location, offset, billboard)
             } else {
-                handleUpdate(player, location, offset)
+                handleUpdate(player, location, offset, billboard)
             }
         }
 
@@ -222,13 +232,15 @@ class AquaticHologram(
         protected abstract fun handleShow(
             player: Player,
             location: Location,
-            offset: Vector
+            offset: Vector,
+            billboard: Billboard
         )
 
         protected abstract fun handleUpdate(
             player: Player,
             location: Location,
-            offset: Vector
+            offset: Vector,
+            billboard: Billboard
         )
 
         fun move(location: Location) {
@@ -248,6 +260,12 @@ class AquaticHologram(
         TOP,
         BOTTOM,
         MIDDLE,
+    }
+
+    enum class Billboard {
+        FIXED,
+        CENTER,
+        LOOK_AT_PLAYER,
     }
 
 }

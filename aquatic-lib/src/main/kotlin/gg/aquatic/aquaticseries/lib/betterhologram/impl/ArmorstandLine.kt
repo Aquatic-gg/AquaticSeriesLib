@@ -78,7 +78,7 @@ class ArmorstandLine(
         return ArmorstandLine(filter, failLine?.clone(), TreeMap(keyFrames), textUpdater)
     }
 
-    override fun handleShow(player: Player, location: Location, offset: Vector) {
+    override fun handleShow(player: Player, location: Location, offset: Vector, billboard: AquaticHologram.Billboard) {
         if (entityId == null) {
             entityId = createEntity(location)
         }
@@ -88,11 +88,11 @@ class ArmorstandLine(
         updateEntity(player, offset, state)
     }
 
-    override fun handleUpdate(player: Player, location: Location, offset: Vector) {
+    override fun handleUpdate(player: Player, location: Location, offset: Vector, billboard: AquaticHologram.Billboard) {
         val state = createState(player, offset.y)
         val previousState = states[player.uniqueId]
         if (previousState == null) {
-            handleShow(player, location, offset)
+            handleShow(player, location, offset, billboard)
             return
         }
         if (previousState.isSame(state)) {

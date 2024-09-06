@@ -24,7 +24,7 @@ open class AquaticInventory(
     val onOpen: BiConsumer<Player, AquaticInventory>,
     val onClose: BiConsumer<Player, AquaticInventory>,
     val onInteract: BiConsumer<InventoryInteractEvent, AquaticInventory>
-): InventoryHolder {
+) : InventoryHolder {
 
     var id: String? = null
 
@@ -62,7 +62,10 @@ open class AquaticInventory(
     }
 
     fun clearComponents() {
-        stateHandlers.clear()
+        for (value in stateHandlers.values) {
+            value.states.clear()
+            value.slotToStates.clear()
+        }
         components.clear()
     }
 
@@ -74,10 +77,12 @@ open class AquaticInventory(
             val comp = state.component ?: continue
             val slots = comp.slotSelection.slots
             for (slot in slots) {
-                stateHandler.slotToStates[slot]?.remove(comp.id)
-                val renderedId = stateHandler.rendered[slot] ?: continue
-                if (renderedId == component.id) {
-                    stateHandler.rendered.remove(slot)
+                val slotList = stateHandler.slotToStates[slot]
+                if (slotList != null) {
+                    slotList.remove(component.id)
+                    if (slotList.isEmpty()) {
+                        stateHandler.slotToStates.remove(slot)
+                    }
                 }
             }
         }
@@ -212,7 +217,7 @@ open class AquaticInventory(
         }
 
         val states = stateHandler.states.filter { it.value.component != null }
-        val toRender = mutableMapOf<Int, Pair<String,ComponentState>>()
+        val toRender = mutableMapOf<Int, Pair<String, ComponentState>>()
 
         for (updatedSlot in updatedSlots) {
             val mapped = mutableMapOf<String, ComponentState>()

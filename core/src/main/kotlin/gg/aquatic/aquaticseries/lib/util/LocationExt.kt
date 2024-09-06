@@ -2,6 +2,8 @@ package gg.aquatic.aquaticseries.lib.util
 
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import kotlin.math.atan2
+import kotlin.math.sqrt
 
 fun Location.toStringSimple(): String {
     return "${this.world!!.name};${this.x};${this.y};${this.z}"
@@ -25,4 +27,17 @@ fun String.toLocation(): Location? {
         return Location(world, x, y, z, yaw, pitch)
     }
     return Location(world, x, y, z)
+}
+
+fun Location.calculateYawAndPitch(to: Location): Pair<Float, Float> {
+    val dx = to.x - this.x
+    val dy = to.y - this.y
+    val dz = to.z - this.z
+
+    val distanceXZ = sqrt(dx * dx + dz * dz) // Distance on the XZ plane
+
+    val yaw = Math.toDegrees(atan2(-dx, dz)).toFloat() // Yaw calculation
+    val pitch = Math.toDegrees(atan2(-dy, distanceXZ)).toFloat() // Pitch calculation
+
+    return Pair(yaw, pitch)
 }
