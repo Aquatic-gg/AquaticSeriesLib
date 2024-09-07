@@ -1,5 +1,6 @@
 package gg.aquatic.aquaticseries.lib.item
 
+import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.displayName
 import gg.aquatic.aquaticseries.lib.lore
 import gg.aquatic.aquaticseries.lib.setSpawnerType
@@ -95,6 +96,52 @@ abstract class CustomItem(
     }
 
     abstract fun getUnmodifiedItem(): ItemStack
+
+    class Builder(var type: String) {
+
+        private var lore: MutableList<AquaticString>? = null
+        private var displayName: AquaticString? = null
+        private var amount: Int = 1
+        private var modelData: Int = -1
+        private var enchantments: MutableMap<Enchantment, Int>? = null
+        private var flags: MutableList<ItemFlag>? = null
+        private var spawnerEntityType: EntityType? = null
+
+        fun lore(lore: MutableList<AquaticString>?): Builder {
+            this.lore = lore
+            return this
+        }
+        fun displayName(displayName: AquaticString?): Builder {
+            this.displayName = displayName
+            return this
+        }
+        fun amount(amount: Int): Builder {
+            this.amount = amount
+            return this
+        }
+        fun modelData(modelData: Int): Builder {
+            this.modelData = modelData
+            return this
+        }
+        fun enchantments(enchantments: MutableMap<Enchantment, Int>?): Builder {
+            this.enchantments = enchantments
+            return this
+        }
+        fun flags(flags: MutableList<ItemFlag>?): Builder {
+            this.flags = flags
+            return this
+        }
+        fun spawnerEntityType(spawnerEntityType: EntityType?): Builder {
+            this.spawnerEntityType = spawnerEntityType
+            return this
+        }
+
+        constructor(material: Material) : this(material.toString())
+
+        fun build(): CustomItem {
+            return create(type, displayName?.string, lore?.map { it.string }?.toMutableList(), amount, modelData, enchantments, flags, spawnerEntityType)
+        }
+    }
 
     companion object {
 
