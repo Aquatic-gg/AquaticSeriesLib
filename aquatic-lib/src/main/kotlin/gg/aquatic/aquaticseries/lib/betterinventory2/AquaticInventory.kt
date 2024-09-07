@@ -117,6 +117,7 @@ open class AquaticInventory(
         val stateHandler = stateHandlers.getOrPut(player.uniqueId) { StateHandler() }
         val updated = mutableListOf<String>()
         val updatedSlots = mutableSetOf<Int>()
+
         for (value in components.values) {
             var state = stateHandler.states[value.id]
             if (state != null) {
@@ -242,7 +243,13 @@ open class AquaticInventory(
             toRender[updatedSlot] = highestPriority.first to highestPriority.second
         }
 
-        if (toRender.isEmpty()) return
+        val unchecked = stateHandler.rendered.filter { !components.containsKey(it.value) }
+        for (key in unchecked.keys) {
+            if (updatedSlots.contains(key)) continue
+            updatedSlots += key
+        }
+
+        if (toRender.isEmpty() && updatedSlots.isEmpty()) return
         for (unusedSlot in updatedSlots) {
             val pair = toRender[unusedSlot]
             if (pair == null) {
