@@ -1,14 +1,14 @@
 package gg.aquatic.aquaticseries.lib.price.player.impl
 
 import gg.aquatic.aquaticseries.lib.item.CustomItem
+import gg.aquatic.aquaticseries.lib.price.AbstractPrice
 import gg.aquatic.aquaticseries.lib.util.argument.AquaticObjectArgument
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import gg.aquatic.aquaticseries.lib.price.player.AbstractPlayerPrice
 import gg.aquatic.aquaticseries.lib.util.argument.impl.ItemObjectArgument
 import gg.aquatic.aquaticseries.lib.util.toCustomItem
 
-class ItemPrice : AbstractPlayerPrice() {
+class ItemPrice : AbstractPrice<Player>() {
     override fun take(binder: Player, arguments: Map<String, Any?>) {
         val item = (arguments["item"]!! as CustomItem).getItem()
         var amount = item.amount

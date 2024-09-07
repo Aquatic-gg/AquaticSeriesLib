@@ -9,7 +9,7 @@ object PriceSerializer {
         val type = section.getString("type") ?: return null
         val action = PriceTypes.types[type]
         if (action == null) {
-            println("[AquaticSeriesLib] Action type $type does not exist!")
+            println("[AquaticSeriesLib] Price type $type does not exist!")
             return null
         }
 

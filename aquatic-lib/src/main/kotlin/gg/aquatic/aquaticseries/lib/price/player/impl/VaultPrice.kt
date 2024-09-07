@@ -1,14 +1,14 @@
 package gg.aquatic.aquaticseries.lib.price.player.impl
 
+import gg.aquatic.aquaticseries.lib.price.AbstractPrice
 import gg.aquatic.aquaticseries.lib.util.argument.AquaticObjectArgument
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.RegisteredServiceProvider
-import gg.aquatic.aquaticseries.lib.price.player.AbstractPlayerPrice
 import gg.aquatic.aquaticseries.lib.util.argument.impl.PrimitiveObjectArgument
 
-class VaultPrice: AbstractPlayerPrice() {
+class VaultPrice: AbstractPrice<Player>() {
 
     companion object {
         private val rsp = Bukkit.getServer().servicesManager.getRegistration(Economy::class.java) as RegisteredServiceProvider<Economy>
