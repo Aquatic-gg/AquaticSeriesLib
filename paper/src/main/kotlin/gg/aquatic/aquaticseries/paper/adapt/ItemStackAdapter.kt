@@ -59,6 +59,24 @@ object ItemStackAdapter: IItemStackAdapter {
     }
 
     private fun convert(aquaticString: AquaticString): Component {
-        return PaperAdapter.minimessage.deserialize(ChatColor.stripColor(aquaticString.string)).decoration(TextDecoration.ITALIC, false)
+        return PaperAdapter.minimessage.deserialize(ChatColor.stripColor(aquaticString.string
+            .replace("&a", "<green>")
+            .replace("&c", "<red>")
+            .replace("&b", "<aqua>")
+            .replace("&e", "<yellow>")
+            .replace("&6", "<gold>")
+            .replace("&d", "<light_purple>")
+            .replace("&f", "<white>")
+            .replace("&3", "<dark_aqua>")
+            .replace("&9", "<blue>")
+            .replace("&f", "<white>")
+            .replace("&7", "<gray>")
+            .replace("&8", "<dark_gray>")
+            .replace("&4", "<dark_red>")
+            .replace("&1", "<dark_blue>")
+            .replace("&4", "<dark_red>")
+            .replace("&8", "<dark_gray>")
+            .replace("&2", "<dark_green>")
+            .replace("&5", "<dark_purple>"))).decoration(TextDecoration.ITALIC, false)
     }
 }

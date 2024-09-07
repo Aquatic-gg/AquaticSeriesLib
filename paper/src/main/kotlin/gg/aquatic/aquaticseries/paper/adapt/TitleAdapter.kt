@@ -2,10 +2,8 @@ package gg.aquatic.aquaticseries.paper.adapt
 
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.adapt.ITitleAdapter
-import gg.aquatic.aquaticseries.paper.PaperAdapter
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.title.Title
-import net.md_5.bungee.api.ChatColor
 import org.bukkit.entity.Player
 import java.time.Duration
 
@@ -33,6 +31,9 @@ object TitleAdapter : ITitleAdapter {
 
 
     private fun convert(aquaticString: AquaticString): Component {
-        return PaperAdapter.minimessage.deserialize(ChatColor.stripColor(aquaticString.string))
+        if (aquaticString !is PaperString) {
+            return Component.text(aquaticString.string)
+        }
+        return aquaticString.convert()
     }
 }

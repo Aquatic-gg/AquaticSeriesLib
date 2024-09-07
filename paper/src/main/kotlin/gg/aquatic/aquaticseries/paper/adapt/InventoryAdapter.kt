@@ -20,6 +20,9 @@ object InventoryAdapter: IInventoryAdapter {
     }
 
     private fun convert(aquaticString: AquaticString): Component {
-        return PaperAdapter.minimessage.deserialize(ChatColor.stripColor(aquaticString.string))
+        if (aquaticString !is PaperString) {
+            return Component.text(aquaticString.string)
+        }
+        return aquaticString.convert()
     }
 }

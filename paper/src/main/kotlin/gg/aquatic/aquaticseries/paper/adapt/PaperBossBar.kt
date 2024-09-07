@@ -4,8 +4,6 @@ import gg.aquatic.aquaticseries.lib.adapt.AquaticBossBar
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.paper.PaperAdapter
 import net.kyori.adventure.bossbar.BossBar
-import net.kyori.adventure.text.Component
-import net.md_5.bungee.api.ChatColor
 import org.bukkit.entity.Player
 
 class PaperBossBar(
@@ -26,7 +24,7 @@ class PaperBossBar(
         get() = _text
         set(value) {
             this._text = value
-            this.bossBar.name(convert(value))
+            this.bossBar.name((value as PaperString).convert())
         }
 
     override var color: Color
@@ -56,9 +54,6 @@ class PaperBossBar(
 
     override fun removePlayer(player: Player) {
         bossBar.removeViewer(player)
-    }
-    private fun convert(aquaticString: AquaticString): Component {
-        return PaperAdapter.minimessage.deserialize(ChatColor.stripColor(aquaticString.string))
     }
 
 }
