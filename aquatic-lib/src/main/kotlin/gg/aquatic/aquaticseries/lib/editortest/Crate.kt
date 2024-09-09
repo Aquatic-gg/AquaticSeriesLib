@@ -22,8 +22,8 @@ class Crate(val config: Config) : SerializableYml {
         val idEdit = Chat("ID", ItemStack(Material.NAME_TAG))
     }
 
-    val visual = Editable<CrateVisual>(MEGVisual(),visualEdit)
-    val testId = Editable<String>("example", idEdit)
+    val visual = Editable(MEGVisual(),visualEdit)
+    val testId = Editable("example", idEdit)
     //val actions = MapEdit<String,String>(HashMap())
 
     override fun save(section: ConfigurationSection) {

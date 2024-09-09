@@ -34,7 +34,5 @@ object InputHandler : IFeature, IHandler {
         fun AsyncPlayerChatEvent.onChat() {
             ChatInputHandler.onChatEvent(this)
         }
-
     }
-
 }
