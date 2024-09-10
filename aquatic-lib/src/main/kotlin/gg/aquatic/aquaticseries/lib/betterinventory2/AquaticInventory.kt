@@ -6,6 +6,8 @@ import gg.aquatic.aquaticseries.lib.betterinventory2.component.InventoryComponen
 import gg.aquatic.aquaticseries.lib.displayName
 import gg.aquatic.aquaticseries.lib.lore
 import gg.aquatic.aquaticseries.lib.toAquatic
+import gg.aquatic.aquaticseries.lib.util.then
+import gg.aquatic.aquaticseries.lib.util.thenOrNull
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -248,6 +250,9 @@ open class AquaticInventory(
             if (updatedSlots.contains(key)) continue
             updatedSlots += key
         }
+
+        val num = toRender.isEmpty() then "1" or "2"
+        val numNull = toRender.isNotEmpty() thenOrNull "1"
 
         if (toRender.isEmpty() && updatedSlots.isEmpty()) return
         for (unusedSlot in updatedSlots) {
