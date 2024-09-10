@@ -104,7 +104,7 @@ object InventoryHandler : IFeature {
             val items = ArrayList<ItemStack>()
             for ((i, item) in event.packet.items.withIndex()) {
                 if (i >= size) {
-                    val contentItem = customInvContent[i]
+                    val contentItem = customInvContent.getOrNull(i)
                     if (contentItem == null) {
                         items.add(item)
                     } else {
@@ -115,7 +115,6 @@ object InventoryHandler : IFeature {
                 }
             }
             event.packet.items = items
-
         }
 
         override fun onClientboundContainerSetSlotPacket(event: PacketEvent<WrappedClientboundContainerSetSlotPacket>) {
