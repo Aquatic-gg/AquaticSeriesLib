@@ -300,7 +300,9 @@ open class AquaticInventory(
 
     private fun setItem(player: Player, itemStack: ItemStack, slot: Int) {
         val size = inventory.size
-        content[slot] = itemStack
+        if (slot < content.size) {
+            content[slot] = itemStack
+        }
         if (slot >= size) {
             AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.setContainerItem(player, itemStack, slot)
         } else {
