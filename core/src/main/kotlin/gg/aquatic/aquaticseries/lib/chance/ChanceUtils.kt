@@ -5,7 +5,7 @@ class ChanceUtils {
     companion object {
 
         fun <T : IChance> getRandomItem(items: List<T>): T? {
-            val chances = items.map { it.chance() }.toMutableList()
+            val chances = items.map { it.chance }.toMutableList()
             val randomIndex = getRandomChanceIndex(chances)
             if (randomIndex < 0) return null
             return items[randomIndex]

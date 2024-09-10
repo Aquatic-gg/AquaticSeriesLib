@@ -1,6 +1,7 @@
 group = "gg.aquatic.aquaticseries.paper"
 
 repositories {
+    maven("https://repo.papermc.io/repository/maven-public/")
 }
 
 dependencies {
