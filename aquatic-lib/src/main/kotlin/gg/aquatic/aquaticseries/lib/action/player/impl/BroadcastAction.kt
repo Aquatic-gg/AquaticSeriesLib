@@ -11,13 +11,16 @@ import java.util.function.BiFunction
 
 class BroadcastAction: AbstractAction<Player>() {
     override fun run(player: Player, args: Map<String, Any?>, textUpdater: BiFunction<Player, String, String>) {
-        val message = args["message"] as String
-        message.toAquatic().replace(textUpdater, player).broadcast()
+        val messages = if (args["message"] != null) listOf(args["message"] as String) else args["messages"] as List<String>
+        for (message in messages) {
+            message.toAquatic().replace(textUpdater, player).broadcast()
+        }
     }
 
     override fun arguments(): List<AquaticObjectArgument<*>> {
         return listOf(
-            PrimitiveObjectArgument("message", "", true)
+            PrimitiveObjectArgument("message", "", false),
+            PrimitiveObjectArgument("messages", mutableListOf<String>(), false)
         )
     }
 }
