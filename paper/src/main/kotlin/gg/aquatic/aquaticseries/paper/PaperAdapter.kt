@@ -4,9 +4,11 @@ import gg.aquatic.aquaticseries.lib.adapt.AquaticLibAdapter
 import gg.aquatic.aquaticseries.lib.adapt.*
 import gg.aquatic.aquaticseries.paper.adapt.*
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.entity.Entity
 import org.bukkit.entity.TextDisplay
+import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
 
 class PaperAdapter(override val plugin: JavaPlugin) : AquaticLibAdapter() {
@@ -41,5 +43,9 @@ class PaperAdapter(override val plugin: JavaPlugin) : AquaticLibAdapter() {
     override fun getDisplayText(entity: Entity): AquaticString? {
         if (entity !is TextDisplay) return null
         return PaperString(minimessage.serialize(entity.customName() ?: return null))
+    }
+
+    fun showItem(itemStack: ItemStack): HoverEvent<HoverEvent.ShowItem> {
+        return itemStack.asHoverEvent()
     }
 }
