@@ -48,6 +48,11 @@ fun String.updatePAPIPlaceholders(player: Player): String {
     return PlaceholderAPI.setPlaceholders(player,this)
 }
 
+fun AquaticString.updatePAPIPlaceholders(player: Player): AquaticString {
+    AbstractAquaticSeriesLib.INSTANCE.plugin.server.pluginManager.getPlugin("PlaceholderAPI") ?: return this
+    return PlaceholderAPI.setPlaceholders(player,this.string).toAquatic()
+}
+
 fun AquaticString.sendTitle(
     player: Player,
     title: AquaticString,
