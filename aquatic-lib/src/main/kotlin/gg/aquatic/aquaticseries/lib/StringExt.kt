@@ -7,7 +7,6 @@ import gg.aquatic.aquaticseries.spigot.adapt.SpigotString
 import me.clip.placeholderapi.PlaceholderAPI
 import org.bukkit.entity.Player
 import java.util.function.BiFunction
-import java.util.function.Function
 
 fun String.toAquatic(): AquaticString {
     return AbstractAquaticSeriesLib.INSTANCE.adapter.adaptString(this)
@@ -29,10 +28,7 @@ fun SpigotString.replace(placeholders: Placeholders): SpigotString {
 
 fun AquaticString.replace(placeholders: Placeholders): AquaticString {
     val replaced = placeholders.replace(this.string)
-    if (this is SpigotString) {
-        return SpigotString(replaced)
-    }
-    return PaperString(replaced)
+    return replaced.toAquatic()
 }
 
 fun AquaticString.replace(textUpdater: BiFunction<Player, String, String>, player: Player): AquaticString {
@@ -45,12 +41,11 @@ fun Placeholders.replace(input: AquaticString): AquaticString {
 
 fun String.updatePAPIPlaceholders(player: Player): String {
     AbstractAquaticSeriesLib.INSTANCE.plugin.server.pluginManager.getPlugin("PlaceholderAPI") ?: return this
-    return PlaceholderAPI.setPlaceholders(player,this)
+    return PlaceholderAPI.setPlaceholders(player, this)
 }
 
 fun AquaticString.updatePAPIPlaceholders(player: Player): AquaticString {
-    AbstractAquaticSeriesLib.INSTANCE.plugin.server.pluginManager.getPlugin("PlaceholderAPI") ?: return this
-    return PlaceholderAPI.setPlaceholders(player,this.string).toAquatic()
+    return this.string.updatePAPIPlaceholders(player).toAquatic()
 }
 
 fun AquaticString.sendTitle(
@@ -67,5 +62,6 @@ fun AquaticString.sendTitle(
         subtitle = subtitle,
         fadeIn = fadeIn,
         stay = stay,
-        fadeOut = fadeOut)
+        fadeOut = fadeOut
+    )
 }
