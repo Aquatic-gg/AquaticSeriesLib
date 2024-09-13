@@ -29,6 +29,7 @@ interface NMSAdapter {
     fun setInventoryContent(audience: AquaticAudience, inventoryType: InventoryType, content: Collection<ItemStack> ,activeItem: ItemStack?)
     fun sendTitleUpdate(player: Player, newTitle: AquaticString)
     fun resendEntitySpawnPacket(player: Player, entityId: Int)
+    fun addTabCompletion(players: List<Player>, list: List<String>)
 
     enum class InventoryType {
         PLAYER,
