@@ -1,8 +1,9 @@
 package gg.aquatic.aquaticseries.lib.util
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.nms.NMSAdapter
 import org.bukkit.entity.Player
 
-fun Player.addChatTabCompletion(list: List<String>) {
-    AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.addTabCompletion(listOf(this),list)
+fun Player.modifyChatTabCompletion(action: NMSAdapter.TabCompletionAction,list: List<String>) {
+    AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.modifyTabCompletion(action,list,this)
 }
