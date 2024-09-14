@@ -6,7 +6,7 @@ plugins {
     id("co.uzzu.dotenv.gradle") version "2.0.0"
 }
 
-val projectVersion = "1.0.4.50"
+val projectVersion = "1.0.4.51"
 
 group = "gg.aquatic.aquaticseries"
 version = projectVersion
@@ -14,6 +14,9 @@ version = projectVersion
 repositories {
     mavenCentral()
     mavenLocal()
+    maven {
+        url = uri("https://repo.nekroplex.com/releases")
+    }
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.oraxen.com/releases")
     maven("https://jitpack.io")
@@ -71,12 +74,13 @@ subprojects {
         maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
         maven("https://mvn.lumine.io/repository/maven-public/")
 
-        maven("https://mvn.lumine.io/repository/maven-public/")
-        maven("https://mvn.lumine.io/repository/maven-public/")
+        maven {
+            url = uri("https://repo.nekroplex.com/releases")
+        }
         maven("https://repo.oraxen.com/releases")
         maven("https://jitpack.io")
-        maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
         maven("https://oss.sonatype.org/content/repositories/snapshots/")
+        maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     }
 
     dependencies {
