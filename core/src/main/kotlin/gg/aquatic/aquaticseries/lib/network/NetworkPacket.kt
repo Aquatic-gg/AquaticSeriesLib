@@ -1,10 +1,10 @@
 package gg.aquatic.aquaticseries.lib.network
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 abstract class NetworkPacket {
 
+    abstract val id: String
     abstract val channel: String
+
+    abstract fun serialize(): String
 
 }

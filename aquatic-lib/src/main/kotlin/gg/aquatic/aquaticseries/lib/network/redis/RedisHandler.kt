@@ -24,19 +24,13 @@ class RedisHandler(
         setup()
 
         networkPacketListener.registerPacket(
-            RedisServerConnectPacket::class.java,
-            RedisServerConnectPacketHandler,
-            RedisServerConnectPacketHandler.serializersModule
+            "REDIS_SERVER_CONNECT", RedisServerConnectPacket.Serializer, RedisServerConnectPacket.Handler
         )
         networkPacketListener.registerPacket(
-            RedisServerDisconnectPacket::class.java,
-            RedisServerDisconnectPacketHandler,
-            RedisServerDisconnectPacketHandler.serializersModule
+            "REDIS_SERVER_DISCONNECT", RedisServerDisconnectPacket.Serializer, RedisServerDisconnectPacket.Handler
         )
         networkPacketListener.registerPacket(
-            RedisServerPingPacket::class.java,
-            RedisServerPingPacketHandler,
-            RedisServerPingPacketHandler.serializersModule
+            "REDIS_SERVER_PING", RedisServerPingPacket.Serializer, RedisServerPingPacket.Handler
         )
     }
 
