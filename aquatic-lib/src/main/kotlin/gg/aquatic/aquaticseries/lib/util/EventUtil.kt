@@ -17,7 +17,11 @@ inline fun <reified T : Event> event(
         T::class.java,
         listener,
         priority,
-        { _, event -> callback.accept(event as T) },
+        { _, event ->
+            if (event is T) {
+                callback.accept(event)
+            }
+        },
         AbstractAquaticSeriesLib.INSTANCE.plugin,
         ignoredCancelled
     )
