@@ -29,6 +29,13 @@ class SQLiteDriver(
         }
     }
 
+    override fun executeBatch(sql: String, preparedStatement: PreparedStatement.() -> Unit): IntArray {
+        activeConnection.prepareStatement(sql).use { statement ->
+            preparedStatement(statement)
+            return statement.executeBatch()
+        }
+    }
+
     override fun execute(sql: String, preparedStatement: PreparedStatement.() -> Unit): Boolean {
         activeConnection.prepareStatement(sql).use { statement ->
             preparedStatement(statement)

@@ -35,6 +35,15 @@ class MySqlDriver(
         }
     }
 
+    override fun executeBatch(sql: String, preparedStatement: PreparedStatement.() -> Unit): IntArray {
+        getConnection().use { connection ->
+            connection.prepareStatement(sql).use { statement ->
+                preparedStatement(statement)
+                return statement.executeBatch()
+            }
+        }
+    }
+
     override fun execute(sql: String, preparedStatement: PreparedStatement.() -> Unit): Boolean {
         getConnection().use { connection ->
             connection.prepareStatement(sql).use { statement ->
