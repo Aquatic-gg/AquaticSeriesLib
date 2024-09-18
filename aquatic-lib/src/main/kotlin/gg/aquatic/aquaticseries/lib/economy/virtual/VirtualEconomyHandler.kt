@@ -6,31 +6,55 @@ import gg.aquatic.aquaticseries.lib.economy.EconomyPlayer
 import gg.aquatic.aquaticseries.lib.economy.VirtualCurrency
 import gg.aquatic.aquaticseries.lib.feature.Features
 import gg.aquatic.aquaticseries.lib.feature.IFeature
+import gg.aquatic.aquaticseries.lib.util.event
+import org.bukkit.Bukkit
+import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
 class VirtualEconomyHandler(
     driver: DataDriver
-): IFeature {
+) : IFeature {
 
     override val type = Features.VIRTUAL_ECONOMY
-    override fun initialize(lib: AbstractAquaticSeriesLib) {
-
-    }
+    val currencyDriver = CurrencyDriver(driver)
 
     var initialized: Boolean = false
         private set
 
-    val currencyDriver = CurrencyDriver(driver).apply {
-        this.initialize().thenRun {
+    val cache = HashMap<UUID, EconomyPlayer>()
+    val currencies = HashMap<String, VirtualCurrency>()
+
+    override fun initialize(lib: AbstractAquaticSeriesLib) {
+        currencyDriver.initialize().thenRun {
             initialized = true
+        }
+
+        loadPlayers(*Bukkit.getOnlinePlayers().map { it.uniqueId }.toTypedArray()).thenAccept {
+            cache.putAll(it)
+        }
+
+        event<PlayerJoinEvent>(ignoredCancelled = true) {
+            loadPlayer(it.player.uniqueId).thenAccept {  ep ->
+                cache[ep.uuid] = ep
+            }
+        }
+
+        event<PlayerQuitEvent>(ignoredCancelled = true) {
+            savePlayer(cache[it.player.uniqueId] ?: return@event).thenRun {
+                cache.remove(it.player.uniqueId)
+            }
         }
     }
 
-    val currencies = HashMap<String, VirtualCurrency>()
 
     fun register(currency: VirtualCurrency) {
         currencies += currency.id to currency
+    }
+
+    fun getPlayer(uuid: UUID): EconomyPlayer? {
+        return cache[uuid]
     }
 
     fun loadPlayer(uuid: UUID): CompletableFuture<EconomyPlayer> {
@@ -52,6 +76,7 @@ class VirtualEconomyHandler(
     fun getBalance(uuid: UUID, currency: VirtualCurrency): CompletableFuture<Double> {
         return currencyDriver.get(uuid, currency)
     }
+
     fun setBalance(uuid: UUID, currency: VirtualCurrency, amount: Double): CompletableFuture<Void> {
         return currencyDriver.set(uuid, currency, amount)
     }
