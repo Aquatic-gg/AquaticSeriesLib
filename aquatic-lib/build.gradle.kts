@@ -18,6 +18,7 @@ dependencies {
     implementation(project(":paper"))
     implementation(project(":spigot"))
     compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0")
+    compileOnly("com.zaxxer:HikariCP:5.1.0")
 }
 
 tasks {

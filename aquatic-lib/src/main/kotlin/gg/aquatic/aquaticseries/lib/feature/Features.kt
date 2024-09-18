@@ -9,6 +9,6 @@ enum class Features {
     PACKET_LISTENER,
     WORLD_OBJECTS,
     PLAYER_INPUT,
-    LOGGER
+    ECONOMY
 
 }
