@@ -8,6 +8,7 @@ interface Currency {
 
     fun give(player: Player, amount: Double)
     fun take(player: Player, amount: Double)
+    fun set(player: Player, amount: Double)
     fun getBalance(player: Player): Double
     fun has(player: Player, amount: Double): Boolean
 

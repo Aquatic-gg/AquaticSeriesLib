@@ -93,18 +93,6 @@ class CurrencyDriver(
         }
     }
 
-    fun set(economyPlayer: EconomyPlayer): CompletableFuture<Void> {
-        return CompletableFuture.runAsync {
-            driver.executeBatch("replace into aquaticcurrency values (?, ?, ?)") {
-                for ((id, balance) in economyPlayer.balance) {
-                    setBytes(1, economyPlayer.uuid.toBytes())
-                    setString(2, id)
-                    setDouble(3, balance)
-                    addBatch()
-                }
-            }
-        }
-    }
     fun set(vararg economyPlayers: EconomyPlayer): CompletableFuture<Void> {
         return CompletableFuture.runAsync {
             driver.executeBatch("replace into aquaticcurrency values (?, ?, ?)") {
