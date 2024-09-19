@@ -58,7 +58,8 @@ class VirtualCurrency(override val id: String) : Currency {
 
     private val handler: VirtualEconomyHandler
         get() {
-            return AbstractAquaticSeriesLib.INSTANCE.features[Features.VIRTUAL_ECONOMY]!! as VirtualEconomyHandler
+            val vault = AbstractAquaticSeriesLib.INSTANCE.features[Features.ECONOMY]!! as Vault
+            return vault.virtualEconomyHandler!!
         }
 
     override fun give(player: Player, amount: Double) {
