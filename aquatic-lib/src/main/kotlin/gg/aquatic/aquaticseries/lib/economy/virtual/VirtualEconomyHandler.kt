@@ -15,18 +15,15 @@ import java.util.concurrent.CompletableFuture
 
 class VirtualEconomyHandler(
     driver: DataDriver
-) : IFeature {
-
-    override val type = Features.VIRTUAL_ECONOMY
+) {
     val currencyDriver = CurrencyDriver(driver)
 
     var initialized: Boolean = false
         private set
 
     val cache = HashMap<UUID, EconomyPlayer>()
-    val currencies = HashMap<String, VirtualCurrency>()
 
-    override fun initialize(lib: AbstractAquaticSeriesLib) {
+    fun initialize() {
         currencyDriver.initialize().thenRun {
             initialized = true
         }
@@ -46,11 +43,6 @@ class VirtualEconomyHandler(
                 cache.remove(it.player.uniqueId)
             }
         }
-    }
-
-
-    fun register(currency: VirtualCurrency) {
-        currencies += currency.id to currency
     }
 
     fun getPlayer(uuid: UUID): EconomyPlayer? {
