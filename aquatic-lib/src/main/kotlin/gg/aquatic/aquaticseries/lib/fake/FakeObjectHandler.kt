@@ -14,12 +14,9 @@ import org.bukkit.Location
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.event.player.PlayerJoinEvent
-import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.EquipmentSlot
-import org.bukkit.scheduler.BukkitRunnable
 
-object FakeObjectHandler: IFeature {
+object FakeObjectHandler : IFeature {
     override val type: Features = Features.FAKEOBJECTS
 
     val registry = FakeObjectRegistry()
@@ -31,6 +28,7 @@ object FakeObjectHandler: IFeature {
     fun registerBlock(packetBlock: PacketBlock) {
         registry.registerBlock(packetBlock)
     }
+
     fun registerEntity(packetEntity: PacketEntity) {
         registry.registerEntity(packetEntity)
     }
@@ -38,6 +36,7 @@ object FakeObjectHandler: IFeature {
     fun unregisterBlock(location: Location) {
         registry.unregisterBlock(location)
     }
+
     fun unregisterEntity(location: Location, id: Int) {
         registry.unregisterEntity(location, id)
     }
@@ -46,7 +45,7 @@ object FakeObjectHandler: IFeature {
         return registry.getBlocks(location)
     }
 
-    class Listeners: Listener {
+    class Listeners : Listener {
 
         @EventHandler
         fun PlayerInteractEvent.onInteract() {
@@ -57,7 +56,7 @@ object FakeObjectHandler: IFeature {
             for (block in blocks) {
                 if (!block.audience.canBeApplied(player)) continue
 
-                val e = PacketBlockInteractEvent(block,action)
+                val e = PacketBlockInteractEvent(block, action)
                 block.onInteract.accept(this)
                 isCancelled = true
                 e.call()
