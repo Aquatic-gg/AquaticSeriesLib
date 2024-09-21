@@ -39,6 +39,15 @@ tasks {
     processResources {
         filteringCharset = Charsets.UTF_8.name()
     }
+
+    val sourcesJar by creating(Jar::class) {
+        archiveClassifier.set("sources")
+        from(sourceSets["main"].allSource)
+    }
+
+    artifacts {
+        archives(sourcesJar)
+    }
 }
 
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
@@ -51,7 +60,6 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
         include(dependency("com.jeff-media:custom-block-data:2.2.2"))
     }
 }
-
 
 publishing {
     repositories {
@@ -73,6 +81,7 @@ publishing {
             artifactId = "aquaticlib"
             version = "${project.version}"
             from(components["java"])
+            artifact(tasks["sourcesJar"])
         }
     }
 }
