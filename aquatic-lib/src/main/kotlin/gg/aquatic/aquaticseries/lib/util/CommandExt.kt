@@ -4,6 +4,7 @@ import org.bukkit.Bukkit
 import org.bukkit.Server
 import org.bukkit.command.Command
 import org.bukkit.command.CommandMap
+import org.bukkit.command.SimpleCommandMap
 import java.lang.reflect.Field
 
 fun Command.register(namespace: String) {
@@ -22,12 +23,13 @@ fun Command.unregister() {
 }
 
 private val bukkitCommandMapField: Field = Bukkit.getServer().javaClass.getDeclaredField("commandMap").apply { isAccessible = true }
-private val knownCommandsField = CommandMap::class.java.getDeclaredField("knownCommands").apply { isAccessible = true }
+//private val knownCommandsField = CommandMap::class.java.getDeclaredField("knownCommands").apply { isAccessible = true }
 
 fun Server.commandMap(): CommandMap {
     return bukkitCommandMapField.get(this) as CommandMap
 }
 
 fun CommandMap.knownCommands(): HashMap<String, Command> {
-    return knownCommandsField.get(this) as HashMap<String, Command>
+    val commandMap = this as SimpleCommandMap
+    return commandMap.knownCommands()
 }
