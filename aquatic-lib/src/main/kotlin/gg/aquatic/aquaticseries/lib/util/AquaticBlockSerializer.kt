@@ -8,13 +8,7 @@ import gg.aquatic.aquaticseries.lib.block.impl.OraxenBlock
 import gg.aquatic.aquaticseries.lib.block.impl.VanillaBlock
 import org.bukkit.Material
 import org.bukkit.block.BlockFace
-import org.bukkit.block.ShulkerBox
-import org.bukkit.block.data.Bisected
-import org.bukkit.block.data.Directional
-import org.bukkit.block.data.MultipleFacing
-import org.bukkit.block.data.Openable
-import org.bukkit.block.data.Powerable
-import org.bukkit.block.data.Waterlogged
+import org.bukkit.block.data.*
 import org.bukkit.block.data.type.Slab
 import org.bukkit.block.data.type.Stairs
 import org.bukkit.configuration.ConfigurationSection
@@ -25,16 +19,16 @@ object AquaticBlockSerializer {
         val layersSection = section.getConfigurationSection("layers")!!
         val ingredientsSection = section.getConfigurationSection("blocks")!!
 
-        val ingredients = HashMap<Char,AquaticBlock>()
+        val ingredients = HashMap<Char, AquaticBlock>()
 
         for (key in ingredientsSection.getKeys(false)) {
             val block = load(ingredientsSection.getConfigurationSection(key)!!)
             ingredients[key.toCharArray().first()] = block
         }
-        val layers = HashMap<Int,MutableMap<Int,String>>()
+        val layers = HashMap<Int, MutableMap<Int, String>>()
         for (key in layersSection.getKeys(false)) {
             val layer = layersSection.getConfigurationSection(key)!!
-            val layerBlocks = HashMap<Int,String>()
+            val layerBlocks = HashMap<Int, String>()
             for (layerKey in layer.getKeys(false)) {
                 layerBlocks[layerKey.toInt()] = layer.getString(layerKey)!!
             }
