@@ -48,4 +48,16 @@ class SQLiteDriver(
             preparedStatement(statement)
         }
     }
+
+    override fun useConnection(connection: Connection.() -> Unit) {
+        connection(activeConnection)
+    }
+
+    override fun statement(statement: Statement.() -> Unit) {
+        useConnection {
+            createStatement().use { s ->
+                statement(s)
+            }
+        }
+    }
 }

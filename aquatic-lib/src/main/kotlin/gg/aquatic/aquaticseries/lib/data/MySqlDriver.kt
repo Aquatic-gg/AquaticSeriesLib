@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariDataSource
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
+import java.sql.Statement
 
 class MySqlDriver(
     ip: String,
@@ -14,7 +15,7 @@ class MySqlDriver(
     password: String,
     maxPoolSize: Int = 10,
     poolName: String,
-): DataDriver {
+) : DataDriver {
 
     val config = HikariConfig().apply {
         this.jdbcUrl = "jdbc:mysql://$ip:$port/$database"
@@ -54,9 +55,23 @@ class MySqlDriver(
     }
 
     override fun preparedStatement(sql: String, preparedStatement: PreparedStatement.() -> Unit) {
-        getConnection().use { connection ->
-            connection.prepareStatement(sql).use { statement ->
+        useConnection {
+            prepareStatement(sql).use { statement ->
                 preparedStatement(statement)
+            }
+        }
+    }
+
+    override fun useConnection(connection: Connection.() -> Unit) {
+        getConnection().use {
+            connection(it)
+        }
+    }
+
+    override fun statement(statement: Statement.() -> Unit) {
+        useConnection {
+            createStatement().use { s ->
+                statement(s)
             }
         }
     }
