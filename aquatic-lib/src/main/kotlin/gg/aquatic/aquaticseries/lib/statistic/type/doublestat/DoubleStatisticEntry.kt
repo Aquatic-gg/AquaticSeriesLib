@@ -12,6 +12,7 @@ class DoubleStatisticEntry(statistic: DoubleStatistic, total: Double, roundingMo
     }
 
     override fun addPoint(value: Double) {
-        points.add(statistic.createPoint(value))
+        addPoint(System.currentTimeMillis(), value)
+        addToTotal(value)
     }
 }

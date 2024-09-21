@@ -3,7 +3,6 @@ package gg.aquatic.aquaticseries.lib.statistic
 import java.util.TreeMap
 import java.util.concurrent.TimeUnit
 import kotlin.math.round
-import kotlin.time.measureTime
 
 abstract class StatisticEntry<T: Any>(
     val statistic: Statistic<T>,
