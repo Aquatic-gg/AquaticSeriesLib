@@ -32,6 +32,7 @@ dependencies {
     compileOnly ("com.ticxo.modelengine:ModelEngine:R4.0.6")
     compileOnly("me.clip:placeholderapi:2.11.2")
     implementation("org.joml:joml:1.10.8")
+    compileOnly("com.arcaniax:HeadDatabase-API:1.3.2")
     //implementation("net.kyori:adventure-api:4.17.0")
 }
 
@@ -93,7 +94,8 @@ subprojects {
         compileOnly("redis.clients:jedis:5.0.0")
         compileOnly("com.github.MilkBowl:VaultAPI:1.7")
         compileOnly("me.clip:placeholderapi:2.11.2")
-        implementation("org.joml:joml:1.10.8")
+        compileOnly("org.joml:joml:1.10.8")
+        compileOnly("com.arcaniax:HeadDatabase-API:1.3.2")
         //implementation("net.kyori:adventure-api:4.17.0")
     }
 

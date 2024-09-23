@@ -2,6 +2,7 @@ package gg.aquatic.aquaticseries.lib.item
 
 import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.item.factory.ItemFactory
+import gg.aquatic.aquaticseries.lib.item.factory.impl.HDBFactory
 import gg.aquatic.aquaticseries.lib.item.factory.impl.IAFactory
 import gg.aquatic.aquaticseries.lib.item.factory.impl.MMFactory
 import gg.aquatic.aquaticseries.lib.item.factory.impl.OraxenFactory
@@ -12,7 +13,6 @@ import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemFlag
 import java.util.*
-import kotlin.collections.HashMap
 
 object CustomItemHandler {
 
@@ -20,6 +20,7 @@ object CustomItemHandler {
         put("mythicitem", MMFactory)
         put("oraxen", OraxenFactory)
         put("itemsadder", IAFactory)
+        put("hdb", HDBFactory)
     }
 
     fun registerItemFactory(provider: String, factory: ItemFactory) {
