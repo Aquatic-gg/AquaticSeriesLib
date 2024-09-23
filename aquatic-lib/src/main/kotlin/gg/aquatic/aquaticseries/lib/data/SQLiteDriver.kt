@@ -11,7 +11,7 @@ class SQLiteDriver(
     val activeConnection: Connection
         get() {
             try {
-                if (!activeConnection.isClosed) return this._activeConnection
+                if (!_activeConnection.isClosed) return this._activeConnection
                 Class.forName("org.sqlite.SQLiteDataSource")
                 this._activeConnection = DriverManager.getConnection("jdbc:sqlite:" + databaseFile.path)
             } catch (e: SQLException) {
