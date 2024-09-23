@@ -94,6 +94,7 @@ publishing {
         maven {
             name = "aquaticRepository"
             url = uri("https://repo.nekroplex.com/releases")
+
             credentials {
                 username = maven_username
                 password = maven_password

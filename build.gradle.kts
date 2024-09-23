@@ -11,29 +11,16 @@ val projectVersion = "1.0.8"
 group = "gg.aquatic.aquaticseries"
 version = projectVersion
 
+
 repositories {
     mavenCentral()
     mavenLocal()
     maven {
         url = uri("https://repo.nekroplex.com/releases")
     }
-    maven("https://repo.papermc.io/repository/maven-public/")
-    maven("https://repo.oraxen.com/releases")
-    maven("https://jitpack.io")
-    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-    maven("https://oss.sonatype.org/content/repositories/snapshots/")
 }
 
 dependencies {
-    api("io.lumine:Mythic-Dist:5.3.5")
-    implementation("com.jeff-media:custom-block-data:2.2.2")
-    compileOnly("io.th0rgal:oraxen:1.171.0")
-    compileOnly("com.github.LoneDev6:API-ItemsAdder:3.6.2-beta-r3-b")
-    compileOnly ("com.ticxo.modelengine:ModelEngine:R4.0.6")
-    compileOnly("me.clip:placeholderapi:2.11.2")
-    implementation("org.joml:joml:1.10.8")
-    compileOnly("com.arcaniax:HeadDatabase-API:1.3.2")
-    //implementation("net.kyori:adventure-api:4.17.0")
 }
 
 tasks {
@@ -59,8 +46,12 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "17"
 }
 
-extra["maven_username"] = env.fetch("MAVEN_USERNAME")
-extra["maven_password"] = env.fetch("MAVEN_PASSWORD")
+
+if (env.isPresent("MAVEN_USERNAME") && env.isPresent("MAVEN_PASSWORD")) {
+    extra["maven_username"] = if (env.isPresent("MAVEN_USERNAME")) env.fetch("MAVEN_USERNAME") else ""
+    extra["maven_password"] = if (env.isPresent("MAVEN_PASSWORD")) env.fetch("MAVEN_PASSWORD") else ""
+}
+
 
 subprojects {
     apply(plugin = "kotlin")
