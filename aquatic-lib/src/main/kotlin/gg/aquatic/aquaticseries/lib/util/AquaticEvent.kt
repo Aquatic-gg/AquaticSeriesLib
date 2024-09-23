@@ -13,4 +13,8 @@ abstract class AquaticEvent: Event() {
             return HANDLERS
         }
     }
+
+    override fun getHandlers(): HandlerList {
+        return HANDLERS
+    }
 }
