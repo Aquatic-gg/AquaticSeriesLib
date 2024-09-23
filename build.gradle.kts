@@ -46,12 +46,8 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "17"
 }
 
-
-if (env.isPresent("MAVEN_USERNAME") && env.isPresent("MAVEN_PASSWORD")) {
-    extra["maven_username"] = if (env.isPresent("MAVEN_USERNAME")) env.fetch("MAVEN_USERNAME") else ""
-    extra["maven_password"] = if (env.isPresent("MAVEN_PASSWORD")) env.fetch("MAVEN_PASSWORD") else ""
-}
-
+extra["maven_username"] = if (env.isPresent("MAVEN_USERNAME")) env.fetch("MAVEN_USERNAME") else ""
+extra["maven_password"] = if (env.isPresent("MAVEN_PASSWORD")) env.fetch("MAVEN_PASSWORD") else ""
 
 subprojects {
     apply(plugin = "kotlin")
