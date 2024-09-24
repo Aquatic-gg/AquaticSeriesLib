@@ -9,14 +9,24 @@ import java.io.IOException
 class Config {
     private var file: File
     private var config: FileConfiguration? = null
-    private var main: JavaPlugin = AbstractAquaticSeriesLib.INSTANCE.plugin
+    private var main: JavaPlugin
 
     constructor(path: String) {
+        main = AbstractAquaticSeriesLib.INSTANCE.plugin
         file = File(main.dataFolder, path)
     }
 
     constructor(file: File) {
+        main = AbstractAquaticSeriesLib.INSTANCE.plugin
         this.file = file
+    }
+    constructor(file: File, main: JavaPlugin) {
+        this.main = main
+        this.file = file
+    }
+    constructor(path: String, main: JavaPlugin) {
+        this.main = main
+        file = File(main.dataFolder, path)
     }
 
     fun load() {
