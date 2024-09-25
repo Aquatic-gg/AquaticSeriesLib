@@ -22,10 +22,10 @@ class SQLiteDriver(
             return this._activeConnection
         }
 
-    override fun executeQuery(sql: String, preparedStatement: PreparedStatement.() -> Unit): ResultSet {
+    override fun executeQuery(sql: String, preparedStatement: PreparedStatement.() -> Unit, resultSet: ResultSet.() -> Unit) {
         activeConnection.prepareStatement(sql).use { statement ->
             preparedStatement(statement)
-            return statement.executeQuery()
+            resultSet(statement.executeQuery())
         }
     }
 
