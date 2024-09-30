@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
 import java.util.function.BiFunction
 
 fun String.toAquatic(): AquaticString {
-    return AbstractAquaticSeriesLib.INSTANCE.adapter.adaptString(this)
+    return AquaticSeriesLib.INSTANCE.adapter.adaptString(this)
 }
 
 fun Collection<String>.toAquatic(): List<AquaticString> {
@@ -40,7 +40,7 @@ fun Placeholders.replace(input: AquaticString): AquaticString {
 }
 
 fun String.updatePAPIPlaceholders(player: Player): String {
-    AbstractAquaticSeriesLib.INSTANCE.plugin.server.pluginManager.getPlugin("PlaceholderAPI") ?: return this
+    AquaticSeriesLib.INSTANCE.plugin.server.pluginManager.getPlugin("PlaceholderAPI") ?: return this
     return PlaceholderAPI.setPlaceholders(player, this)
 }
 
@@ -56,7 +56,7 @@ fun AquaticString.sendTitle(
     stay: Int,
     fadeOut: Int
 ) {
-    AbstractAquaticSeriesLib.INSTANCE.adapter.titleAdapter.send(
+    AquaticSeriesLib.INSTANCE.adapter.titleAdapter.send(
         player = player,
         title = title,
         subtitle = subtitle,

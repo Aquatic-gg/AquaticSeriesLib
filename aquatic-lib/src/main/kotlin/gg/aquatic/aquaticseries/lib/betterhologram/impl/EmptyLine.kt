@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.betterhologram.impl
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.betterhologram.AquaticHologram
 import gg.aquatic.aquaticseries.lib.nms.NMSAdapter
 import org.bukkit.Location
@@ -19,7 +19,7 @@ class EmptyLine(
 
     val nmsAdapter: NMSAdapter
         get() {
-            return AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!
+            return AquaticSeriesLib.INSTANCE.nmsAdapter!!
         }
 
     override fun tick() {

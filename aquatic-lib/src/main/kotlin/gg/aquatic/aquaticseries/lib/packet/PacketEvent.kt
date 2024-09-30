@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.packet
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.nms.listener.AbstractPacketListener
 import gg.aquatic.aquaticseries.lib.nms.listener.PacketEvent
 import gg.aquatic.aquaticseries.lib.nms.packet.*
@@ -32,5 +32,5 @@ inline fun packetListener(crossinline consumer: PacketEvent<*>.() -> Unit) {
         }
     }
 
-    AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.packetListenerAdapter().registerListener(listener)
+    AquaticSeriesLib.INSTANCE.nmsAdapter!!.packetListenerAdapter().registerListener(listener)
 }

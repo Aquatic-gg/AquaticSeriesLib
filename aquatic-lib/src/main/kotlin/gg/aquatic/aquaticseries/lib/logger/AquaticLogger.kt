@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.logger
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.logger.type.DebugLogger
 import gg.aquatic.aquaticseries.lib.logger.type.InfoLogger
 
@@ -8,7 +8,7 @@ object AquaticLogger {
 
     val id: String
         get() {
-            return AbstractAquaticSeriesLib.INSTANCE.plugin.name
+            return AquaticSeriesLib.INSTANCE.plugin.name
         }
     var debugEnabled = false
 }

@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.betterinventory2
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.feature.Features
 import gg.aquatic.aquaticseries.lib.feature.IFeature
 import gg.aquatic.aquaticseries.lib.nms.listener.AbstractPacketListener
@@ -22,14 +22,13 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.ItemStack
 import java.util.*
-import kotlin.collections.ArrayList
 
 object InventoryHandler : IFeature {
     override val type: Features = Features.INVENTORIES
 
     val viewers = mutableSetOf<UUID>()
 
-    override fun initialize(lib: AbstractAquaticSeriesLib) {
+    override fun initialize(lib: AquaticSeriesLib) {
         Listeners().register()
         lib.nmsAdapter!!.packetListenerAdapter().registerListener(PacketListeners)
 

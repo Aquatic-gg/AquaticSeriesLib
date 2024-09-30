@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.util
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import org.bukkit.scheduler.BukkitRunnable
 
 inline fun runSync(crossinline runnable: BukkitRunnable.() -> Unit) {
@@ -8,7 +8,7 @@ inline fun runSync(crossinline runnable: BukkitRunnable.() -> Unit) {
         override fun run() {
             runnable.invoke(this)
         }
-    }.runTask(AbstractAquaticSeriesLib.INSTANCE.plugin)
+    }.runTask(AquaticSeriesLib.INSTANCE.plugin)
 }
 
 inline fun runAsync(crossinline runnable: BukkitRunnable.() -> Unit) {
@@ -16,7 +16,7 @@ inline fun runAsync(crossinline runnable: BukkitRunnable.() -> Unit) {
         override fun run() {
             runnable.invoke(this)
         }
-    }.runTaskAsynchronously(AbstractAquaticSeriesLib.INSTANCE.plugin)
+    }.runTaskAsynchronously(AquaticSeriesLib.INSTANCE.plugin)
 }
 
 inline fun runSyncTimer(delay: Long, period: Long, crossinline runnable: BukkitRunnable.() -> Unit) {
@@ -24,14 +24,14 @@ inline fun runSyncTimer(delay: Long, period: Long, crossinline runnable: BukkitR
         override fun run() {
             runnable.invoke(this)
         }
-    }.runTaskTimer(AbstractAquaticSeriesLib.INSTANCE.plugin, delay, period)
+    }.runTaskTimer(AquaticSeriesLib.INSTANCE.plugin, delay, period)
 }
 inline fun runAsyncTimer(delay: Long, period: Long, crossinline runnable: BukkitRunnable.() -> Unit) {
     object : BukkitRunnable() {
         override fun run() {
             runnable.invoke(this)
         }
-    }.runTaskTimerAsynchronously(AbstractAquaticSeriesLib.INSTANCE.plugin, delay, period)
+    }.runTaskTimerAsynchronously(AquaticSeriesLib.INSTANCE.plugin, delay, period)
 }
 
 inline fun runLaterSync(delay: Long, crossinline runnable: BukkitRunnable.() -> Unit) {
@@ -39,7 +39,7 @@ inline fun runLaterSync(delay: Long, crossinline runnable: BukkitRunnable.() -> 
         override fun run() {
             runnable.invoke(this)
         }
-    }.runTaskLater(AbstractAquaticSeriesLib.INSTANCE.plugin, delay)
+    }.runTaskLater(AquaticSeriesLib.INSTANCE.plugin, delay)
 }
 
 inline fun runLaterAsync(delay: Long, crossinline runnable: BukkitRunnable.() -> Unit) {
@@ -47,5 +47,5 @@ inline fun runLaterAsync(delay: Long, crossinline runnable: BukkitRunnable.() ->
         override fun run() {
             runnable.invoke(this)
         }
-    }.runTaskLaterAsynchronously(AbstractAquaticSeriesLib.INSTANCE.plugin, delay)
+    }.runTaskLaterAsynchronously(AquaticSeriesLib.INSTANCE.plugin, delay)
 }

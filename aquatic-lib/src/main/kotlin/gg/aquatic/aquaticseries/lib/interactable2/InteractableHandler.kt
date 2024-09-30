@@ -1,7 +1,7 @@
 package gg.aquatic.aquaticseries.lib.interactable2
 
 import com.ticxo.modelengine.api.events.BaseEntityInteractEvent
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.feature.Features
 import gg.aquatic.aquaticseries.lib.feature.IFeature
 import gg.aquatic.aquaticseries.lib.interactable2.base.SpawnedInteractableBase
@@ -19,7 +19,7 @@ object InteractableHandler: IFeature {
 
     override val type: Features = Features.INTERACTABLES
 
-    override fun initialize(lib: AbstractAquaticSeriesLib) {
+    override fun initialize(lib: AquaticSeriesLib) {
         lib.plugin.server.pluginManager.registerEvents(Listeners(),lib.plugin)
         if (Bukkit.getPluginManager().getPlugin("ModelEngine") != null) {
             lib.plugin.server.pluginManager.registerEvents(MegListeners(),lib.plugin)

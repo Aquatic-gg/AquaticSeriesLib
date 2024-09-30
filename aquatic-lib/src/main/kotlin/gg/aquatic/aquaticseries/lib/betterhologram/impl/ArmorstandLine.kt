@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.betterhologram.impl
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.audience.WhitelistAudience
 import gg.aquatic.aquaticseries.lib.betterhologram.AquaticHologram
@@ -13,7 +13,6 @@ import org.bukkit.util.Vector
 import java.util.*
 import java.util.function.BiFunction
 import java.util.function.Function
-import kotlin.collections.HashMap
 
 class ArmorstandLine(
     override val filter: Function<Player,Boolean>,
@@ -24,7 +23,7 @@ class ArmorstandLine(
 
     val nmsAdapter: NMSAdapter
         get() {
-            return AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!
+            return AquaticSeriesLib.INSTANCE.nmsAdapter!!
         }
 
     var currentKeyframe: ArmorstandKeyframe = keyFrames.firstEntry().value

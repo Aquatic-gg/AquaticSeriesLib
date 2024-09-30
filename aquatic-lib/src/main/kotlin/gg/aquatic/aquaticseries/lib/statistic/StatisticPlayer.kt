@@ -1,9 +1,9 @@
 package gg.aquatic.aquaticseries.lib.statistic
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.feature.Features
 import org.bukkit.entity.Player
-import java.util.UUID
+import java.util.*
 
 class StatisticPlayer(
     val uuid: UUID
@@ -26,6 +26,6 @@ class StatisticPlayer(
 }
 
 fun Player.getStatisticPlayer(): StatisticPlayer? {
-    val feature = AbstractAquaticSeriesLib.INSTANCE.features[Features.STATISTIC] ?: return null
+    val feature = AquaticSeriesLib.INSTANCE.features[Features.STATISTIC] ?: return null
     return (feature as StatisticHandler).cache[this.uniqueId]
 }

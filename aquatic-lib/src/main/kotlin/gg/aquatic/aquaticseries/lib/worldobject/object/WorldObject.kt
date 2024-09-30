@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.worldobject.`object`
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.worldobject.WorldObjectHandler
 import org.bukkit.Chunk
 import org.bukkit.Location
@@ -24,7 +24,7 @@ abstract class WorldObject {
         }
     val namespaceKey: NamespacedKey
         get() {
-            return NamespacedKey(AbstractAquaticSeriesLib.INSTANCE.plugin, namespace)
+            return NamespacedKey(AquaticSeriesLib.INSTANCE.plugin, namespace)
         }
 
     fun register() {

@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.input
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.feature.Features
 import gg.aquatic.aquaticseries.lib.feature.IFeature
 import gg.aquatic.aquaticseries.lib.input.type.chat.ChatInputHandler
@@ -17,7 +17,7 @@ object InputHandler : IFeature, IHandler {
         ChatInputHandler
     )
 
-    override fun initialize(lib: AbstractAquaticSeriesLib) {
+    override fun initialize(lib: AquaticSeriesLib) {
         Listeners().register()
     }
 

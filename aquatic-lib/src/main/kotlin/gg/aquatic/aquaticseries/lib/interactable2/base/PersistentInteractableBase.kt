@@ -2,7 +2,7 @@ package gg.aquatic.aquaticseries.lib.interactable2.base
 
 import com.google.gson.Gson
 import com.jeff_media.customblockdata.CustomBlockData
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.audience.WhitelistAudience
 import gg.aquatic.aquaticseries.lib.interactable2.AbstractInteractable
 import gg.aquatic.aquaticseries.lib.interactable2.AbstractSpawnedPacketInteractable
@@ -50,7 +50,7 @@ class PersistentInteractableBase : InteractableBase, PersistentWorldObject() {
     class Serializer(val base: PersistentInteractableBase) : WorldObjectSerializer<PersistentInteractableBase>() {
 
         companion object {
-            val namespacedKey = NamespacedKey(AbstractAquaticSeriesLib.INSTANCE.plugin, "aquatic-interactable-data")
+            val namespacedKey = NamespacedKey(AquaticSeriesLib.INSTANCE.plugin, "aquatic-interactable-data")
             val GSON = Gson()
         }
 

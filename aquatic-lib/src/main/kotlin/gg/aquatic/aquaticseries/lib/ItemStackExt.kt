@@ -19,13 +19,13 @@ fun String.decodeToItemStack(): ItemStack {
 }
 
 fun ItemStack.displayName(string: AquaticString) {
-    AbstractAquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.displayName(string, this)
+    AquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.displayName(string, this)
 }
 fun ItemStack.lore(vararg strings: AquaticString) {
-    AbstractAquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.lore(strings = strings, this)
+    AquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.lore(strings = strings, this)
 }
 fun ItemStack.lore(strings: List<AquaticString>) {
-    AbstractAquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.lore(strings = strings, this)
+    AquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.lore(strings = strings, this)
 }
 fun ItemStack.setSpawnerType(type: EntityType) {
     val meta = itemMeta ?: return
@@ -34,13 +34,13 @@ fun ItemStack.setSpawnerType(type: EntityType) {
 }
 
 fun ItemMeta.displayName(string: AquaticString) {
-    AbstractAquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.displayName(string, this)
+    AquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.displayName(string, this)
 }
 fun ItemMeta.lore(vararg strings: AquaticString) {
-    AbstractAquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.lore(strings = strings, this)
+    AquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.lore(strings = strings, this)
 }
 fun ItemMeta.lore(strings: List<AquaticString>) {
-    AbstractAquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.lore(strings = strings, this)
+    AquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.lore(strings = strings, this)
 }
 fun ItemMeta.setSpawnerType(type: EntityType) {
     if (this !is BlockStateMeta) return
@@ -50,12 +50,12 @@ fun ItemMeta.setSpawnerType(type: EntityType) {
 }
 
 fun ItemMeta.updatePlaceholders(player: Player, placeholders: Placeholders): ItemMeta {
-    val aDiplayName = AbstractAquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.getAquaticDisplayName(this)
+    val aDiplayName = AquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.getAquaticDisplayName(this)
     if (aDiplayName != null) {
         this.displayName(placeholders.replace(aDiplayName.string).toAquatic())
     }
 
-    val aLore = AbstractAquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.getAquaticLore(this)
+    val aLore = AquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.getAquaticLore(this)
     this.lore(aLore.map { placeholders.replace(it.string).toAquatic() })
 
     return this

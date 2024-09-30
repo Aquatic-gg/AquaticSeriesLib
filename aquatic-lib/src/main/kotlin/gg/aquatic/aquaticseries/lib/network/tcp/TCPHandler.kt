@@ -1,15 +1,14 @@
 package gg.aquatic.aquaticseries.lib.network.tcp
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
-import gg.aquatic.aquaticseries.lib.util.call
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.network.*
 import gg.aquatic.aquaticseries.lib.network.event.ServerNetworkConnectEvent
 import gg.aquatic.aquaticseries.lib.network.event.ServerNetworkDisconnectEvent
+import gg.aquatic.aquaticseries.lib.util.call
 import org.bukkit.scheduler.BukkitRunnable
 import java.net.ServerSocket
 import java.net.Socket
 import java.util.concurrent.CompletableFuture
-import kotlin.collections.HashMap
 
 class TCPHandler(
     val networkPacketListener: NetworkPacketListener,
@@ -70,7 +69,7 @@ class TCPHandler(
                     }
                 }
             }
-        }.runTaskTimer(AbstractAquaticSeriesLib.INSTANCE.plugin, 40, 40)
+        }.runTaskTimer(AquaticSeriesLib.INSTANCE.plugin, 40, 40)
 
     }
 

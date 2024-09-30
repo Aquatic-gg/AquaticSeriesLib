@@ -1,9 +1,11 @@
 package gg.aquatic.aquaticseries.lib.network.redis
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.network.*
 import gg.aquatic.aquaticseries.lib.network.event.ServerNetworkDisconnectEvent
-import gg.aquatic.aquaticseries.lib.network.redis.packet.*
+import gg.aquatic.aquaticseries.lib.network.redis.packet.RedisServerConnectPacket
+import gg.aquatic.aquaticseries.lib.network.redis.packet.RedisServerDisconnectPacket
+import gg.aquatic.aquaticseries.lib.network.redis.packet.RedisServerPingPacket
 import gg.aquatic.aquaticseries.lib.util.call
 import gg.aquatic.aquaticseries.lib.util.runSync
 import org.bukkit.scheduler.BukkitRunnable
@@ -76,7 +78,7 @@ class RedisHandler(
                     send(RedisServerConnectPacket(server)).thenAccept {}
                 }
             }
-        }.runTaskTimer(AbstractAquaticSeriesLib.INSTANCE.plugin, 20 * 60, 20 * 60)
+        }.runTaskTimer(AquaticSeriesLib.INSTANCE.plugin, 20 * 60, 20 * 60)
 
         object : BukkitRunnable() {
             override fun run() {
@@ -87,7 +89,7 @@ class RedisHandler(
                     }
                 }
             }
-        }.runTaskTimer(AbstractAquaticSeriesLib.INSTANCE.plugin, 40, 40)
+        }.runTaskTimer(AquaticSeriesLib.INSTANCE.plugin, 40, 40)
 
         return future
     }

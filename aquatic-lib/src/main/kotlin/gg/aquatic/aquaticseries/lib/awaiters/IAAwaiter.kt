@@ -1,13 +1,13 @@
 package gg.aquatic.aquaticseries.lib.awaiters
 
 import dev.lone.itemsadder.api.Events.ItemsAdderLoadDataEvent
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.register
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import java.util.concurrent.CompletableFuture
 
-class IAAwaiter(val lib: AbstractAquaticSeriesLib): AbstractAwaiter() {
+class IAAwaiter(val lib: AquaticSeriesLib): AbstractAwaiter() {
     override val future: CompletableFuture<Void> = CompletableFuture()
 
     init {

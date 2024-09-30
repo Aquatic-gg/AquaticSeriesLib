@@ -12,6 +12,8 @@ repositories {
     mavenCentral()
 }
 
+val nmsVersion = "1.0.31"
+
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT")
     implementation(project(":core"))
@@ -19,6 +21,30 @@ dependencies {
     implementation(project(":spigot"))
     compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0")
     compileOnly("com.zaxxer:HikariCP:5.1.0")
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_17_1:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_18_2:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_19_4:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_20_1:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_20_4:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_20_6:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_21:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
+    implementation("gg.aquatic.aquaticseries.nms:NMS_v1_21_1:$nmsVersion") {
+        exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
+    }
 }
 
 tasks {
@@ -57,6 +83,14 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
         include(project(":spigot"))
         include(project(":paper"))
         include(project(":core"))
+        include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_17_1"))
+        include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_18_2"))
+        include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_19_4"))
+        include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_20_1"))
+        include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_20_4"))
+        include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_20_6"))
+        include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_21"))
+        include(dependency("gg.aquatic.aquaticseries.nms:NMS_v1_21_1"))
         include(dependency("com.jeff-media:custom-block-data:2.2.2"))
     }
 }

@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.betterinventory2
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.betterinventory2.component.InventoryComponent
 import gg.aquatic.aquaticseries.lib.displayName
@@ -14,7 +14,7 @@ import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.ItemStack
-import java.util.UUID
+import java.util.*
 import java.util.function.BiConsumer
 
 open class AquaticInventory(
@@ -32,13 +32,13 @@ open class AquaticInventory(
     private val inventory: Inventory = createInventory()
 
     private fun createInventory(): Inventory {
-        return if (inventoryType != null) AbstractAquaticSeriesLib.INSTANCE.adapter.inventoryAdapter.create(
+        return if (inventoryType != null) AquaticSeriesLib.INSTANCE.adapter.inventoryAdapter.create(
             title,
             this,
             inventoryType
         )
         else {
-            AbstractAquaticSeriesLib.INSTANCE.adapter.inventoryAdapter.create(
+            AquaticSeriesLib.INSTANCE.adapter.inventoryAdapter.create(
                 title,
                 this,
                 size
@@ -284,7 +284,7 @@ open class AquaticInventory(
     fun sendTitleUpdate(newTitle: AquaticString) {
         for (viewer in inventory.viewers) {
             if (viewer !is Player) continue
-            AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.sendTitleUpdate(
+            AquaticSeriesLib.INSTANCE.nmsAdapter!!.sendTitleUpdate(
                 viewer, newTitle
             )
         }
@@ -304,7 +304,7 @@ open class AquaticInventory(
             content[slot] = itemStack
         }
         if (slot >= size) {
-            AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.setContainerItem(player, itemStack, slot)
+            AquaticSeriesLib.INSTANCE.nmsAdapter!!.setContainerItem(player, itemStack, slot)
         } else {
             inventory.setItem(slot, itemStack)
         }
@@ -317,7 +317,7 @@ open class AquaticInventory(
         val textUpdater = component.textUpdater
 
         var updated = false
-        val previousName = AbstractAquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.getAquaticDisplayName(itemMeta)
+        val previousName = AquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.getAquaticDisplayName(itemMeta)
         if (previousName != null) {
             val updatedName = textUpdater.apply(player, previousName.string).toAquatic()
             if (previousName.string != updatedName.string) {
@@ -326,7 +326,7 @@ open class AquaticInventory(
             }
         }
 
-        val previousLore = AbstractAquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.getAquaticLore(itemMeta)
+        val previousLore = AquaticSeriesLib.INSTANCE.adapter.itemStackAdapter.getAquaticLore(itemMeta)
         val newLore = ArrayList<AquaticString>()
         for (aquaticString in previousLore) {
             val updatedLore = textUpdater.apply(player, aquaticString.string).toAquatic()

@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.packet
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.feature.Features
 import gg.aquatic.aquaticseries.lib.feature.IFeature
 import org.bukkit.Bukkit
@@ -12,10 +12,10 @@ import org.bukkit.event.player.PlayerQuitEvent
 object PacketHandler: IFeature {
     override val type: Features = Features.PACKET_LISTENER
 
-    override fun initialize(lib: AbstractAquaticSeriesLib) {
+    override fun initialize(lib: AquaticSeriesLib) {
         lib.plugin.server.pluginManager.registerEvents(Listeners(), lib.plugin)
         for (onlinePlayer in Bukkit.getOnlinePlayers()) {
-            AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.packetListenerAdapter().inject(onlinePlayer)
+            AquaticSeriesLib.INSTANCE.nmsAdapter!!.packetListenerAdapter().inject(onlinePlayer)
         }
     }
 
@@ -23,12 +23,12 @@ object PacketHandler: IFeature {
 
         @EventHandler
         fun PlayerJoinEvent.onJoin() {
-            AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.packetListenerAdapter().inject(player)
+            AquaticSeriesLib.INSTANCE.nmsAdapter!!.packetListenerAdapter().inject(player)
         }
 
         @EventHandler
         fun PlayerQuitEvent.onQuit() {
-            AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.packetListenerAdapter().eject(player)
+            AquaticSeriesLib.INSTANCE.nmsAdapter!!.packetListenerAdapter().eject(player)
         }
 
     }

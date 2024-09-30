@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.betterhologram.impl
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.audience.WhitelistAudience
 import gg.aquatic.aquaticseries.lib.betterhologram.AquaticHologram
@@ -19,7 +19,6 @@ import org.joml.Vector3f
 import java.util.*
 import java.util.function.BiFunction
 import java.util.function.Function
-import kotlin.collections.HashMap
 
 class TextDisplayLine(
     override val filter: Function<Player, Boolean>,
@@ -30,7 +29,7 @@ class TextDisplayLine(
 
     val nmsAdapter: NMSAdapter
         get() {
-            return AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!
+            return AquaticSeriesLib.INSTANCE.nmsAdapter!!
         }
 
     var currentKeyframe: TextDisplayKeyframe = keyFrames.firstEntry().value
@@ -142,7 +141,7 @@ class TextDisplayLine(
                     e.billboard = Billboard.FIXED
                 }
             }
-            AbstractAquaticSeriesLib.INSTANCE.adapter.setDisplayText(e, state.text.toAquatic())
+            AquaticSeriesLib.INSTANCE.adapter.setDisplayText(e, state.text.toAquatic())
         }, WhitelistAudience(mutableListOf(player.uniqueId)))
 
         if (billboard == AquaticHologram.Billboard.LOOK_AT_PLAYER && location != null) {

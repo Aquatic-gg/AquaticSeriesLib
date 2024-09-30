@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.util
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import org.bukkit.Bukkit
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
@@ -22,7 +22,7 @@ inline fun <reified T : Event> event(
                 callback.accept(event)
             }
         },
-        AbstractAquaticSeriesLib.INSTANCE.plugin,
+        AquaticSeriesLib.INSTANCE.plugin,
         ignoredCancelled
     )
     return listener

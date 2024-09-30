@@ -1,11 +1,11 @@
 package gg.aquatic.aquaticseries.lib.feature
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 
 interface IFeature {
 
     val type: Features
 
-    fun initialize(lib: AbstractAquaticSeriesLib)
+    fun initialize(lib: AquaticSeriesLib)
 
 }

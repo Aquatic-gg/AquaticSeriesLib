@@ -12,12 +12,12 @@ class Config {
     private var main: JavaPlugin
 
     constructor(path: String) {
-        main = AbstractAquaticSeriesLib.INSTANCE.plugin
+        main = AquaticSeriesLib.INSTANCE.plugin
         file = File(main.dataFolder, path)
     }
 
     constructor(file: File) {
-        main = AbstractAquaticSeriesLib.INSTANCE.plugin
+        main = AquaticSeriesLib.INSTANCE.plugin
         this.file = file
     }
     constructor(file: File, main: JavaPlugin) {

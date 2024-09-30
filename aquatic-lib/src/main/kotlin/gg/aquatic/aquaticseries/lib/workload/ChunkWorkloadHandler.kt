@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.workload
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import org.bukkit.Bukkit
 import org.bukkit.Chunk
 import org.bukkit.event.EventHandler
@@ -25,7 +25,7 @@ class ChunkWorkloadHandler private constructor(){
     }
 
     init {
-        Bukkit.getPluginManager().registerEvents(Listeners(), AbstractAquaticSeriesLib.INSTANCE.plugin)
+        Bukkit.getPluginManager().registerEvents(Listeners(), AquaticSeriesLib.INSTANCE.plugin)
     }
 
     private inner class Listeners: Listener {

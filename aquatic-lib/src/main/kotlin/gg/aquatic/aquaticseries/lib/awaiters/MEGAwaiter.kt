@@ -3,13 +3,13 @@ package gg.aquatic.aquaticseries.lib.awaiters
 import com.ticxo.modelengine.api.ModelEngineAPI
 import com.ticxo.modelengine.api.events.ModelRegistrationEvent
 import com.ticxo.modelengine.api.generator.ModelGenerator
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.register
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
-import gg.aquatic.aquaticseries.lib.register
 import java.util.concurrent.CompletableFuture
 
-class MEGAwaiter(val lib: AbstractAquaticSeriesLib): AbstractAwaiter() {
+class MEGAwaiter(val lib: AquaticSeriesLib): AbstractAwaiter() {
     override val future: CompletableFuture<Void> = CompletableFuture()
 
     init {

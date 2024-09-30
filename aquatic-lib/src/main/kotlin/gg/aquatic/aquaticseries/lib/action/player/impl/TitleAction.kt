@@ -1,12 +1,11 @@
 package gg.aquatic.aquaticseries.lib.action.player.impl
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.action.AbstractAction
 import gg.aquatic.aquaticseries.lib.replace
 import gg.aquatic.aquaticseries.lib.toAquatic
 import gg.aquatic.aquaticseries.lib.util.argument.AquaticObjectArgument
 import gg.aquatic.aquaticseries.lib.util.argument.impl.PrimitiveObjectArgument
-import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import org.bukkit.entity.Player
 import java.util.function.BiFunction
 
@@ -18,7 +17,7 @@ class TitleAction : AbstractAction<Player>() {
         val stay = args["stay"] as Int
         val fadeOut = args["fadeOut"] as Int
 
-        AbstractAquaticSeriesLib.INSTANCE.adapter.titleAdapter.send(
+        AquaticSeriesLib.INSTANCE.adapter.titleAdapter.send(
             player,
             title.toAquatic().replace(textUpdater, player),
             subtitle.toAquatic().replace(textUpdater, player),

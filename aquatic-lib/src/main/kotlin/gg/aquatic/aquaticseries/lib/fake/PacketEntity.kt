@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.fake
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.audience.AquaticAudience
 import gg.aquatic.aquaticseries.lib.audience.WhitelistAudience
 import gg.aquatic.aquaticseries.lib.fake.event.PacketEntityInteractEvent
@@ -21,12 +21,12 @@ class PacketEntity(
     }
 
     override fun sendDespawnPacket(vararg players: Player) {
-        AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.despawnEntity(listOf(entityId), WhitelistAudience(players.map { it.uniqueId }.toMutableList()))
+        AquaticSeriesLib.INSTANCE.nmsAdapter!!.despawnEntity(listOf(entityId), WhitelistAudience(players.map { it.uniqueId }.toMutableList()))
     }
 
     override fun sendSpawnPacket(vararg players: Player) {
         for (player in players) {
-            AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.resendEntitySpawnPacket(player, entityId)
+            AquaticSeriesLib.INSTANCE.nmsAdapter!!.resendEntitySpawnPacket(player, entityId)
         }
     }
 
@@ -55,6 +55,6 @@ class PacketEntity(
 
     val bukkitEntity: org.bukkit.entity.Entity?
         get() {
-            return AbstractAquaticSeriesLib.INSTANCE.nmsAdapter!!.getEntity(entityId)
+            return AquaticSeriesLib.INSTANCE.nmsAdapter!!.getEntity(entityId)
         }
 }

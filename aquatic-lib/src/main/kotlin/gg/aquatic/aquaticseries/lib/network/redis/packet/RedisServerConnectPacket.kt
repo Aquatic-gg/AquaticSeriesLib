@@ -1,7 +1,7 @@
 package gg.aquatic.aquaticseries.lib.network.redis.packet
 
 import com.google.gson.Gson
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.network.NetworkPacket
 import gg.aquatic.aquaticseries.lib.network.NetworkPacketHandler
 import gg.aquatic.aquaticseries.lib.network.PacketSerializer
@@ -34,7 +34,7 @@ class RedisServerConnectPacket(override val channel: String) : NetworkPacket() {
         override fun handle(packet: SignedNetworkPacket): CompletableFuture<String> {
             val response = CompletableFuture.completedFuture("")
 
-            val npl = AbstractAquaticSeriesLib.INSTANCE.networkPacketListener ?: return response
+            val npl = AquaticSeriesLib.INSTANCE.networkPacketListener ?: return response
             val redisAdapter = npl.adapter as? RedisHandler ?: return response
 
             redisAdapter.connectedServers += packet.sentFrom

@@ -1,6 +1,6 @@
 package gg.aquatic.aquaticseries.lib.fake
 
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.NMSEntityInteractEvent
 import gg.aquatic.aquaticseries.lib.PlayerChunkLoadEvent
 import gg.aquatic.aquaticseries.lib.fake.event.PacketBlockInteractEvent
@@ -21,7 +21,7 @@ object FakeObjectHandler : IFeature {
 
     val registry = FakeObjectRegistry()
 
-    override fun initialize(lib: AbstractAquaticSeriesLib) {
+    override fun initialize(lib: AquaticSeriesLib) {
         Listeners().register()
     }
 

@@ -1,11 +1,14 @@
 package gg.aquatic.aquaticseries.lib.worldobject
 
 import com.jeff_media.customblockdata.CustomBlockData
-import gg.aquatic.aquaticseries.lib.AbstractAquaticSeriesLib
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.chunkcache.location.LocationCacheHandler
 import gg.aquatic.aquaticseries.lib.feature.Features
 import gg.aquatic.aquaticseries.lib.feature.IFeature
-import gg.aquatic.aquaticseries.lib.worldobject.`object`.*
+import gg.aquatic.aquaticseries.lib.worldobject.`object`.PersistentWorldObject
+import gg.aquatic.aquaticseries.lib.worldobject.`object`.SpawnedWorldChildrenObject
+import gg.aquatic.aquaticseries.lib.worldobject.`object`.SpawnedWorldObject
+import gg.aquatic.aquaticseries.lib.worldobject.`object`.WorldObject
 import org.bukkit.Location
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -20,7 +23,7 @@ object WorldObjectHandler: IFeature {
 
     override val type: Features = Features.WORLD_OBJECTS
 
-    override fun initialize(lib: AbstractAquaticSeriesLib) {
+    override fun initialize(lib: AquaticSeriesLib) {
         lib.plugin.server.pluginManager.registerEvents(Listeners(), lib.plugin)
     }
 

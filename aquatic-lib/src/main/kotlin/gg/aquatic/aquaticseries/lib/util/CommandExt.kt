@@ -8,6 +8,7 @@ import org.bukkit.command.SimpleCommandMap
 import java.lang.reflect.Field
 
 fun Command.register(namespace: String) {
+    unregister()
     Bukkit.getServer().commandMap().register(namespace, this)
 }
 
