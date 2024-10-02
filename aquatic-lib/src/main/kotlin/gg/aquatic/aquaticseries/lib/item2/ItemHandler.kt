@@ -21,7 +21,7 @@ object ItemHandler {
         "ITEMSADDER" to IAFactory
     )
 
-    val itemRegistry = java.util.HashMap<String, AquaticItem>()
+    //val itemRegistry = java.util.HashMap<String, AquaticItem>()
 
     val NAMESPACE_KEY = NamespacedKey(AquaticSeriesLib.INSTANCE.plugin, "Custom_Item_Registry")
 
