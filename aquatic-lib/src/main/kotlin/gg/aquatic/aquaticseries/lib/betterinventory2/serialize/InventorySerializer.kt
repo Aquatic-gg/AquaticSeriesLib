@@ -6,13 +6,13 @@ import gg.aquatic.aquaticseries.lib.betterinventory2.action.ConfiguredActionWith
 import gg.aquatic.aquaticseries.lib.betterinventory2.action.ConfiguredActionsWithConditions
 import gg.aquatic.aquaticseries.lib.betterinventory2.action.ConfiguredConditionWithFailActions
 import gg.aquatic.aquaticseries.lib.getSectionList
-import gg.aquatic.aquaticseries.lib.item.CustomItem
+import gg.aquatic.aquaticseries.lib.item2.AquaticItem
 import gg.aquatic.aquaticseries.lib.requirement.player.PlayerRequirementSerializer
 import gg.aquatic.aquaticseries.lib.toAquatic
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
-import java.util.TreeMap
+import java.util.*
 import java.util.function.Function
 
 object InventorySerializer {
@@ -101,7 +101,7 @@ object InventorySerializer {
                 frames
             )
         } else {
-            val item = CustomItem.loadFromYaml(section) ?: return null
+            val item = AquaticItem.loadFromYaml(section) ?: return null
             val slots = loadSlotSelection(section.getStringList("slots"))
             if (slots.slots.isEmpty()) {
                 slots.slots += section.getInt("slot")

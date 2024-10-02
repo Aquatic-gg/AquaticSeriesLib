@@ -5,7 +5,7 @@ import gg.aquatic.aquaticseries.lib.betterhologram.impl.EmptyLine
 import gg.aquatic.aquaticseries.lib.betterhologram.impl.ItemDisplayLine
 import gg.aquatic.aquaticseries.lib.betterhologram.impl.TextDisplayLine
 import gg.aquatic.aquaticseries.lib.getSectionList
-import gg.aquatic.aquaticseries.lib.item.CustomItem
+import gg.aquatic.aquaticseries.lib.item2.AquaticItem
 import gg.aquatic.aquaticseries.lib.requirement.ConfiguredRequirement
 import gg.aquatic.aquaticseries.lib.requirement.player.PlayerRequirementSerializer
 import gg.aquatic.aquaticseries.lib.toAquatic
@@ -14,7 +14,7 @@ import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Display.Billboard
 import org.bukkit.entity.ItemDisplay.ItemDisplayTransform
 import org.bukkit.entity.Player
-import java.util.TreeMap
+import java.util.*
 import java.util.function.Function
 
 object HologramSerializer {
@@ -114,7 +114,7 @@ object HologramSerializer {
     }
 
     private fun loadItemKeyframe(section: ConfigurationSection): ItemDisplayLine.ItemDisplayKeyframe? {
-        val item = CustomItem.loadFromYaml(section) ?: return null
+        val item = AquaticItem.loadFromYaml(section) ?: return null
         val height = section.getDouble("height", 0.3)
         val scale = section.getDouble("scale", 1.0).toFloat()
         val billboard = Billboard.valueOf(section.getString("billboard", "CENTER")!!)

@@ -3,7 +3,7 @@ package gg.aquatic.aquaticseries.lib.betterinventory2.serialize
 import gg.aquatic.aquaticseries.lib.betterinventory2.SlotSelection
 import gg.aquatic.aquaticseries.lib.betterinventory2.component.ButtonComponent
 import gg.aquatic.aquaticseries.lib.betterinventory2.component.InventoryComponent
-import gg.aquatic.aquaticseries.lib.item.CustomItem
+import gg.aquatic.aquaticseries.lib.item2.AquaticItem
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import java.util.function.BiFunction
@@ -14,7 +14,7 @@ class StaticButtonSettings(
     id: String, priority: Int,
     viewConditions: HashMap<Function<Player, Boolean>, ButtonSettings?>,
     failItem: ButtonSettings?, onClick: ClickSettings, updateEvery: Int,
-    val item: CustomItem,
+    val item: AquaticItem,
     val slotSelection: SlotSelection
 ) : ButtonSettings(id, priority, viewConditions, failItem, onClick, updateEvery) {
 

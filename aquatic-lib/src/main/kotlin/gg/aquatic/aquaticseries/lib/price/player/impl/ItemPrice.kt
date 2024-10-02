@@ -1,16 +1,16 @@
 package gg.aquatic.aquaticseries.lib.price.player.impl
 
-import gg.aquatic.aquaticseries.lib.item.CustomItem
+import gg.aquatic.aquaticseries.lib.item2.AquaticItem
 import gg.aquatic.aquaticseries.lib.price.AbstractPrice
 import gg.aquatic.aquaticseries.lib.util.argument.AquaticObjectArgument
-import org.bukkit.Material
-import org.bukkit.entity.Player
 import gg.aquatic.aquaticseries.lib.util.argument.impl.ItemObjectArgument
 import gg.aquatic.aquaticseries.lib.util.toCustomItem
+import org.bukkit.Material
+import org.bukkit.entity.Player
 
 class ItemPrice : AbstractPrice<Player>() {
     override fun take(binder: Player, arguments: Map<String, Any?>) {
-        val item = (arguments["item"]!! as CustomItem).getItem()
+        val item = (arguments["item"]!! as AquaticItem).getItem()
         var amount = item.amount
         for (content in binder.inventory.contents) {
             content ?: continue
@@ -27,7 +27,7 @@ class ItemPrice : AbstractPrice<Player>() {
     }
 
     override fun give(binder: Player, arguments: Map<String, Any?>) {
-        val item = (arguments["item"]!! as CustomItem).getItem()
+        val item = (arguments["item"]!! as AquaticItem).getItem()
         val toDrop = binder.inventory.addItem(item)
         for (value in toDrop.values) {
             binder.location.world!!.dropItem(binder.location, value)
@@ -39,7 +39,7 @@ class ItemPrice : AbstractPrice<Player>() {
     }
 
     override fun has(binder: Player, arguments: Map<String, Any?>): Boolean {
-        val item = (arguments["item"]!! as CustomItem).getItem()
+        val item = (arguments["item"]!! as AquaticItem).getItem()
         var amount = item.amount
         for (content in binder.inventory.contents) {
             content ?: continue

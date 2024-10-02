@@ -12,7 +12,7 @@ repositories {
     mavenCentral()
 }
 
-val nmsVersion = "1.0.31"
+val nmsVersion = "1.0.33"
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT")

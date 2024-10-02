@@ -1,8 +1,10 @@
 package gg.aquatic.aquaticseries.lib.util
 
-import gg.aquatic.aquaticseries.lib.item.CustomItem
+import gg.aquatic.aquaticseries.lib.item2.AquaticItem
+import gg.aquatic.aquaticseries.lib.item2.ItemHandler
 import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
 
-fun Material.toCustomItem(): CustomItem {
-    return CustomItem.create("$this",null,null,1,-1,null,null, null)
+fun Material.toCustomItem(): AquaticItem {
+    return ItemHandler.create(ItemStack(this))
 }
