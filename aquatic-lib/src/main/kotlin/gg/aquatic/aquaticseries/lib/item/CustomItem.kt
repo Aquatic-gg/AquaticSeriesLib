@@ -5,6 +5,7 @@ import gg.aquatic.aquaticseries.lib.displayName
 import gg.aquatic.aquaticseries.lib.lore
 import gg.aquatic.aquaticseries.lib.setSpawnerType
 import gg.aquatic.aquaticseries.lib.toAquatic
+import net.advancedplugins.ae.api.AEAPI
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.configuration.ConfigurationSection
@@ -24,7 +25,7 @@ abstract class CustomItem(
     abstract val description: MutableList<String>?
     abstract val amount: Int
     abstract val modelData: Int
-    abstract val enchantments: MutableMap<Enchantment, Int>?
+    abstract val enchantments: MutableMap<String, Int>?
     abstract val flags: MutableList<ItemFlag>?
     abstract val spawnerEntityType: EntityType?
 
@@ -75,13 +76,33 @@ abstract class CustomItem(
         enchantments?.apply {
             if (iS.type == Material.ENCHANTED_BOOK) {
                 val esm = im as EnchantmentStorageMeta
-                this.forEach { (t, u) ->
-                    esm.addStoredEnchant(t, u, true)
+                for ((ench, level) in this) {
+                    if (ench.uppercase().startsWith("AE-")) continue
+                    if (ench.uppercase() == "AE-SLOTS") continue
+
+                    getEnchantmentByString(ench)?.apply {
+                        esm.addStoredEnchant(this, level, true)
+                    }
                 }
                 iS.itemMeta = esm
             } else {
                 iS.itemMeta = im
-                iS.addUnsafeEnchantments(this)
+                for ((ench, level) in this) {
+                    if (ench.uppercase() == "AE-SLOTS") {
+                        AEAPI.setTotalSlots(
+                            iS,
+                            level
+                        )
+                        continue
+                    }
+                    if (ench.uppercase().startsWith("AE-")) {
+                        AEAPI.applyEnchant(ench.substringBefore("AE-"), level, iS)
+                        continue
+                    }
+                    getEnchantmentByString(ench)?.apply {
+                        iS.addUnsafeEnchantment(this,level)
+                    }
+                }
             }
         }
 
@@ -103,7 +124,7 @@ abstract class CustomItem(
         private var displayName: AquaticString? = null
         private var amount: Int = 1
         private var modelData: Int = -1
-        private var enchantments: MutableMap<Enchantment, Int>? = null
+        private var enchantments: MutableMap<String, Int>? = null
         private var flags: MutableList<ItemFlag>? = null
         private var spawnerEntityType: EntityType? = null
 
@@ -111,26 +132,32 @@ abstract class CustomItem(
             this.lore = lore
             return this
         }
+
         fun displayName(displayName: AquaticString?): Builder {
             this.displayName = displayName
             return this
         }
+
         fun amount(amount: Int): Builder {
             this.amount = amount
             return this
         }
+
         fun modelData(modelData: Int): Builder {
             this.modelData = modelData
             return this
         }
-        fun enchantments(enchantments: MutableMap<Enchantment, Int>?): Builder {
+
+        fun enchantments(enchantments: MutableMap<String, Int>?): Builder {
             this.enchantments = enchantments
             return this
         }
+
         fun flags(flags: MutableList<ItemFlag>?): Builder {
             this.flags = flags
             return this
         }
+
         fun spawnerEntityType(spawnerEntityType: EntityType?): Builder {
             this.spawnerEntityType = spawnerEntityType
             return this
@@ -139,13 +166,20 @@ abstract class CustomItem(
         constructor(material: Material) : this(material.toString())
 
         fun build(): CustomItem {
-            return create(type, displayName?.string, lore?.map { it.string }?.toMutableList(), amount, modelData, enchantments, flags, spawnerEntityType)
+            return create(
+                type,
+                displayName?.string,
+                lore?.map { it.string }?.toMutableList(),
+                amount,
+                modelData,
+                enchantments,
+                flags,
+                spawnerEntityType
+            )
         }
     }
 
     companion object {
-
-        val customItemHandler: CustomItemHandler = CustomItemHandler
 
         private fun getEnchantmentByString(ench: String): Enchantment? {
             return Enchantment.getByKey(NamespacedKey.minecraft(ench.lowercase(Locale.getDefault())))
@@ -168,7 +202,7 @@ abstract class CustomItem(
             description: MutableList<String>?,
             amount: Int,
             modeldata: Int,
-            enchantments: MutableMap<Enchantment, Int>?,
+            enchantments: MutableMap<String, Int>?,
             flags: MutableList<ItemFlag>?,
             spawnerEntityType: EntityType?
         ): CustomItem {
@@ -190,14 +224,14 @@ abstract class CustomItem(
             if (section.contains("lore")) {
                 lore = section.getStringList("lore")
             }
-            val enchantments: MutableMap<Enchantment, Int> = HashMap()
+            val enchantments: MutableMap<String, Int> = HashMap()
             if (section.contains("enchants")) {
                 for (str in section.getStringList("enchants")) {
                     val strs = str.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                     if (strs.size < 2) {
                         continue
                     }
-                    val enchantment = getEnchantmentByString(strs[0]) ?: continue
+                    val enchantment = strs[0]
                     val level = strs[1].toInt()
                     enchantments[enchantment] = level
                 }

@@ -9,7 +9,6 @@ import gg.aquatic.aquaticseries.lib.item.factory.impl.OraxenFactory
 import gg.aquatic.aquaticseries.lib.item.impl.VanillaItem
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
-import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemFlag
 import java.util.*
@@ -37,7 +36,7 @@ object CustomItemHandler {
         description: MutableList<String>?,
         amount: Int,
         modeldata: Int,
-        enchantments: MutableMap<Enchantment, Int>?,
+        enchantments: MutableMap<String, Int>?,
         flags: MutableList<ItemFlag>?,
         spawnerEntityType: EntityType?
     ): CustomItem {

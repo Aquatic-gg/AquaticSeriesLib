@@ -21,6 +21,7 @@ dependencies {
     implementation(project(":spigot"))
     compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0")
     compileOnly("com.zaxxer:HikariCP:5.1.0")
+    compileOnly("gg.aquatic:AEAPI:1.0")
     implementation("gg.aquatic.aquaticseries.nms:NMS_v1_17_1:$nmsVersion") {
         exclude("gg.aquatic.aquaticseries.nms", "AquaticNMS")
     }
