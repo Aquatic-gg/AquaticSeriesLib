@@ -27,8 +27,8 @@ class MySqlDriver(
     val dataSource = HikariDataSource(config)
 
 
-    override fun executeQuery(sql: String, preparedStatement: PreparedStatement.() -> Unit, resultSet: ResultSet.() -> Unit) {
-        getConnection().use { connection ->
+    override fun <T> executeQuery(sql: String, preparedStatement: PreparedStatement.() -> Unit, resultSet: ResultSet.() -> T): T {
+        return getConnection().use { connection ->
             connection.prepareStatement(sql).use { statement ->
                 preparedStatement(statement)
                 resultSet(statement.executeQuery())
@@ -54,22 +54,22 @@ class MySqlDriver(
         }
     }
 
-    override fun preparedStatement(sql: String, preparedStatement: PreparedStatement.() -> Unit) {
-        useConnection {
+    override fun <T> preparedStatement(sql: String, preparedStatement: PreparedStatement.() -> T): T {
+        return useConnection {
             prepareStatement(sql).use { statement ->
                 preparedStatement(statement)
             }
         }
     }
 
-    override fun useConnection(connection: Connection.() -> Unit) {
+    override fun <T> useConnection(connection: Connection.() -> T): T {
         getConnection().use {
-            connection(it)
+            return connection(it)
         }
     }
 
-    override fun statement(statement: Statement.() -> Unit) {
-        useConnection {
+    override fun <T> statement(statement: Statement.() -> T): T {
+        return useConnection {
             createStatement().use { s ->
                 statement(s)
             }

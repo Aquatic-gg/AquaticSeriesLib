@@ -6,10 +6,10 @@ import java.sql.ResultSet
 import java.sql.Statement
 
 interface DataDriver {
-    fun executeQuery(sql: String, preparedStatement: PreparedStatement.() -> Unit, resultSet: ResultSet.() -> Unit)
+    fun <T> executeQuery(sql: String, preparedStatement: PreparedStatement.() -> Unit, resultSet: ResultSet.() -> T): T
     fun executeBatch(sql: String, preparedStatement: PreparedStatement.() -> Unit): IntArray
     fun execute(sql: String, preparedStatement: PreparedStatement.() -> Unit): Boolean
-    fun preparedStatement(sql: String, preparedStatement: PreparedStatement.() -> Unit)
-    fun useConnection(connection: Connection.() -> Unit)
-    fun statement(statement: Statement.() -> Unit)
+    fun <T> preparedStatement(sql: String, preparedStatement: PreparedStatement.() -> T): T
+    fun <T> useConnection(connection: Connection.() -> T): T
+    fun <T> statement(statement: Statement.() -> T): T
 }

@@ -22,8 +22,8 @@ class SQLiteDriver(
             return this._activeConnection
         }
 
-    override fun executeQuery(sql: String, preparedStatement: PreparedStatement.() -> Unit, resultSet: ResultSet.() -> Unit) {
-        activeConnection.prepareStatement(sql).use { statement ->
+    override fun <T> executeQuery(sql: String, preparedStatement: PreparedStatement.() -> Unit, resultSet: ResultSet.() -> T): T {
+        return activeConnection.prepareStatement(sql).use { statement ->
             preparedStatement(statement)
             resultSet(statement.executeQuery())
         }
@@ -43,18 +43,18 @@ class SQLiteDriver(
         }
     }
 
-    override fun preparedStatement(sql: String, preparedStatement: PreparedStatement.() -> Unit) {
-        activeConnection.prepareStatement(sql).use { statement ->
+    override fun <T> preparedStatement(sql: String, preparedStatement: PreparedStatement.() -> T): T {
+        return activeConnection.prepareStatement(sql).use { statement ->
             preparedStatement(statement)
         }
     }
 
-    override fun useConnection(connection: Connection.() -> Unit) {
-        connection(activeConnection)
+    override fun <T> useConnection(connection: Connection.() -> T): T {
+        return connection(activeConnection)
     }
 
-    override fun statement(statement: Statement.() -> Unit) {
-        useConnection {
+    override fun <T> statement(statement: Statement.() -> T): T {
+        return useConnection {
             createStatement().use { s ->
                 statement(s)
             }
