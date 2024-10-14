@@ -1,12 +1,10 @@
 package gg.aquatic.aquaticseries.lib.item2
 
-import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.item2.factories.HDBFactory
 import gg.aquatic.aquaticseries.lib.item2.factories.IAFactory
 import gg.aquatic.aquaticseries.lib.item2.factories.MMFactory
 import gg.aquatic.aquaticseries.lib.item2.factories.OraxenFactory
 import org.bukkit.Material
-import org.bukkit.NamespacedKey
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemFlag
@@ -22,8 +20,6 @@ object ItemHandler {
     )
 
     //val itemRegistry = java.util.HashMap<String, AquaticItem>()
-
-    val NAMESPACE_KEY = NamespacedKey(AquaticSeriesLib.INSTANCE.plugin, "Custom_Item_Registry")
 
     fun create(
         namespace: String,
