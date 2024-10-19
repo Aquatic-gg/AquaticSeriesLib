@@ -4,7 +4,6 @@ import gg.aquatic.aquaticseries.lib.adapt.AquaticLibAdapter
 import gg.aquatic.aquaticseries.lib.feature.Features
 import gg.aquatic.aquaticseries.lib.feature.IFeature
 import gg.aquatic.aquaticseries.lib.format.Format
-import gg.aquatic.aquaticseries.lib.network.NetworkPacketListener
 import gg.aquatic.aquaticseries.lib.nms.NMSAdapter
 import gg.aquatic.aquaticseries.nms.v1_17_1.NMS_1_17_1
 import gg.aquatic.aquaticseries.nms.v1_18_2.NMS_1_18_2
@@ -23,11 +22,6 @@ class AquaticSeriesLib private constructor(
     val nmsAdapter: NMSAdapter?,
     val features: HashMap<Features, IFeature>
 ) {
-
-    val networkPacketListener: NetworkPacketListener?
-        get() {
-            return features[Features.NETWORKING] as? NetworkPacketListener?
-        }
 
     var adapter: AquaticLibAdapter
     var isPaper = false

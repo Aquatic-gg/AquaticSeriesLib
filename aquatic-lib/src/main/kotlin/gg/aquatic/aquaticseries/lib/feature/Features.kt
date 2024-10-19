@@ -4,12 +4,9 @@ enum class Features {
 
     INTERACTABLES,
     INVENTORIES,
-    NETWORKING,
     FAKEOBJECTS,
     PACKET_LISTENER,
     WORLD_OBJECTS,
     PLAYER_INPUT,
-    ECONOMY,
-    STATISTIC
 
 }
