@@ -1,12 +1,12 @@
-package gg.aquatic.aquaticseries.lib.price.player.impl
+package gg.aquatic.aquaticseries.lib.price.player
 
 import gg.aquatic.aquaticseries.lib.price.AbstractPrice
 import gg.aquatic.aquaticseries.lib.util.argument.AquaticObjectArgument
+import gg.aquatic.aquaticseries.lib.util.argument.impl.PrimitiveObjectArgument
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.RegisteredServiceProvider
-import gg.aquatic.aquaticseries.lib.util.argument.impl.PrimitiveObjectArgument
 
 class VaultPrice: AbstractPrice<Player>() {
 

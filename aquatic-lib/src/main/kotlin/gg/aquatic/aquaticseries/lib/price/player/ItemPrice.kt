@@ -1,4 +1,4 @@
-package gg.aquatic.aquaticseries.lib.price.player.impl
+package gg.aquatic.aquaticseries.lib.price.player
 
 import gg.aquatic.aquaticseries.lib.item2.AquaticItem
 import gg.aquatic.aquaticseries.lib.price.AbstractPrice
