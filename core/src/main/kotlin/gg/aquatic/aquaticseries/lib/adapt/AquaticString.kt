@@ -6,10 +6,10 @@ import org.bukkit.entity.Player
 
 abstract class AquaticString {
 
-    abstract val string: String
+    abstract var string: String
 
     fun replace(from: String, to: String): AquaticString {
-        this.string.replace(from, to)
+        string = this.string.replace(from, to)
         return this
     }
 
