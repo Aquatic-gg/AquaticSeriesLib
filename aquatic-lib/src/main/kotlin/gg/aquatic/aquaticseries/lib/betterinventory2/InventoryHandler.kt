@@ -7,7 +7,7 @@ import gg.aquatic.aquaticseries.lib.nms.listener.AbstractPacketListener
 import gg.aquatic.aquaticseries.lib.nms.listener.PacketEvent
 import gg.aquatic.aquaticseries.lib.nms.packet.WrappedClientboundContainerSetContentPacket
 import gg.aquatic.aquaticseries.lib.nms.packet.WrappedClientboundContainerSetSlotPacket
-import gg.aquatic.aquaticseries.lib.register
+import gg.aquatic.aquaticseries.lib.util.register
 import gg.aquatic.aquaticseries.lib.util.runLaterSync
 import gg.aquatic.aquaticseries.lib.util.runSyncTimer
 import org.bukkit.Bukkit

@@ -4,7 +4,7 @@ import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.feature.Features
 import gg.aquatic.aquaticseries.lib.feature.IFeature
 import gg.aquatic.aquaticseries.lib.input.type.chat.ChatInputHandler
-import gg.aquatic.aquaticseries.lib.register
+import gg.aquatic.aquaticseries.lib.util.register
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

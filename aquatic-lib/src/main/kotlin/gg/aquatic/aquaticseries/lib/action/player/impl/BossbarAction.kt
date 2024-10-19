@@ -3,12 +3,12 @@ package gg.aquatic.aquaticseries.lib.action.player.impl
 import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.action.AbstractAction
 import gg.aquatic.aquaticseries.lib.adapt.AquaticBossBar
-import gg.aquatic.aquaticseries.lib.replace
-import gg.aquatic.aquaticseries.lib.toAquatic
-import gg.aquatic.aquaticseries.lib.updatePAPIPlaceholders
 import gg.aquatic.aquaticseries.lib.util.argument.AquaticObjectArgument
 import gg.aquatic.aquaticseries.lib.util.argument.impl.PrimitiveObjectArgument
+import gg.aquatic.aquaticseries.lib.util.replace
 import gg.aquatic.aquaticseries.lib.util.runLaterSync
+import gg.aquatic.aquaticseries.lib.util.toAquatic
+import gg.aquatic.aquaticseries.lib.util.updatePAPIPlaceholders
 import org.bukkit.entity.Player
 import java.util.function.BiFunction
 

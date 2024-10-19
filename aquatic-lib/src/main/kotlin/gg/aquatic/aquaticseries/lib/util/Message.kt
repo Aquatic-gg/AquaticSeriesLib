@@ -1,7 +1,6 @@
 package gg.aquatic.aquaticseries.lib.util
 
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
-import gg.aquatic.aquaticseries.lib.toAquatic
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import org.bukkit.command.CommandSender
 import java.util.function.Consumer

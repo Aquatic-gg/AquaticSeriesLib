@@ -1,11 +1,11 @@
 package gg.aquatic.aquaticseries.lib.editor
 
-import gg.aquatic.aquaticseries.lib.Config
 import gg.aquatic.aquaticseries.lib.betterinventory2.SlotSelection
 import gg.aquatic.aquaticseries.lib.betterinventory2.component.ButtonComponent
 import gg.aquatic.aquaticseries.lib.editor.editable.Editable
 import gg.aquatic.aquaticseries.lib.editor.menu.EditorPage
 import gg.aquatic.aquaticseries.lib.editor.type.Chat
+import gg.aquatic.aquaticseries.lib.util.Config
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Player
 import kotlin.math.ceil

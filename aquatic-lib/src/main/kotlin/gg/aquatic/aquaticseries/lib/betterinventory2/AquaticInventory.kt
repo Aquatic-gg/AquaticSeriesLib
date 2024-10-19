@@ -3,9 +3,9 @@ package gg.aquatic.aquaticseries.lib.betterinventory2
 import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.betterinventory2.component.InventoryComponent
-import gg.aquatic.aquaticseries.lib.displayName
-import gg.aquatic.aquaticseries.lib.lore
-import gg.aquatic.aquaticseries.lib.toAquatic
+import gg.aquatic.aquaticseries.lib.util.displayName
+import gg.aquatic.aquaticseries.lib.util.lore
+import gg.aquatic.aquaticseries.lib.util.toAquatic
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent

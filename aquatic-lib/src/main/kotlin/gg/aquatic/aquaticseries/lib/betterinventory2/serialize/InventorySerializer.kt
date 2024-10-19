@@ -5,10 +5,10 @@ import gg.aquatic.aquaticseries.lib.betterinventory2.SlotSelection
 import gg.aquatic.aquaticseries.lib.betterinventory2.action.ConfiguredActionWithConditions
 import gg.aquatic.aquaticseries.lib.betterinventory2.action.ConfiguredActionsWithConditions
 import gg.aquatic.aquaticseries.lib.betterinventory2.action.ConfiguredConditionWithFailActions
-import gg.aquatic.aquaticseries.lib.getSectionList
 import gg.aquatic.aquaticseries.lib.item2.AquaticItem
 import gg.aquatic.aquaticseries.lib.requirement.player.PlayerRequirementSerializer
-import gg.aquatic.aquaticseries.lib.toAquatic
+import gg.aquatic.aquaticseries.lib.util.getSectionList
+import gg.aquatic.aquaticseries.lib.util.toAquatic
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType

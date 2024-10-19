@@ -4,7 +4,7 @@ import com.ticxo.modelengine.api.ModelEngineAPI
 import com.ticxo.modelengine.api.events.ModelRegistrationEvent
 import com.ticxo.modelengine.api.generator.ModelGenerator
 import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
-import gg.aquatic.aquaticseries.lib.register
+import gg.aquatic.aquaticseries.lib.util.register
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import java.util.concurrent.CompletableFuture

@@ -1,5 +1,6 @@
-package gg.aquatic.aquaticseries.lib
+package gg.aquatic.aquaticseries.lib.util
 
+import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.util.placeholder.Placeholders
 import gg.aquatic.aquaticseries.paper.adapt.PaperString

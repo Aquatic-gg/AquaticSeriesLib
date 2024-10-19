@@ -1,7 +1,7 @@
 package gg.aquatic.aquaticseries.lib.editor.menu
 
 import gg.aquatic.aquaticseries.lib.betterinventory2.AquaticInventory
-import gg.aquatic.aquaticseries.lib.toAquatic
+import gg.aquatic.aquaticseries.lib.util.toAquatic
 
 class EditorPage(size: Int): AquaticInventory(
     "Ingame Editor".toAquatic(),

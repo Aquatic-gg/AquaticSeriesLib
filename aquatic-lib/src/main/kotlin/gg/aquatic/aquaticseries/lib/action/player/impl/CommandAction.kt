@@ -1,9 +1,9 @@
 package gg.aquatic.aquaticseries.lib.action.player.impl
 
 import gg.aquatic.aquaticseries.lib.action.AbstractAction
-import gg.aquatic.aquaticseries.lib.updatePAPIPlaceholders
 import gg.aquatic.aquaticseries.lib.util.argument.AquaticObjectArgument
 import gg.aquatic.aquaticseries.lib.util.argument.impl.PrimitiveObjectArgument
+import gg.aquatic.aquaticseries.lib.util.updatePAPIPlaceholders
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import java.util.function.BiFunction

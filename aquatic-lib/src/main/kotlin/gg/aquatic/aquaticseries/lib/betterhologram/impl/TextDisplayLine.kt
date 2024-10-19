@@ -5,9 +5,9 @@ import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.audience.WhitelistAudience
 import gg.aquatic.aquaticseries.lib.betterhologram.AquaticHologram
 import gg.aquatic.aquaticseries.lib.nms.NMSAdapter
-import gg.aquatic.aquaticseries.lib.toAquatic
 import gg.aquatic.aquaticseries.lib.util.calculateYawAndPitch
 import gg.aquatic.aquaticseries.lib.util.runSync
+import gg.aquatic.aquaticseries.lib.util.toAquatic
 import org.bukkit.Location
 import org.bukkit.entity.Display.Billboard
 import org.bukkit.entity.Player

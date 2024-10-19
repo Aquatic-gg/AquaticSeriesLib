@@ -5,11 +5,10 @@ import gg.aquatic.aquaticseries.lib.editor.editable.Editable
 import gg.aquatic.aquaticseries.lib.input.type.chat.ChatInputHandler
 import gg.aquatic.aquaticseries.lib.input.type.chat.TextInputResponse
 import gg.aquatic.aquaticseries.lib.input.type.chat.TextValidator
-import gg.aquatic.aquaticseries.lib.toAquatic
+import gg.aquatic.aquaticseries.lib.util.toAquatic
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.concurrent.CompletableFuture
-import java.util.function.Function
 
 class ChatNumber(
     val name: String,

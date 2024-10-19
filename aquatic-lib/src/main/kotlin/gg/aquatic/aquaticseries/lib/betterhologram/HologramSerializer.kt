@@ -4,11 +4,11 @@ import gg.aquatic.aquaticseries.lib.betterhologram.impl.ArmorstandLine
 import gg.aquatic.aquaticseries.lib.betterhologram.impl.EmptyLine
 import gg.aquatic.aquaticseries.lib.betterhologram.impl.ItemDisplayLine
 import gg.aquatic.aquaticseries.lib.betterhologram.impl.TextDisplayLine
-import gg.aquatic.aquaticseries.lib.getSectionList
 import gg.aquatic.aquaticseries.lib.item2.AquaticItem
 import gg.aquatic.aquaticseries.lib.requirement.ConfiguredRequirement
 import gg.aquatic.aquaticseries.lib.requirement.player.PlayerRequirementSerializer
-import gg.aquatic.aquaticseries.lib.toAquatic
+import gg.aquatic.aquaticseries.lib.util.getSectionList
+import gg.aquatic.aquaticseries.lib.util.toAquatic
 import org.bukkit.Bukkit
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Display.Billboard

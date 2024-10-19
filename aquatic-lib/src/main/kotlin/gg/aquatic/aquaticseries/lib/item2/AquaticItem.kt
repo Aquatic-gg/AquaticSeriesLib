@@ -1,9 +1,9 @@
 package gg.aquatic.aquaticseries.lib.item2
 
-import gg.aquatic.aquaticseries.lib.displayName
-import gg.aquatic.aquaticseries.lib.lore
-import gg.aquatic.aquaticseries.lib.setSpawnerType
-import gg.aquatic.aquaticseries.lib.toAquatic
+import gg.aquatic.aquaticseries.lib.util.displayName
+import gg.aquatic.aquaticseries.lib.util.lore
+import gg.aquatic.aquaticseries.lib.util.setSpawnerType
+import gg.aquatic.aquaticseries.lib.util.toAquatic
 import net.advancedplugins.ae.api.AEAPI
 import org.bukkit.Material
 import org.bukkit.NamespacedKey

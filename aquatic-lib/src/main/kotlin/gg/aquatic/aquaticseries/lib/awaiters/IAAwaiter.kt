@@ -2,7 +2,7 @@ package gg.aquatic.aquaticseries.lib.awaiters
 
 import dev.lone.itemsadder.api.Events.ItemsAdderLoadDataEvent
 import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
-import gg.aquatic.aquaticseries.lib.register
+import gg.aquatic.aquaticseries.lib.util.register
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import java.util.concurrent.CompletableFuture
