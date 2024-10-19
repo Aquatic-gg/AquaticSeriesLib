@@ -1,4 +1,4 @@
-package gg.aquatic.aquaticseries.lib.util
+package gg.aquatic.aquaticseries.lib.command
 
 import org.bukkit.Bukkit
 import org.bukkit.Server

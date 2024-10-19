@@ -2,7 +2,6 @@ package gg.aquatic.aquaticseries.lib.command
 
 import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.util.ICommand
-import gg.aquatic.aquaticseries.lib.util.register
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
