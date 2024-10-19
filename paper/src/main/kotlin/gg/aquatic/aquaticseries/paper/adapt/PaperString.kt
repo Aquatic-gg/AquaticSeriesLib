@@ -12,7 +12,7 @@ import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 
 class PaperString(
-    override val string: String
+    override var string: String
 ) : AquaticString() {
     override fun send(player: CommandSender) {
         val component = convert()
