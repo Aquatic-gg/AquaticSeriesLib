@@ -37,4 +37,8 @@ class SpigotString(
         get() {
             return ColorUtils.format(string)
         }
+
+    override fun clone(): SpigotString {
+        return SpigotString(string)
+    }
 }

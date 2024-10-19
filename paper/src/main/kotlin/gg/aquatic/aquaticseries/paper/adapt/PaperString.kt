@@ -73,4 +73,8 @@ class PaperString(
                 .replace("&5", "<dark_purple>")
         ))
     }
+
+    override fun clone(): PaperString {
+        return PaperString(string)
+    }
 }

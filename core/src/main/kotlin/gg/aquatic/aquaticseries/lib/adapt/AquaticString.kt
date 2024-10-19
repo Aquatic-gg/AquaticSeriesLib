@@ -4,13 +4,13 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 
-abstract class AquaticString {
+abstract class AquaticString: Cloneable {
 
     abstract var string: String
 
     fun replace(from: String, to: String): AquaticString {
         string = this.string.replace(from, to)
-        return this
+        return this.clone() as AquaticString
     }
 
     abstract fun send(player: CommandSender)
