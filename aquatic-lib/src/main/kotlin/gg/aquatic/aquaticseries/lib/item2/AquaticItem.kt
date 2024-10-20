@@ -7,7 +7,6 @@ import gg.aquatic.aquaticseries.lib.util.toAquatic
 import net.advancedplugins.ae.api.AEAPI
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
-import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
@@ -142,9 +141,5 @@ class AquaticItem(
             return ItemHandler.itemRegistry[id]
         }
          */
-
-        fun loadFromYaml(section: ConfigurationSection?): AquaticItem? {
-            return ItemHandler.loadFromYaml(section)
-        }
     }
 }
