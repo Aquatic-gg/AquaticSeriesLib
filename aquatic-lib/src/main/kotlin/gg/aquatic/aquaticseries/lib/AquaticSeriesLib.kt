@@ -18,10 +18,10 @@ import gg.aquatic.aquaticseries.spigot.SpigotAdapter
 import org.bukkit.plugin.java.JavaPlugin
 
 class AquaticSeriesLib private constructor(
-    val plugin: JavaPlugin,
+    override val plugin: JavaPlugin,
     val nmsAdapter: NMSAdapter?,
     val features: HashMap<Features, IFeature>
-) {
+): AbstractAquaticSeriesLib() {
 
     var adapter: AquaticLibAdapter
     var isPaper = false
@@ -85,8 +85,8 @@ class AquaticSeriesLib private constructor(
 
     init {
         _INSTANCE = this
+        instance = this
         try {
-            // Any other works, just the shortest I could find.
             Class.forName("com.destroystokyo.paper.ParticleBuilder")
             isPaper = true
         } catch (ignored: ClassNotFoundException) {

@@ -1,13 +1,14 @@
-package gg.aquatic.aquaticseries.lib.util
+package gg.aquatic.aquaticseries.lib.util.event
 
-import org.bukkit.Chunk
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
+import org.bukkit.event.block.Action
 
-class PlayerChunkLoadEvent(
+class NMSEntityInteractEvent(
     val player: Player,
-    val chunk: Chunk
+    val entityId: Int,
+    val action: Action
 ): Event() {
 
     companion object {
@@ -23,4 +24,5 @@ class PlayerChunkLoadEvent(
     override fun getHandlers(): HandlerList {
         return HANDLERS
     }
+
 }
