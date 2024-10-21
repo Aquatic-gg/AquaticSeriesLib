@@ -28,7 +28,7 @@ open class AquaticInventory(
 
     var id: String? = null
 
-    val content = ArrayList<ItemStack?>(90)
+    val content = ArrayList<ItemStack?>(size + 36)
     private val inventory: Inventory = createInventory()
 
     private fun createInventory(): Inventory {
@@ -47,7 +47,7 @@ open class AquaticInventory(
     }
 
     init {
-        for (i in 0..<90) {
+        for (i in 0..<size + 36) {
             content += null
         }
     }
