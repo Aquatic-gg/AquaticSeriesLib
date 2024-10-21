@@ -41,7 +41,7 @@ class AquaticSeriesLib private constructor(
             val instance = _INSTANCE
             if (instance != null) return instance
             val adapter = chooseNMSAdapter(plugin)
-            _INSTANCE = AquaticSeriesLib(plugin, adapter, HashMap(features.associateBy { it.type }))
+            AquaticSeriesLib(plugin, adapter, HashMap(features.associateBy { it.type }))
             return _INSTANCE!!
         }
 
@@ -84,6 +84,7 @@ class AquaticSeriesLib private constructor(
     }
 
     init {
+        _INSTANCE = this
         try {
             // Any other works, just the shortest I could find.
             Class.forName("com.destroystokyo.paper.ParticleBuilder")
