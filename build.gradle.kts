@@ -6,7 +6,7 @@ plugins {
     id("co.uzzu.dotenv.gradle") version "2.0.0"
 }
 
-val projectVersion = "1.0.26"
+val projectVersion = "1.0.28"
 
 group = "gg.aquatic.aquaticseries"
 version = projectVersion
@@ -83,6 +83,7 @@ subprojects {
         compileOnly("me.clip:placeholderapi:2.11.2")
         compileOnly("org.joml:joml:1.10.8")
         compileOnly("com.arcaniax:HeadDatabase-API:1.3.2")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
         //implementation("net.kyori:adventure-api:4.17.0")
     }
 

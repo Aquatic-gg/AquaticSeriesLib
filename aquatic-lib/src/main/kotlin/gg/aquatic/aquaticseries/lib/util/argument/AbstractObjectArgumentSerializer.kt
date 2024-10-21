@@ -4,6 +4,6 @@ import org.bukkit.configuration.ConfigurationSection
 
 abstract class AbstractObjectArgumentSerializer<T> {
 
-    abstract fun load(section: ConfigurationSection, id: String): T?
+    abstract suspend fun load(section: ConfigurationSection, id: String): T?
 
 }
