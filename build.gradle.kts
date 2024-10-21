@@ -73,7 +73,7 @@ subprojects {
 
     dependencies {
         //compileOnly("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
-        api("io.lumine:Mythic-Dist:5.3.5")
+        api("io.lumine:Mythic-Dist:5.6.1")
         implementation("com.jeff-media:custom-block-data:2.2.2")
         compileOnly("io.th0rgal:oraxen:1.171.0")
         compileOnly("com.github.LoneDev6:API-ItemsAdder:3.6.2-beta-r3-b")
