@@ -47,7 +47,7 @@ open class AquaticInventory(
     }
 
     init {
-        for (i in 0..<size + 36) {
+        for (i in 0..<size + 35) {
             content += null
         }
     }
