@@ -21,28 +21,20 @@ class AquaticSeriesLib private constructor(
     override val plugin: JavaPlugin,
     val nmsAdapter: NMSAdapter?,
     val features: HashMap<Features, IFeature>
-): AbstractAquaticSeriesLib() {
+) : AbstractAquaticSeriesLib() {
 
     var adapter: AquaticLibAdapter
     var isPaper = false
     private var messageFormat: Format
 
     companion object {
-        private var _INSTANCE: AquaticSeriesLib? = null
-        val INSTANCE: AquaticSeriesLib
-            get() {
-                if (_INSTANCE == null) {
-                    throw Exception("Library was not initialized! Use the init() method first!")
-                }
-                return _INSTANCE!!
-            }
+        lateinit var INSTANCE: AquaticSeriesLib
+            private set
 
         fun init(plugin: JavaPlugin, features: Collection<IFeature>): AquaticSeriesLib {
-            val instance = _INSTANCE
-            if (instance != null) return instance
             val adapter = chooseNMSAdapter(plugin)
             AquaticSeriesLib(plugin, adapter, HashMap(features.associateBy { it.type }))
-            return _INSTANCE!!
+            return INSTANCE
         }
 
         private fun chooseNMSAdapter(plugin: JavaPlugin): NMSAdapter? {
@@ -84,7 +76,7 @@ class AquaticSeriesLib private constructor(
     }
 
     init {
-        _INSTANCE = this
+        INSTANCE = this
         instance = this
         try {
             Class.forName("com.destroystokyo.paper.ParticleBuilder")
