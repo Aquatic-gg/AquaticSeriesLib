@@ -24,7 +24,7 @@ abstract class AquaticObjectArgument<T>(
                     Bukkit.getConsoleSender()
                         .sendMessage(ColorUtils.format("&cARGUMENT &4" + argument.id + " &cIS MISSING, PLEASE UPDATE YOUR CONFIGURATION!"))
                 }
-                args += argument.id to argument.load(section)
+                args += argument.id to loaded
             }
             return args
         }
