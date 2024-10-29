@@ -29,7 +29,7 @@ fun String.toLocation(): Location? {
     return Location(world, x, y, z)
 }
 
-fun Location.calculateYawAndPitch(to: Location): Pair<Float, Float> {
+fun Location.lookAtYawPitch(to: Location): Pair<Float, Float> {
     val dx = to.x - this.x
     val dy = to.y - this.y
     val dz = to.z - this.z

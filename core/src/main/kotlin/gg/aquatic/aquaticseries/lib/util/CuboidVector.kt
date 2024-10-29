@@ -20,6 +20,13 @@ class CuboidVector(
     fun generateBlockVectors(): List<Vector> {
         val blockVectors = ArrayList<Vector>()
 
+        generateAndProcess {
+            blockVectors.add(it)
+        }
+        return blockVectors
+    }
+
+    fun generateAndProcess(processor: (Vector) -> Unit) {
         val minX: Int = min(point1.blockX.toDouble(), point2.blockX.toDouble()).toInt()
         val maxX: Int = max(point1.blockX.toDouble(), point2.blockX.toDouble()).toInt()
         val minY: Int = min(point1.blockY.toDouble(), point2.blockY.toDouble()).toInt()
@@ -30,10 +37,9 @@ class CuboidVector(
         for (x in minX..maxX) {
             for (y in minY..maxY) {
                 for (z in minZ..maxZ) {
-                    blockVectors.add(Vector(x, y, z))
+                    processor(Vector(x, y, z))
                 }
             }
         }
-        return blockVectors
     }
 }

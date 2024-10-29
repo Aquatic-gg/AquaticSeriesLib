@@ -23,7 +23,6 @@ fun Command.unregister() {
 }
 
 private val bukkitCommandMapField: Field = Bukkit.getServer().javaClass.getDeclaredField("commandMap").apply { isAccessible = true }
-//private val knownCommandsField = CommandMap::class.java.getDeclaredField("knownCommands").apply { isAccessible = true }
 
 fun Server.commandMap(): CommandMap {
     return bukkitCommandMapField.get(this) as CommandMap

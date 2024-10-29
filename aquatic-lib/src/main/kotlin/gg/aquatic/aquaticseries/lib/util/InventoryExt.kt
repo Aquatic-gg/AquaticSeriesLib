@@ -12,5 +12,4 @@ fun Inventory.addOrDropItem(vararg itemStack: ItemStack) {
             location.world?.dropItem(location, value)
         }
     }
-
 }

@@ -5,7 +5,7 @@ import gg.aquatic.aquaticseries.lib.adapt.AquaticString
 import gg.aquatic.aquaticseries.lib.audience.WhitelistAudience
 import gg.aquatic.aquaticseries.lib.betterhologram.AquaticHologram
 import gg.aquatic.aquaticseries.lib.nms.NMSAdapter
-import gg.aquatic.aquaticseries.lib.util.calculateYawAndPitch
+import gg.aquatic.aquaticseries.lib.util.lookAtYawPitch
 import gg.aquatic.aquaticseries.lib.util.runSync
 import gg.aquatic.aquaticseries.lib.util.toAquatic
 import org.bukkit.Location
@@ -145,7 +145,7 @@ class TextDisplayLine(
         }, WhitelistAudience(mutableListOf(player.uniqueId)))
 
         if (billboard == AquaticHologram.Billboard.LOOK_AT_PLAYER && location != null) {
-            val (yaw, pitch) = location!!.calculateYawAndPitch(player.eyeLocation)
+            val (yaw, pitch) = location!!.lookAtYawPitch(player.eyeLocation)
             location!!.yaw = yaw
             location!!.pitch = pitch
 

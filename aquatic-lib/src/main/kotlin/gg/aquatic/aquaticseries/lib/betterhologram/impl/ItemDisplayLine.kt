@@ -4,7 +4,7 @@ import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
 import gg.aquatic.aquaticseries.lib.audience.WhitelistAudience
 import gg.aquatic.aquaticseries.lib.betterhologram.AquaticHologram
 import gg.aquatic.aquaticseries.lib.nms.NMSAdapter
-import gg.aquatic.aquaticseries.lib.util.calculateYawAndPitch
+import gg.aquatic.aquaticseries.lib.util.lookAtYawPitch
 import gg.aquatic.aquaticseries.lib.util.runSync
 import org.bukkit.Location
 import org.bukkit.entity.Display.Billboard
@@ -120,7 +120,7 @@ class ItemDisplayLine(
                     e.billboard = Billboard.FIXED
 
                     val location = e.location.clone()
-                    val (yaw, pitch) = location.calculateYawAndPitch(player.eyeLocation)
+                    val (yaw, pitch) = location.lookAtYawPitch(player.eyeLocation)
                     location.yaw = yaw
                     location.pitch = pitch
                     runSync {
@@ -135,7 +135,7 @@ class ItemDisplayLine(
         }, WhitelistAudience(mutableListOf(player.uniqueId)))
 
         if (billboard == AquaticHologram.Billboard.LOOK_AT_PLAYER && location != null) {
-            val (yaw, pitch) = location!!.calculateYawAndPitch(player.eyeLocation)
+            val (yaw, pitch) = location!!.lookAtYawPitch(player.eyeLocation)
             location!!.yaw = yaw
             location!!.pitch = pitch
 
