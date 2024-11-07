@@ -9,10 +9,10 @@ abstract class AquaticObjectArgument<T>(
 ) {
 
     abstract val serializer: AbstractObjectArgumentSerializer<T?>
-    abstract suspend fun load(section: ConfigurationSection): T?
+    abstract fun load(section: ConfigurationSection): T?
 
     companion object {
-        suspend fun loadRequirementArguments(
+        fun loadRequirementArguments(
             section: ConfigurationSection,
             arguments: List<AquaticObjectArgument<*>>
         ): Map<String, Any?> {

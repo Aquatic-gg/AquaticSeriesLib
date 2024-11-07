@@ -47,6 +47,11 @@ tasks {
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
     archiveFileName.set("AquaticLib-Core-${project.version}.jar")
     archiveClassifier.set("all")
+
+    exclude("kotlin/**")
+    exclude("kotlinx/**")
+    exclude("org/intellij/**")
+    exclude("org/jetbrains/**")
 }
 
 publishing {

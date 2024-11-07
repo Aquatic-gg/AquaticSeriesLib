@@ -6,7 +6,7 @@ plugins {
     id("co.uzzu.dotenv.gradle") version "2.0.0"
 }
 
-val projectVersion = "1.0.38"
+val projectVersion = "1.0.42"
 
 group = "gg.aquatic.aquaticseries"
 version = projectVersion
@@ -73,8 +73,8 @@ subprojects {
 
     dependencies {
         //compileOnly("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
-        api("io.lumine:Mythic-Dist:5.6.1")
-        implementation("com.jeff-media:custom-block-data:2.2.2")
+        compileOnly("io.lumine:Mythic-Dist:5.6.1")
+        compileOnly("com.jeff-media:custom-block-data:2.2.2")
         compileOnly("io.th0rgal:oraxen:1.171.0")
         compileOnly("com.github.LoneDev6:API-ItemsAdder:3.6.2-beta-r3-b")
         compileOnly ("com.ticxo.modelengine:ModelEngine:R4.0.4")
@@ -83,7 +83,6 @@ subprojects {
         compileOnly("me.clip:placeholderapi:2.11.2")
         compileOnly("org.joml:joml:1.10.8")
         compileOnly("com.arcaniax:HeadDatabase-API:1.3.2")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
         //implementation("net.kyori:adventure-api:4.17.0")
     }
 

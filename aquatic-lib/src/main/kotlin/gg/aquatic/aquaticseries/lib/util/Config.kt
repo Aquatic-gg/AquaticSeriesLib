@@ -1,8 +1,6 @@
 package gg.aquatic.aquaticseries.lib.util
 
 import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
@@ -32,7 +30,7 @@ class Config {
         file = File(main.dataFolder, path)
     }
 
-    suspend fun load() = withContext(Dispatchers.IO) {
+    fun load() {
         if (!file.exists()) {
             try {
                 main.saveResource(file.name, false)
@@ -49,9 +47,7 @@ class Config {
 
     fun getConfiguration(): FileConfiguration? {
         if (config == null) {
-            await {
-                load()
-            }
+            load()
         }
         return config
     }
