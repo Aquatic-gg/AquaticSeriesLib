@@ -3,7 +3,7 @@ package gg.aquatic.aquaticseries.lib.util
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
-abstract class AquaticEvent: Event() {
+abstract class AquaticEvent(async: Boolean = false): Event(async) {
     companion object {
         @JvmStatic
         private val HANDLERS = HandlerList()

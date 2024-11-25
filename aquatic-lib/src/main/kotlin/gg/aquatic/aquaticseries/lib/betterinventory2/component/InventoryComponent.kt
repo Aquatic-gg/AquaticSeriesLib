@@ -1,7 +1,7 @@
 package gg.aquatic.aquaticseries.lib.betterinventory2.component
 
-import gg.aquatic.aquaticseries.lib.betterinventory2.SlotSelection
 import gg.aquatic.aquaticseries.lib.betterinventory2.AquaticInventory
+import gg.aquatic.aquaticseries.lib.betterinventory2.SlotSelection
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
@@ -51,6 +51,4 @@ abstract class InventoryComponent {
     fun onClick(event: InventoryClickEvent) {
         onClick?.accept(event)
     }
-
-
 }
