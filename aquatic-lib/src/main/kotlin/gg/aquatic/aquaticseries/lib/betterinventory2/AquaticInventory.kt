@@ -93,6 +93,7 @@ open class AquaticInventory(
     val stateHandlers = mutableMapOf<UUID, StateHandler>()
 
     fun update() {
+        tick()
         for (value in components.values) {
             value.tick()
         }
@@ -103,6 +104,8 @@ open class AquaticInventory(
             updateComponents(viewer)
         }
     }
+
+    open fun tick() {}
 
     fun onClick(event: InventoryClickEvent) {
         val slot = event.rawSlot
