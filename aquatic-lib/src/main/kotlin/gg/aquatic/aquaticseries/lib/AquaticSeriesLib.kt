@@ -16,6 +16,7 @@ import gg.aquatic.aquaticseries.nms.v1_21_1.NMS_1_21_1
 import gg.aquatic.aquaticseries.paper.PaperAdapter
 import gg.aquatic.aquaticseries.spigot.SpigotAdapter
 import org.bukkit.plugin.java.JavaPlugin
+import com.tcoded.folialib.FoliaLib;
 
 class AquaticSeriesLib private constructor(
     override val plugin: JavaPlugin,
@@ -26,6 +27,7 @@ class AquaticSeriesLib private constructor(
     var adapter: AquaticLibAdapter
     var isPaper = false
     private var messageFormat: Format
+    private val foliaLib: FoliaLib
 
     companion object {
         lateinit var INSTANCE: AquaticSeriesLib
@@ -84,6 +86,8 @@ class AquaticSeriesLib private constructor(
         } catch (ignored: ClassNotFoundException) {
         }
 
+        foliaLib = FoliaLib(plugin)
+
         adapter = if (isPaper) {
             messageFormat = Format.MINIMESSAGE
             PaperAdapter(plugin)
@@ -116,4 +120,7 @@ class AquaticSeriesLib private constructor(
         println("[AquaticSeriesLib] Currently using $messageFormat message formatting!")
     }
 
+    fun getFoliaLib(): FoliaLib {
+        return foliaLib
+    }
 }
