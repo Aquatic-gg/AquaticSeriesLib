@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     kotlin("jvm") version "2.0.0"
@@ -84,6 +85,11 @@ subprojects {
         compileOnly("org.joml:joml:1.10.8")
         compileOnly("com.arcaniax:HeadDatabase-API:1.3.2")
         //implementation("net.kyori:adventure-api:4.17.0")
+        implementation("com.github.technicallycoded:FoliaLib:main-SNAPSHOT")
+    }
+
+    tasks.withType<ShadowJar> {
+        relocate("com.tcoded.folialib", "gg.aquatic.aquaticseries.lib.folialib")
     }
 
     kotlin {
