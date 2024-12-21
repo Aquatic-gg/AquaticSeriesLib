@@ -120,7 +120,7 @@ class AquaticSeriesLib private constructor(
         println("[AquaticSeriesLib] Currently using $messageFormat message formatting!")
     }
 
-    fun getFoliaLib(): FoliaLib {
+    override fun getFoliaLib(): FoliaLib {
         return foliaLib
     }
 }
