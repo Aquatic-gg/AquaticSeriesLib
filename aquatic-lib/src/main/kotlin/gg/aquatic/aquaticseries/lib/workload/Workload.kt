@@ -29,7 +29,7 @@ class Workload(
 
         val job = jobs.removeAt(0)
         job.run()
-        AquaticSeriesLib.INSTANCE.getFoliaLib().scheduler.runLater(Runnable {
+        AquaticSeriesLib.INSTANCE.foliaLib.scheduler.runLater(Runnable {
             runNext()
         }, delay)
     }

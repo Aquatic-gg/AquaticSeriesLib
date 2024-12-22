@@ -21,7 +21,7 @@ class ContainerWorkload(
 
         val job = workloads.removeAt(0)
         job.run().thenRun {
-            AquaticSeriesLib.INSTANCE.getFoliaLib().scheduler.runLater(Runnable {
+            AquaticSeriesLib.INSTANCE.foliaLib.scheduler.runLater(Runnable {
                 runNext()
             }, delay)
         }

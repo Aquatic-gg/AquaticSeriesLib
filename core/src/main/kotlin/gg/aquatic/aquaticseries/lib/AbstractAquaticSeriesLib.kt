@@ -6,8 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin
 abstract class AbstractAquaticSeriesLib {
 
     abstract val plugin: JavaPlugin
-
-    abstract fun getFoliaLib(): FoliaLib
+    abstract val foliaLib: FoliaLib
 
     companion object {
         lateinit var instance: AbstractAquaticSeriesLib
