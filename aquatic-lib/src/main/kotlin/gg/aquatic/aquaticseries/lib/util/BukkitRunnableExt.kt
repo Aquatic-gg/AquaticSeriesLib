@@ -1,51 +1,54 @@
 package gg.aquatic.aquaticseries.lib.util
 
+import com.tcoded.folialib.wrapper.task.WrappedTask
 import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
-import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.Location
+import org.bukkit.entity.Entity
 
-inline fun runSync(crossinline runnable: BukkitRunnable.() -> Unit) {
-    object : BukkitRunnable() {
-        override fun run() {
-            runnable.invoke(this)
-        }
-    }.runTask(AquaticSeriesLib.INSTANCE.plugin)
+inline fun runSync(crossinline runnable: () -> Unit) {
+    AquaticSeriesLib.INSTANCE.getFoliaLib().scheduler.runNextTick {
+        runnable.invoke()
+    }
 }
 
-inline fun runAsync(crossinline runnable: BukkitRunnable.() -> Unit) {
-    object : BukkitRunnable() {
-        override fun run() {
-            runnable.invoke(this)
-        }
-    }.runTaskAsynchronously(AquaticSeriesLib.INSTANCE.plugin)
+inline fun runAsync(crossinline runnable: () -> Unit) {
+    AquaticSeriesLib.INSTANCE.getFoliaLib().scheduler.runAsync {
+        runnable.invoke()
+    }
 }
 
-inline fun runSyncTimer(delay: Long, period: Long, crossinline runnable: BukkitRunnable.() -> Unit) {
-    object : BukkitRunnable() {
-        override fun run() {
-            runnable.invoke(this)
-        }
-    }.runTaskTimer(AquaticSeriesLib.INSTANCE.plugin, delay, period)
-}
-inline fun runAsyncTimer(delay: Long, period: Long, crossinline runnable: BukkitRunnable.() -> Unit) {
-    object : BukkitRunnable() {
-        override fun run() {
-            runnable.invoke(this)
-        }
-    }.runTaskTimerAsynchronously(AquaticSeriesLib.INSTANCE.plugin, delay, period)
+inline fun runSyncTimer(delay: Long, period: Long, crossinline runnable: () -> Unit) {
+    AquaticSeriesLib.INSTANCE.getFoliaLib().scheduler.runTimer(Runnable {
+        runnable.invoke()
+    }, delay, period)
 }
 
-inline fun runLaterSync(delay: Long, crossinline runnable: BukkitRunnable.() -> Unit) {
-    object : BukkitRunnable() {
-        override fun run() {
-            runnable.invoke(this)
-        }
-    }.runTaskLater(AquaticSeriesLib.INSTANCE.plugin, delay)
+inline fun runAsyncTimer(delay: Long, period: Long, crossinline runnable: () -> Unit) {
+    AquaticSeriesLib.INSTANCE.getFoliaLib().scheduler.runTimer(Runnable {
+        runnable.invoke()
+    }, delay, period)
 }
 
-inline fun runLaterAsync(delay: Long, crossinline runnable: BukkitRunnable.() -> Unit) {
-    object : BukkitRunnable() {
-        override fun run() {
-            runnable.invoke(this)
-        }
-    }.runTaskLaterAsynchronously(AquaticSeriesLib.INSTANCE.plugin, delay)
+inline fun runLaterSync(delay: Long, crossinline runnable: () -> Unit) {
+    AquaticSeriesLib.INSTANCE.getFoliaLib().scheduler.runLater(Runnable {
+        runnable.invoke()
+    }, delay)
+}
+
+inline fun runLaterAsync(delay: Long, crossinline runnable: () -> Unit) {
+    AquaticSeriesLib.INSTANCE.getFoliaLib().scheduler.runLaterAsync(Runnable {
+        runnable.invoke()
+    }, delay)
+}
+
+inline fun runAtLocation(location: Location, crossinline runnable: () -> Unit) {
+    AquaticSeriesLib.INSTANCE.getFoliaLib().scheduler.runAtLocation(location, { _: WrappedTask ->
+        runnable.invoke()
+    })
+}
+
+inline fun runAtEntity(entity: Entity, crossinline runnable: () -> Unit) {
+    AquaticSeriesLib.INSTANCE.getFoliaLib().scheduler.runAtEntity(entity, { _: WrappedTask ->
+        runnable.invoke()
+    })
 }

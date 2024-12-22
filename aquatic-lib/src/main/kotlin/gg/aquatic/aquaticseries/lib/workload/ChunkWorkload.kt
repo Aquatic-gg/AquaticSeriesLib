@@ -1,7 +1,6 @@
 package gg.aquatic.aquaticseries.lib.workload
 
 import gg.aquatic.aquaticseries.lib.AquaticSeriesLib
-import org.bukkit.Bukkit
 import org.bukkit.Chunk
 import java.util.concurrent.CompletableFuture
 
@@ -29,13 +28,9 @@ class ChunkWorkload(
         val job = jobs.removeAt(0)
 
         job.run()
-        Bukkit.getScheduler().runTaskLater(
-            AquaticSeriesLib.INSTANCE.plugin,
-            Runnable {
-                runNext()
-            },
-            delay
-        )
+        AquaticSeriesLib.INSTANCE.getFoliaLib().scheduler.runLater(Runnable {
+            runNext()
+        }, delay)
     }
 
     override fun run(): CompletableFuture<Void> {
